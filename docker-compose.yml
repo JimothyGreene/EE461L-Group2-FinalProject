@@ -15,6 +15,10 @@ services:
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
+      - MONGODB_DATABASE=ee461l_DB
+      - MONGODB_USERNAME=admin
+      - MONGODB_PASSWORD=password
+      - MONGODB_HOST=mongodb
     networks:
       - app-network
   client:
@@ -35,6 +39,20 @@ services:
       - CHOKIDAR_USEPOLLING=true
     networks:
       - app-network
+  mongodb:
+    image: mongo
+    container_name: ee461l_mongoDB
+    restart: unless-stopped
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "password"
+      MONGO_INITDB_DATABASE: ee461l_DB
+      MONGODB_DATA_DIR: /data/db
+    volumes:
+      - mongodbdata:/data/dir
+    networks:
+      - app-network
 
 networks:
   app-network:
@@ -44,4 +62,8 @@ volumes:
   data-volume:
   node_modules:
   web-root:
+    driver: local
+  mongodbdata:
+    driver: local
+  appdata:
     driver: local
