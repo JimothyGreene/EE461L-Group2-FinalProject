@@ -21,8 +21,12 @@ The user stories can be found [here](https://github.com/JimothyGreene/EE461L-Gro
 ![Datasets](resources/EE461L%20Sketch-Datasets.png)
 
 ## Tools
+Most of these tools were chosen because they were recommended by the project description
 - For our **backend**, we chose to use **Python Flask**
 - For our **frontend**, we chose to use **React**
 - For our **database**, we chose to use **MongoDB**
 - For **deployment**, we will use Google Cloud
 - We also chose to use **Docker** for containerization to help manage environment versions and dependency issues during development. It also allows us to easily deploy the container images to the cloud and utilize GitHub actions for CI/CD
+
+## GitHub Usage
+In order to ensure that we are minimizing technical debt and catching bugs early, we are enforcing a strict code review policy. The `main` branch of our repository is push protected, meaning that we cannot directly push changes to it. In order to make a change to the `main` branch, we must first create a feature branch, open a pull request, and have that pull request approved by 2 other members of the team. Only then can the code be merged into `main`. 
