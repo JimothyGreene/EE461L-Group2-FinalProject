@@ -13,20 +13,26 @@ The user stories can be found [here](https://github.com/JimothyGreene/EE461L-Gro
 ## Sketches
 
 ### Login
+For the login, the user will connect to the front end of our application, and use their unique login and password to  be granted access to our cloud server backend. The user will then be able to modify account settings, and then be able to send their encrypted login information to the MongoDB database.
+
 ![Login](resources/EE461L%20Sketch-Login.png)
 
 ### Hardware
+For the management of the hardware sets, the user will be able to access a front end portal where they will be able to checkout hardware to use or check-in the hardware to return a certain set they are finished using. The backend will process the users requests and send the code/datasets to the hardware for it to be run, and return the output through the backend and to the frontend where the user can extract what they need.
+
 ![Hardware](resources/EE461L%20Sketch-Hardware.png)
 
 ### Projects
+For the project management, users will be able to see their projects, add new ones, delete old projects, and add/remove hardware associated with projects. The project information will be processed through the cloud server backend where it will then be passed into MongoDB for storage.
+
 ![Projects](resources/EE461L%20Sketch-Projects.png)
 
 ### Datasets
+For the accessing of the datasets, the user will be able to see a list of datasets which they can choose to download. This will send a data request to the backend through physionet.org which will return a dataset to the user.
+
 ![Datasets](resources/EE461L%20Sketch-Datasets.png)
 
 ## Tools
-Most of these tools were chosen because they were recommended by the project description
-
 ### Backend: Flask Python
 Flask is a lightweight Python-based framework that is easier to work with than other frameworks such as Django. Flask abstracts a lot of the complex backend code required for traditional JavaScript backends making it beginner-friendly. Flask will also allow us to easily access databases in a user-friendly manner.
 Python’s object-oriented capabilities will allow for simple representations of various hardware sets and structures we might use. Python also has numerous libraries that allow developers to quickly add new features.
