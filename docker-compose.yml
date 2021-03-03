@@ -13,7 +13,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - FLASK_APP=app.py
+      - FLASK_APP=api
       - FLASK_ENV=development
       - MONGODB_DATABASE=ee461l_DB
       - MONGODB_USERNAME=admin

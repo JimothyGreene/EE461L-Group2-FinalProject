@@ -12,7 +12,7 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 # Set Flask environment variables
-ENV FLASK_APP=app.py
+ENV FLASK_APP=api
 ENV FLASK_ENV=development
 
 # Expose port
