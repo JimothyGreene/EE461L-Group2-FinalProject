@@ -19,6 +19,7 @@ After you have docker installed, it's as simple as running the `docker-compose u
 
 Looking in `server/database`, `models.py` serves as the home of the MongoClient and database variable `db`. In there you will also find classes to represent database documents, which will just need a constructor for their fields and a function to convert the object into a document style JSON to put into the database. Whenever you add a new model, you need to update `__init__.py` to import that class and put it in the field `__all__` so that imports will continue to work as expected.
 
-You will also find `seeding.py`, which creates and stores test/dummy values in the database. If you need to add dummy variables into the database for testing/development, simply add them there and they will be added on startup
+You will also find the endpoint `/seedDB`, this is a place holder until we can create a better way to populate the DB with mock/dummy data for testing. In the meantime, go to `seeding.py` and add whatever documents you want to go into the DB. Everytime you go to `/seedDB`, `seed()` will be called
 
 To check on the database, navigate to [localhost:8081](localhost:8081) to access Mongo Express, a visualization tool for MongoDB. You will be able to see the database(s), all collections, and the documents in those collections. **NOTE:** Be careful poking around Mongo Express, you are able to delete and edit the database. This is just for development.
+

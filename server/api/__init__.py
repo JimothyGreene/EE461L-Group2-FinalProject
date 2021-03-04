@@ -9,6 +9,6 @@ def create_app(config_class=Config):
     from api.routes.main import main
     app.register_blueprint(main)
 
-    seed()
+    # seed()
 
     return app
