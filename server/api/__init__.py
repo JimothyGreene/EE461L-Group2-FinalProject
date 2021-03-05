@@ -1,5 +1,5 @@
 from flask import Flask
-from database import *
+from database import db, seed
 from api.config import Config
 import os
 
