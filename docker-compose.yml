@@ -13,12 +13,12 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - FLASK_APP=api
-      - FLASK_ENV=development
-      - MONGODB_DATABASE=ee461l_mongodb
-      - MONGODB_USERNAME=admin
-      - MONGODB_PASSWORD=password
-      - MONGODB_HOST=ee461l_mongodb
+      FLASK_APP: api
+      FLASK_ENV: development
+      MONGODB_DATABASE: ee461l_mongodb
+      MONGODB_USERNAME: "admin"
+      MONGODB_PASSWORD: "password"
+      MONGODB_HOST: ee461l_mongodb
     networks:
       - app-network
     depends_on:
@@ -46,13 +46,12 @@ services:
     container_name: ee461l_mongodb
     hostname: ee461l_mongodb
     restart: unless-stopped
-    command: --auth
+    command: mongod --auth
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_HOSTNAME: ee461l_mongodb
-      MONGO_INITDB_USERNAME: dev
-      MONGO_INITDB_PASSWORD: password
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "password"
+      MONGO_INITDB_DATABASE: ee461l_mongodb
+      MONGODB_DATA_DIR: /data/dir
     volumes:
       - mongodbdata:/data/dir
     ports:
@@ -72,6 +71,7 @@ services:
       - mongodb
     networks:
       - app-network
+
 networks:
   app-network:
     driver: bridge

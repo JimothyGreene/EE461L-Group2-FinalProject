@@ -1,18 +1,10 @@
-from pymongo import MongoClient
+from flask_mongoengine import MongoEngine
 from api.config import Config
 
-client = MongoClient(
-    host=Config.MONGODB_SETTINGS['host'], username=Config.MONGODB_SETTINGS['username'], password=Config.MONGODB_SETTINGS['password'])
-db = client.ee461L_mongodb
+db = MongoEngine()
 
 
-class User:
-    def __init__(self, email='null', password='null'):
-        self.email = email
-        self.password = password
-
-    def toDoc(self):
-        return {
-            'email': self.email,
-            'password': self.password
-        }
+class User(db.Document):
+    # Once seeding issues figured out, add unique=True
+    email = db.EmailField(required=True)
+    password = db.StringField(require=True)

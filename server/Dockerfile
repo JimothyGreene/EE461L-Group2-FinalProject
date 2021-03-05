@@ -15,11 +15,6 @@ COPY . .
 ENV FLASK_APP=api
 ENV FLASK_ENV=development
 
-ENV MONGODB_DATABASE=ee461l_mongodb
-ENV MONGODB_USERNAME=admin
-ENV MONGODB_PASSWORD=password
-ENV MONGODB_HOST=ee461l_mongodb
-
 # Expose port
 EXPOSE 5000
 

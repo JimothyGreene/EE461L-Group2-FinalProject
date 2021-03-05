@@ -1,5 +1,5 @@
 from flask import Blueprint
-from database import db, User, seed
+from database import *
 import json
 
 main = Blueprint('main', __name__)
@@ -18,9 +18,3 @@ def users():
         out += "Email: {0}, Password: {1} <br/>".format(
             user['email'], user['password'])
     return out
-
-
-@main.route('/seedDB')
-def seedEndPoint():
-    seed()
-    return "Seeding MongoDB"
