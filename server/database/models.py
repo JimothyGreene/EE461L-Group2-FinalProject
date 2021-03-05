@@ -6,5 +6,5 @@ db = MongoEngine()
 
 class User(db.Document):
     # Once seeding issues figured out, add unique=True
-    email = db.EmailField(required=True)
+    email = db.EmailField(required=True, unique=True)
     password = db.StringField(require=True)

@@ -19,7 +19,10 @@ After you have docker installed, it's as simple as running the `docker-compose u
 
 Looking in `server/database`, `models.py` serves as the home of the MongoClient and database variable `db`. In there you will also find classes to represent database documents, which will just need a constructor for their fields and a function to convert the object into a document style JSON to put into the database. Whenever you add a new model, you need to update `__init__.py` to import that class and put it in the field `__all__` so that imports will continue to work as expected.
 
-Currently, `seed()` is ran during `create_app`, but for some reason it runs `seed()` twice. This is functional, but need to investigate better alternative for seeding In the meantime, go to `seeding.py` and add whatever documents you want to go into the DB. Everytime you go to `/seedDB`, `seed()` will be called
 
 To check on the database, navigate to [localhost:8081](localhost:8081) to access Mongo Express, a visualization tool for MongoDB. You will be able to see the database(s), all collections, and the documents in those collections. **NOTE:** Be careful poking around Mongo Express, you are able to delete and edit the database. This is just for development.
 
+### Seeding
+
+Seeding in performed through the `mongo/init-mongo.js` file. To add additional seed data, use [mongo Shell Commands](https://docs.mongodb.com/manual/reference/method/) within the `init-mongo.js` file. Use of a `.js` file will allow us to use existing packages like faker to generate mock data during development. If you want to add an additional file for seeding, just create a new `.js` file in the `/mongo/` directory, and restart the docker containers.
+ ***Note: Make sure the collection you use in seeding matches exactly the name of your model in Flask, otherwise they will appear in different collections.***
