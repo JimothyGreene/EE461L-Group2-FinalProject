@@ -1,8 +1,7 @@
 from flask import Flask
-from flask_mongoengine import MongoEngine
+from database import db
 from api.config import Config
-
-db = MongoEngine()
+import os
 
 
 def create_app(config_class=Config):
