@@ -4,8 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
-  Link
+  Redirect
 } from "react-router-dom";
 import {LogInPage} from "./components/LogInPage";
 
