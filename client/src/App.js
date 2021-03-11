@@ -6,7 +6,9 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
 import {LogInPage} from "./components/LogInPage";
+import {TopAndSideBar} from "./components/TopAndSideBar";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -14,6 +16,8 @@ export default function App() {
     return (
       // Dev Note: When adding a new Route, make sure to follow redirect examples to ensure login
       // See path="/" for an example
+
+      // Dev Note: When adding a new page, make sure to surround it with <TopAndSideBar>, see path="/" for an example
       <div className="wrapper">
         <Router>
           <Switch>
@@ -28,7 +32,7 @@ export default function App() {
               {loggedIn ? <Redirect to="/" /> : <Redirect to="/login" />}
             </Route>
             <Route exact path="/">
-              {loggedIn ? <h1>Homepage</h1> : <Redirect to="/login" />}
+              {loggedIn ? <TopAndSideBar user={user} page="Dashboard"><Dashboard /></TopAndSideBar> : <Redirect to="/login" />}
             </Route>
           </Switch>
         </Router>
