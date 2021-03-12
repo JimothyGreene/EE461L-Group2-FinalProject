@@ -11,11 +11,17 @@ def login():
     Desc: Logs in a user
 
     Returns:
-        bool: True if user exists; False otherwise
+        success: true if user exists else false
+
+    Status:
+        200: user found
+        401: user not found (unauthorized)
     """
     req = request.get_json()
     user = User.objects(email=req['email'], password=req['password'])
-    return str(bool(user))
+    return {
+        'success': bool(user)
+    }, 200 if bool(user) else 401
 
 
 @users.route('/register', methods=['POST'])
