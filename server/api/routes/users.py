@@ -11,11 +11,8 @@ def login():
     Desc: Logs in a user
 
     Returns:
-        success: true if user exists else false
-
-    Status:
-        200: user found
-        401: user not found (unauthorized)
+        200: success - true
+        401: success - false
     """
     req = request.get_json()
     user = User.objects(email=req['email'], password=req['password'])
@@ -28,16 +25,11 @@ def login():
 def register():
     """POST users/register
 
-    Returns:
-        email: email of created user
-        password: password of created user
+    Desc: Registers a new user
 
-    Status:
-        201: new user successfully created
+    Returns:
+        201: new user object
     """
     req = request.get_json()
-    new_user = User(email=req['email'], password=req['password']).save()
-    return {
-        'email': new_user.email,
-        'password': new_user.password
-    }, 201
+    new_user = User(**req).save()
+    return new_user.to_json(), 201
