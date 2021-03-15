@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from flask_jwt_extended import create_access_token
 from database import User
 
 users = Blueprint('users', __name__)
@@ -18,10 +19,16 @@ def login():
         401: user not found (unauthorized)
     """
     req = request.get_json()
-    user = User.objects(email=req['email'], password=req['password'])
-    return {
-        'success': bool(user)
-    }, 200 if bool(user) else 401
+    user = User.objects(email=req['email'], password=req['password']).first()
+    if user:
+        access_token = create_access_token(identity=user)
+        return {
+            'token': access_token
+        }, 200
+    else:
+        return {
+            'error': 'SPECIFIC ERRORS HERE'
+        }, 401
 
 
 @users.route('/register', methods=['POST'])
