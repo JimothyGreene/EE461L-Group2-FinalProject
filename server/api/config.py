@@ -9,3 +9,4 @@ class Config:
         'host': os.environ['MONGODB_HOST'],
         'authentication_source': 'admin'
     }
+    JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
