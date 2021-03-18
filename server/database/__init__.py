@@ -1,3 +1,3 @@
-from .models import User, db
+from .models import User, HardwareSet, db
 
-__all__ = ["db", "User"]
+__all__ = ["db", "User", "HardwareSet"]
