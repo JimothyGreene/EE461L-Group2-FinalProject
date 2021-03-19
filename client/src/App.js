@@ -7,7 +7,7 @@ import {
   Redirect
 } from "react-router-dom";
 import {LogInPage} from "./components/LogInPage";
-
+import CheckOut from "./components/CheckOut";
 export default function App() {
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -28,11 +28,13 @@ export default function App() {
               {loggedIn ? <Redirect to="/" /> : <Redirect to="/login" />}
             </Route>
             <Route exact path="/">
-              {loggedIn ? <h1>Homepage</h1> : <Redirect to="/login" />}
+              {loggedIn ? <Redirect to="/checkout" />/*<h1>Homepage</h1>*/ : <Redirect to="/login" />}
+            </Route>
+            <Route exact path="/checkout">
+              {loggedIn ? <CheckOut checkOutUser={user}  /> : <Redirect to="/login" />}
             </Route>
           </Switch>
         </Router>
       </div>
     );
 }
-
