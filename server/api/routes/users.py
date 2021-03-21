@@ -1,9 +1,9 @@
 from flask import Blueprint, request
 from flask_jwt_extended import create_access_token
 from database import User
+from api.routes.validators.users import valid_email, valid_password
 
 users = Blueprint('users', __name__)
-
 
 @users.route('/login', methods=['POST'])
 def login():
