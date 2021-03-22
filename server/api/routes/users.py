@@ -25,6 +25,12 @@ def login():
         return {
             'error': 'Fields must not be empty.'
         }, 404
+
+    check_email = valid_email(req['email'])
+    if not check_email[0]:
+        return {
+            'error': check_email[1]
+        }, 401
     
     user = User.objects(email=req['email']).first()
     if not user:
