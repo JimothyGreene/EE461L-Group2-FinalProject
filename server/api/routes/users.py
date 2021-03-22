@@ -10,10 +10,13 @@ def login():
     """POST users/login
 
     Desc: Logs in a user
+          Checks if an account exists at all
+          Checks if an account exists and the password was incorrect
 
     Returns:
         200: success - true
-        401: success - false
+        404: no account was found
+        401: password was incorrect, unauthorized access
     """
     req = request.get_json()
     user = User.objects(email=req['email'], password=req['password']).first()
@@ -33,10 +36,32 @@ def register():
     """POST users/register
 
     Desc: Registers a new user
+          Validates email and password used to register
+          Ensures new accounts are not duplicates
 
     Returns:
         201: new user object
+        401: validation error, unauthorized access
+        409: duplicate account, conflict with database
     """
     req = request.get_json()
+    check_email = valid_email(req['email'])
+    check_password = valid_password(req['password'])
+
+    if not check_email[0]:
+        return {
+            'error': check_email[1]
+        }, 401
+    if not check_password[0]:
+        return {
+            'error': check_password[1]
+        }, 401
+    
+    user = User.objects(email=check_email[1]).first()
+    if user:
+        return {
+            'error': 'Account could not be created. User already exists.'
+        }, 409
+
     new_user = User(**req).save()
     return new_user.to_json(), 201
