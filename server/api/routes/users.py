@@ -10,25 +10,38 @@ def login():
     """POST users/login
 
     Desc: Logs in a user
+          Ensures fields are not blank
+          Validates email used to log in
           Checks if an account exists at all
           Checks if an account exists and the password was incorrect
 
     Returns:
         200: success - true
-        404: no account was found
         401: password was incorrect, unauthorized access
+        404: no account was found
     """
     req = request.get_json()
+    if req['email'] == '' or req['password'] == '':
+        return {
+            'error': 'Fields must not be empty.'
+        }, 404
+    
+    user = User.objects(email=req['email']).first()
+    if not user:
+        return {
+            'error': 'No account with this email exists.'
+        }, 404
+
     user = User.objects(email=req['email'], password=req['password']).first()
-    if user:
-        access_token = create_access_token(identity=user)
+    if not user:
         return {
-            'token': access_token
-        }, 200
-    else:
-        return {
-            'error': 'SPECIFIC ERRORS HERE'
+            'error': 'An account was found but the password is incorrect.'
         }, 401
+    
+    access_token = create_access_token(identity=user)
+    return {
+        'token': access_token
+    }, 200
 
 
 @users.route('/register', methods=['POST'])
