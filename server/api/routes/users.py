@@ -27,11 +27,13 @@ def login():
     user = User.objects(email=req['email']).first()
     if not user:
         return {
-            'error': 'No account with this email exists.'
+            'email': 'No account with this email exists.',
+            'password': ''
         }, 404
     if user.password != req['password']:
         return {
-            'error': 'An account was found but the password is incorrect.'
+            'email': 'An account was found but the password is incorrect.',
+            'password': ''
         }, 401
     
     access_token = create_access_token(identity=user)
@@ -60,7 +62,8 @@ def register():
     user = User.objects(email=req['email']).first()
     if user:
         return {
-            'error': 'Account could not be created. User already exists.'
+            'email': 'Account could not be created. User already exists.',
+            'password': ''
         }, 409
 
     new_user = User(**req).save()
