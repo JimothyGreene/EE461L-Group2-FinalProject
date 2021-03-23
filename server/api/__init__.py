@@ -16,8 +16,10 @@ def create_app(config_class=Config):
     from api.routes.main import main
     from api.routes.users import users
     from api.routes.hardware import hardware
+    from api.routes.projects import projects
     app.register_blueprint(main)
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(hardware, url_prefix='/hardware')
+    app.register_blueprint(projects, url_prefix='/projects')
 
     return app
