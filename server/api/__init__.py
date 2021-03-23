@@ -15,7 +15,9 @@ def create_app(config_class=Config):
 
     from api.routes.main import main
     from api.routes.users import users
+    from api.routes.hardware import hardware
     app.register_blueprint(main)
     app.register_blueprint(users, url_prefix='/users')
+    app.register_blueprint(hardware, url_prefix='/hardware')
 
     return app

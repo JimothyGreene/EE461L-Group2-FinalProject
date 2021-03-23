@@ -30,3 +30,13 @@ class Projects(db.Document):
     name = db.StringField(required=True)
     description = db.StringField(required=True)
     creator_id = db.ObjectIdField(required=True)
+
+class HardwareSet(db.Document):
+    """Hardware Set for checkout
+
+    Fields:
+        capacity: hardware set capacity (how many we own)
+        available: hardware set availability (how many are not currently checked out)
+    """
+    capacity = db.IntField(required=True)
+    available = db.IntField(required=True)
