@@ -19,6 +19,18 @@ class User(db.Document):
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
 
+class Projects(db.Document):
+    """Projects for our site. The Data that is associated with the 
+    projects
+
+    Field:
+        name: the name of the project
+        description: description of the project
+    """
+    name = db.StringField(required=True)
+    description = db.StringField(required=True)
+    creator_id = db.ObjectIdField(required=True)
+
 class HardwareSet(db.Document):
     """Hardware Set for checkout
 
