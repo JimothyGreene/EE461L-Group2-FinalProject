@@ -33,7 +33,7 @@ def login():
     if user.password != req['password']:
         return {
             'email': '',
-            'password': 'An account was found but the password is incorrect.'
+            'password': 'Password is incorrect.'
         }, 401
     
     access_token = create_access_token(identity=user)
