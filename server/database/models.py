@@ -18,3 +18,13 @@ class User(db.Document):
     last_name = db.StringField(required=True)
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
+
+class HardwareSet(db.Document):
+    """Hardware Set for checkout
+
+    Fields:
+        capacity: hardware set capacity (how many we own)
+        available: hardware set availability (how many are not currently checked out)
+    """
+    capacity = db.IntField(required=True)
+    available = db.IntField(required=True)
