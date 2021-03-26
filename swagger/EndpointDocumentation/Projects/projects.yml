@@ -1,0 +1,90 @@
+post:
+  tags:
+    - projects
+  summary: Attempt to create new project
+  operationId: createProject
+  requestBody:
+    required: true
+    description: Project Info
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+  responses:
+    201:
+      description: Project Successfully Created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              _id:
+                type: object
+                properties:
+                  $oid: 
+                    type: string
+                    example: '605e4e9c2226f89fb151d0a1'
+              name:
+                type: string
+                example: 'Newly Created Name'
+              description:
+                type: string
+                example: 'Newly Created Description'
+              creator_id:
+                type: object
+                properties:
+                  $oid: 
+                    type: string
+                    example: '6059234f9885cb36c1964f52'
+
+get:
+  tags:
+    - projects
+  summary: Attempt to read all projects
+  operationId: readProject
+  requestBody:
+    required: false
+  responses:
+    200:
+      description: Projects Successfully Read
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: object
+                  properties:
+                    $oid: 
+                      type: string
+                name:
+                  type: string
+                description:
+                  type: string
+                creator_id:
+                  type: object
+                  properties:
+                    $oid: 
+                      type: string
+            example: 
+            - _id: 
+                $oid: '605e4e9c2226f89fb151d0a1'
+              name: 'Project 1 Name'
+              description: 'Project 1 Description'
+              creator_id:
+                $oid: '6059234f9885cb36c1964f52'
+
+            - _id: 
+                $oid: '605926640605c11c5b48bcdd'
+              name: 'Project 2 Name'
+              description: 'Project 2 Description'
+              creator_id:
+                $oid: '605914c9d4128bb131f7829e'
+
