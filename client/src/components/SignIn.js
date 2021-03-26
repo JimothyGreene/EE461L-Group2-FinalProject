@@ -15,52 +15,70 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import api from '../util/api';
+import axios from 'axios';
+import { AuthContext } from '../App';
 
-export class SignIn extends React.Component {
+const SignInSchema = Yup.object().shape({
+    email: Yup.string()
+        .trim()
+        .email("Invalid email")
+        .required("Email is required"),
+    password: Yup.string()
+        .trim()
+        .min(8, "Password must be 8 characters at minimum")
+        .matches(/[a-z]/, "Password requires at least 1 lowercase letter")
+        .matches(/[A-Z]/, "Password requires at least 1 uppercase letter")
+        .matches(/\d/, "Password requires at least 1 number")
+        .required("Password is required")
+});
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: null,
-            password: null,
-            redirect: false,
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+export const SignIn = (props) => {
+    const { dispatch } = React.useContext(AuthContext);
 
+    const attemptSignIn = async (values) => {
+        try{
+            let res = await api.post('users/login', values);
+            dispatch({
+                type: "LOGIN",
+                payload: {
+                    token: res.data.token,
+                    user: values.email
+                }
+            });
+            return;
+        } catch (e) {
+            if(e.response.status === 401) {
+                formik.setFieldError("password", "Password Incorrect");
+            }
+            else {
+                formik.setFieldError("email", "No account with this email");
+            }
+        }
     }
 
-    handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
+    const formik = useFormik({
+        initialValues: {
+            email: "", 
+            password: ""
+        },
+        validationSchema: SignInSchema,
+        onSubmit: async (values) => {
+            attemptSignIn(values);
+            formik.setSubmitting(false);
+        },
+    });
 
-        this.setState({[name]: value});
-    }
-
-    onSubmit() {
-        //Basic validation, should flesh this out more
-        if(!this.state.email || !this.state.password) {
-            alert("Please enter email and password");
-        }
-        //Ping API and handle response
-        else {
-            this.props.signInUser(this.state.email);
-            this.setState({redirect: true});
-        }
-    }
-  
-    render() {
-        if(this.state.redirect) {
-            return ( <Redirect to="/" />);
-        }
-      return (
+    return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className="signin">
+        <CssBaseline />
+        <div className="signin">
             <Typography component="h1" variant="h5" className="signin-text">
                 Sign in
             </Typography>
-            <form className="signin-form" onSubmit={this.onSubmit}>
+            <form className="signin-form" onSubmit={formik.handleSubmit}>
                 <TextField
                 variant="outlined"
                 margin="normal"
@@ -70,7 +88,11 @@ export class SignIn extends React.Component {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                onChange={this.handleChange}
+                type="email"
+                value={formik.values.email}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                onChange={formik.handleChange}
                 />
                 <TextField
                 variant="outlined"
@@ -82,7 +104,10 @@ export class SignIn extends React.Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={this.handleChange}
+                value={formik.values.password}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
+                onChange={formik.handleChange}
                 />
                 <Button
                 fullWidth
@@ -94,8 +119,125 @@ export class SignIn extends React.Component {
                 Sign In
                 </Button>
             </form>
-            </div>
+        </div>
         </Container>
       );
-    }
-  }
+}
+
+
+// export class SignIn extends React.Component {
+
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             email: '',
+//             password: '',
+//             redirect: false,
+//             emailError: false,
+//             emailErrorMessage: '',
+//             passwordError: false,
+//             passwordErrorMessage: '',
+//             isValid: true
+//         };
+//         this.handleChange = this.handleChange.bind(this);
+//         this.handleSignIn = this.handleSignIn.bind(this);
+//         this.validateInputs = this.validateInputs.bind(this);
+
+//     }
+
+//     handleChange(event) {
+//         const name = event.target.name;
+//         const value = event.target.value;
+
+//         this.setState({[name]: value});
+//     }
+
+//     validateInputs(inpEmail, inpPassword) {
+//         var stateChanges = {
+//             emailError: false,
+//             emailErrorMessage: '',
+//             passwordError: false,
+//             passwordErrorMessage: '',
+//             isValid: true
+//         };
+//         var isValidInp = true;
+        
+//         //See if an email and password have been entered
+//         if(!inpEmail) {
+//             console.log("no email");
+//             stateChanges['emailError'] = true;
+//             stateChanges['emailErrorMessage'] = 'Please enter an email';
+//             isValidInp = false;
+//         }
+//         if(!inpPassword) {
+//             console.log("no pw");
+//             stateChanges['passwordError'] = true;
+//             stateChanges['passwordErrorMessage'] = 'Please enter a password';
+//             isValidInp = false;
+//         }
+        
+//         //Check validity of email and password
+//         //I'm not quite sure why this line works but it does, some weird JS regular expression
+//         if(!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(inpEmail))) {
+//             console.log("invalid email");
+//             stateChanges['emailError'] = true;
+//             stateChanges['emailErrorMessage'] = 'Please enter a valid email';
+//             isValidInp = false;
+//         }
+//         if(inpPassword.length >= 8) {
+//             let isValidPassword = true;
+//             let pwErrorMsg = "Password must contain ";
+//             if(!(/\d/.test(this.state.password))) {
+//                 isValidPassword = false;
+//                 pwErrorMsg.concat("at least 1 number");
+//             }
+//             if(!(/[a-z]/.test(this.state.password))) {
+//                 if(isValidPassword) {
+//                     isValidPassword = false;
+//                     pwErrorMsg.concat("at least 1 lowercase letter");
+//                 }
+//                 else {
+//                     pwErrorMsg.concat(", at least 1 lowercase letter");
+//                 }
+//             }
+//             if(!(/[A-Z]/.test(this.state.password))) {
+//                 if(isValidPassword) {
+//                     isValidPassword = false;
+//                     pwErrorMsg.concat("at least 1 uppercase letter");
+//                 }
+//                 else {
+//                     pwErrorMsg.concat(", at least 1 uppercase letter");
+//                 }
+//             }
+//             if(!isValidPassword) {
+//                 console.log("pw missing characters");
+//                 stateChanges['passwordError'] = true;
+//                 stateChanges['passwordErrorMessage'] = pwErrorMsg;
+//                 isValidInp = false;
+//             }
+//         }
+//         else {
+//             console.log("pw too short");
+//             stateChanges['passwordError'] = true;
+//             stateChanges['passwordErrorMessage'] = 'Password must be at least 8 characters';
+//             isValidInp = false;
+//         }
+
+//         stateChanges['isValid'] = isValidInp;
+//         return stateChanges
+//     }
+
+//     handleSignIn() {
+//         const inpEmail = this.state.email;
+//         const inpPassword = this.state.password;
+//         const stateChanges = this.validateInputs(inpEmail, inpPassword);
+//         this.setState(stateChanges);
+//         if(stateChanges.isValid) {
+//             this.props.signInUser(inpEmail);
+//         }
+
+//     }
+  
+//     render() {
+//     }
+//   }
