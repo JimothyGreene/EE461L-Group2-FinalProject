@@ -1,0 +1,51 @@
+post:
+  tags:
+    - users
+  summary: Attempt to login user
+  operationId: loginUser
+  requestBody:
+    required: true
+    description: User info to login
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+  responses:
+    200:
+      description: Login successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+
+    404:
+      description: No account exists with that email
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+    401:
+      description: Invalid password
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+    

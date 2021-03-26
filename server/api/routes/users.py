@@ -15,7 +15,7 @@ def login():
           Checks if an account exists and the password was incorrect
 
     Returns:
-        200: success - true
+        200: authentication token
         401: password was incorrect, unauthorized access
         404: no account was found or field was empty
     """
@@ -50,7 +50,7 @@ def register():
           Ensures new accounts are not duplicates
 
     Returns:
-        201: new user object
+        201: authentication token
         401: validation error, unauthorized access
         409: duplicate account, conflict with database
     """
@@ -67,4 +67,8 @@ def register():
         }, 409
 
     new_user = User(**req).save()
-    return new_user.to_json(), 201
+
+    access_token = create_access_token(identity=new_user)
+    return {
+        'token': access_token
+    }, 201
