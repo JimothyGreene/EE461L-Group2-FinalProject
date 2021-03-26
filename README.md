@@ -26,3 +26,8 @@ To check on the database, navigate to [localhost:8081](localhost:8081) to access
 
 Seeding in performed through the `mongo/init-mongo.js` file. To add additional seed data, use [mongo Shell Commands](https://docs.mongodb.com/manual/reference/method/) within the `init-mongo.js` file. Use of a `.js` file will allow us to use existing packages like faker to generate mock data during development. If you want to add an additional file for seeding, just create a new `.js` file in the `/mongo/` directory, and restart the docker containers.
  ***Note: Make sure the collection you use in seeding matches exactly the name of your model in Flask, otherwise they will appear in different collections.***
+
+### OpenAPI Definition and Documentation (SwaggerUI)
+
+To improve cohesion between frontend and backend development, we will use OpenAPI 3 specification and SwaggerUI to display it. To view SwaggerUI, navigate to [localhost:8080](localhost:8080), where the defintions will be displayed. To add to our specification, look in the `swagger/` directory where you will find `openapi.yml` and the `EndpointDocumentation/` directory. If adding a new general category of endpoints (ex. projects, hardware, etc.), add a new tag in the `openapi.yml` file and provide a description. When adding a new endpoint/path, specify that path in the `openapi.yml` file, and create a new `.yml` file in `EndpointDocumentation/`, and reference that file in `openapi.yml`.
+***(Development Note: If using VSCode, install the OpenAPI (Swagger) Editor extension, this will provide linting and allow you to see changes in VSCode)***
