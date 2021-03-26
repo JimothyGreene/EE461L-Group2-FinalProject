@@ -6,7 +6,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import CheckOut from "./components/CheckOut";
+import Resources from "./components/Resources";
 import Dashboard from "./components/Dashboard";
 import {LogInPage} from "./components/LogInPage";
 import {TopAndSideBar} from "./components/TopAndSideBar";
@@ -35,8 +35,8 @@ export default function App() {
             <Route exact path="/">
               {loggedIn ? <TopAndSideBar user={user} page="Dashboard"><Dashboard /></TopAndSideBar> : <Redirect to="/login" />}
             </Route>
-            <Route exact path="/CheckOut">
-              {loggedIn ? <TopAndSideBar user={user} page="Check Out"><CheckOut /></TopAndSideBar> : <Redirect to="/login" />}
+            <Route exact path="/Resources">
+              {loggedIn ? <TopAndSideBar user={user} page="Resources"><Resources /></TopAndSideBar> : <Redirect to="/login" />}
             </Route>
           </Switch>
         </Router>

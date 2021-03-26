@@ -1,8 +1,6 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
 import { NavLink } from 'react-router-dom'
-import CheckOut from './CheckOut.js';
-import CheckIn from './CheckIn.js';
 import {
     BrowserRouter as Router,
     Switch,
@@ -47,12 +45,9 @@ export default function ResourceCard() {
                     </Typography>
                 </Grid>
             </Grid>
-            <div style={{marginLeft: "auto", width: "100%", marginRight: "0", justifyContent: "space-between", display: "flex"}}>
-                <NavLink justify="flex-start" color="primary" to="/CheckOut" >
-                    Check Out
-                </NavLink>
-                <NavLink justify="flex-end" color="primary" to="/CheckIn">
-                    Check In
+            <div style={{marginLeft: "auto", width: "100%", marginRight: "0", justifyContent: "flex-end", display: "flex"}}>
+                <NavLink justify="flex-start" color="primary" to="/Resources">
+                    Manage Resources
                 </NavLink>
             </div>
         </React.Fragment>
