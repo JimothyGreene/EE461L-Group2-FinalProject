@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from database import Projects
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import get_jwt_identity, jwt_required
 # from database import User
 import json
 
@@ -15,6 +15,7 @@ def projects_create():
         201: newly created project
     """
     req = request.get_json()
+    req["creator_id"] = get_jwt_identity()["_id"]["$oid"]
     new_project = Projects(**req).save()
     return new_project.to_json(), 201
 
