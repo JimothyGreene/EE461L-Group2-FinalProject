@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
+import { NavLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {FormControl, InputLabel, Select, Button, Box, List, ListItem, ListItemText, Menu, MenuItem, Grid} from '@material-ui/core';
@@ -50,10 +51,10 @@ export default function ProjectCard() {
                 </Box>
                 
             </div>
-            <div style={{marginLeft: "auto", marginRight: "0", marginBottom: "0", marginTop: "auto"}}>
-                <Link justify="flex-end" color="primary" href="#" onClick={preventDefault}>
-                    Manage Projects
-                </Link>
+            <div style={{marginLeft: "auto", width: "100%", marginRight: "0", justifyContent: "flex-end", display: "flex", marginTop: '20px'}}>
+                <NavLink justify="flex-start" color="primary" to="/Projects">
+                    Project Info
+                </NavLink>
             </div>
         </React.Fragment>
     );
