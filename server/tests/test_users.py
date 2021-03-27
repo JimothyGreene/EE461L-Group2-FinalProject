@@ -16,6 +16,8 @@ def test_register_success(client):
     assert res.status_code == 201
     new_user = json.loads(res.data)
     for key in user_data:
+        print(user_data)
+        print(new_user)
         assert user_data[key] == new_user[key]
     
 
