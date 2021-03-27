@@ -25,11 +25,16 @@ class Projects extends React.Component {
         super(props);
         this.state = {
             ProjectName: "",
-            SelectedProjectName: ""
+            SelectedProjectName: "",
+            RenderID: "",
+            RenderDescription: "",
+            ID: "",
+            Description: ""
         };
         this.handleClick = this.handleClick.bind(this);
         this.quantityChange = this.quantityChange.bind(this);
         this.dropChange = this.dropChange.bind(this);
+        this.projectSelected = this.projectSelected.bind(this);
 
     }
     quantityChange(event){
@@ -39,6 +44,19 @@ class Projects extends React.Component {
     dropChange(event){
         const hrdwr = event.target.value;
         this.setState({hardware: hrdwr})
+    }
+    projectSelected(e){
+        let ProjectData = {
+            "Project 1": {ID: 1, Description: "This is Project 1"},
+            "Project 2": {ID: 2, Description: "This is Project 2"},
+            "Project 3": {ID: 3, Description: "This is Project 3"},
+            "Project 4": {ID: 4, Description: "This is Project 4"},
+            "Project 5": {ID: 5, Description: "This is Project 5"}
+
+        }
+        this.setState({ProjectName: e.target.value});
+        this.setState({ID: ProjectData[e.target.value].ID});
+        this.setState({Description: ProjectData[e.target.value].Description}); 
     }
 
 
@@ -50,16 +68,20 @@ class Projects extends React.Component {
         return(
             <Container component="main" maxWidth="xl"
             style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100vh', alignItems: 'center', justifyContent: 'center', padding: '100px'}}>
-                <div style={{display: 'flex', justifyContent: 'flex-end', width: '100%', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede', height: '248px'}}>
-                    <div style={{width: '750px', backgroundColor: 'lightblue'}}>
-                        {this.state.SelectedProjectName}
+                <div class="projectCard" style={{display: 'flex', justifyContent: 'flex-end', width: '100%', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede', height: '248px'}}>
+                    <div style={{width: '750px', padding: '10px', backgroundColor: 'lightblue'}}>
+                        <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
+                            <span>Project: {this.state.SelectedProjectName}</span>
+                            <span>ID: {this.state.RenderID}</span>
+                        </div>
+                        <span>Description: {this.state.RenderDescription}</span>
                     </div>
                     <div className="quantity"  
                     style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '250px'}}>
                     <InputLabel id="demo-simple-select-label">Projects</InputLabel>
                         <Select 
                         //style={{width: '200px', height: '40px'}}
-                        onChange = {(e) => this.setState({ProjectName: e.target.value})}
+                        onChange = {this.projectSelected}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
                             <MenuItem value={"Project 1"}>P1</MenuItem>                        
@@ -74,7 +96,11 @@ class Projects extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
-                            onClick = {(e) => this.setState({SelectedProjectName: this.state.ProjectName})}
+                            onClick = {(e) => {
+                                this.setState({SelectedProjectName: this.state.ProjectName});
+                                this.setState({RenderID: this.state.ID})
+                                this.setState({RenderDescription: this.state.Description})
+                            }}
                         >
                             Switch Project
                         </Button>
