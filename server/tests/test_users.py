@@ -14,11 +14,7 @@ def test_register_success(client):
     }
     res = client.post('/users/register', json=user_data)
     assert res.status_code == 201
-    new_user = json.loads(res.data)
-    for key in user_data:
-        print(user_data)
-        print(new_user)
-        assert user_data[key] == new_user[key]
+    assert b"token" in res.data
     
 
 def test_register_empty_data(client):
@@ -75,6 +71,7 @@ def test_login_success(client):
         "password": user_data["password"]
     })
     assert res.status_code == 200
+    assert b"token" in res.data
 
 
 def test_login_incorrect_password(client):
