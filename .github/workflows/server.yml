@@ -16,10 +16,9 @@ jobs:
       IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
     steps:
       - name: Login to GCP
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        uses: GoogleCloudPlatform/google-github-actions/setup-gcloud@master
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          version: "270.0.0"
           service_account_email: ${{ secrets.GCP_EMAIL }}
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
 
