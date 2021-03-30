@@ -26,9 +26,7 @@ jobs:
       - name: Configure Docker
         # run: gcloud auth configure-docker
         run: |
-          echo $HOME
-          ls -al $HOME
-          ls -al $HOME/.docker/
+          ls -al ~/
 
       - name: Checkout repository
         uses: actions/checkout@v2
