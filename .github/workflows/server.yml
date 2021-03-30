@@ -1,0 +1,55 @@
+name: Server
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    env:
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
+    steps:
+      - name: Login to GCP
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_email: ${{ secrets.GCP_EMAIL }}
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quiet
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: |
+          docker build . -t $IMAGE_NAME
+
+      - name: Push Docker image
+        run: |
+          docker push $IMAGE_NAME
+
+      - name: Deploy Docker image
+        env:
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+          MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
+        run: |
+          gcloud run deploy ${{ secrets.GCP_PROJECT_ID }} \
+            --image $IMAGE_NAME \
+            --region us-central1 \
+            --platform managed \
+            --set-env-vars "JWT_SECRET_KEY=$JWT_SECRET_KEY" \
+            --set-env-vars "MONGODB_USERNAME=$MONGODB_USERNAME" \
+            --set-env-vars "MONGODB_PASSWORD=$MONGODB_PASSWORD" \
+            --set-env-vars "MONGODB_DATABASE=$MONGODB_DATABASE" \
+            --set-env-vars "MONGODB_HOST=$MONGODB_HOST"
