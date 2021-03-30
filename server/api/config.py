@@ -8,6 +8,6 @@ class Config:
         'db': os.environ['MONGODB_DATABASE'],
         'host': os.environ['MONGODB_HOST'],
         'authentication_source': 'admin'
-    }
+    } if os.environ['CI'] not in ['True', 'true'] else {}
     JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(days=14)

@@ -20,6 +20,7 @@ services:
       MONGODB_PASSWORD: "password"
       MONGODB_HOST: ee461l_mongodb
       JWT_SECRET_KEY: DUMMY_SECRET_KEY
+      CI: "false"
     networks:
       - app-network
     depends_on:
