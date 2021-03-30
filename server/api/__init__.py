@@ -19,6 +19,7 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     cors.init_app(app)
 
+    from api.routes.main import main
     from api.routes.users import users
     from api.routes.hardware import hardware
     app.register_blueprint(main)
