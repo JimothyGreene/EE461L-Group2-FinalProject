@@ -26,7 +26,7 @@ jobs:
       - name: Configure Docker
         # run: gcloud auth configure-docker
         run: |
-          ls -al ~/
+          pwd
 
       - name: Checkout repository
         uses: actions/checkout@v2
