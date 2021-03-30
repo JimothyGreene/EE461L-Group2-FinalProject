@@ -32,8 +32,8 @@ def login():
         }, 404
     if user.password != req['password']:
         return {
-            'email': 'An account was found but the password is incorrect.',
-            'password': ''
+            'email': '',
+            'password': 'Password is incorrect.'
         }, 401
     
     access_token = create_access_token(identity=user)

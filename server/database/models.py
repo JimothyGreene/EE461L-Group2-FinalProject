@@ -1,5 +1,4 @@
 from flask_mongoengine import MongoEngine
-from api.config import Config
 
 db = MongoEngine()
 
