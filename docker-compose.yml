@@ -20,6 +20,7 @@ services:
       MONGODB_PASSWORD: "password"
       MONGODB_HOST: ee461l_mongodb
       JWT_SECRET_KEY: DUMMY_SECRET_KEY
+      CI: "false"
     networks:
       - app-network
     depends_on:
@@ -73,6 +74,15 @@ services:
       - mongodb
     networks:
       - app-network
+  swagger:
+    image: swaggerapi/swagger-ui
+    container_name: swagger
+    ports:
+      - 8080:8080
+    volumes:
+      - ./swagger:/usr/share/nginx/html/swagger
+    environment:
+      API_URL: swagger/openapi.yml
 
 networks:
   app-network:

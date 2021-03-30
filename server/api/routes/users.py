@@ -16,7 +16,7 @@ def login():
           Checks if an account exists and the password was incorrect
 
     Returns:
-        200: success - true
+        200: authentication token
         401: password was incorrect, unauthorized access
         404: no account was found or field was empty
     """
@@ -33,8 +33,8 @@ def login():
         }, 404
     if not bcrypt.check_password_hash(user.password, req['password']):
         return {
-            'email': 'An account was found but the password is incorrect.',
-            'password': ''
+            'email': '',
+            'password': 'Password is incorrect.'
         }, 401
     
     access_token = create_access_token(identity=user)
@@ -51,7 +51,7 @@ def register():
           Ensures new accounts are not duplicates
 
     Returns:
-        201: new user object
+        201: authentication token
         401: validation error, unauthorized access
         409: duplicate account, conflict with database
     """
@@ -71,4 +71,8 @@ def register():
     pw_hash = bcrypt.generate_password_hash(new_user.password).decode('utf-8')
     new_user.password = str(pw_hash)
     new_user.save()
-    return new_user.to_json(), 201
+
+    access_token = create_access_token(identity=new_user)
+    return {
+        'token': access_token
+    }, 201
