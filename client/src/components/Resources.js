@@ -24,10 +24,24 @@ class Resources extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            ResourceName: "",
+            SelectedResourceName: "",
+            QuantityIn: 0,
+            QuantityOut: 0,
+            QuantityOutResource: "",
+            QuantityInResource: "",
+            ResourceData: {
+                "Hardware Set 1": {ID: 1, Available: 10},
+                "Hardware Set 2": {ID: 2, Available: 10},
+                "Hardware Set 3": {ID: 3, Available: 10},
+                "Hardware Set 4": {ID: 4, Available: 10},
+                "Hardware Set 5": {ID: 5, Available: 10}
+            }
         };
         this.handleClick = this.handleClick.bind(this);
         this.quantityChange = this.quantityChange.bind(this);
         this.dropChange = this.dropChange.bind(this);
+        this.resourceSelected = this.resourceSelected.bind(this);
 
     }
     quantityChange(event){
@@ -39,6 +53,10 @@ class Resources extends React.Component {
         this.setState({hardware: hrdwr})
     }
 
+    resourceSelected(e){
+        this.setState({ResourceName: e.target.value});
+    }
+
 
     handleClick(event) {
         //api call with state quantity (this.state.quantity)
@@ -48,20 +66,27 @@ class Resources extends React.Component {
         return(
             <Container component="main" maxWidth="xl"
             style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100vh', alignItems: 'center', justifyContent: 'center', padding: '100px'}}>
-                <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede', height: '248px'}}>
+                <div class="resourceCard" style={{display: 'flex', justifyContent: 'space-between', width: '100%', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede', height: '248px'}}>
+                    <div style={{width: '750px', padding: '10px', backgroundColor: 'lightblue'}}>
+                        <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
+                            <span>Resource: {this.state.SelectedResourceName}</span>
+                            <span>ID: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].ID : ""}</span>
+                        </div>
+                        <span>Available: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].Available : ""}</span>
+                    </div>
                     <div className="quantity"  
                     style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '250px'}}>
                     <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
                         <Select 
                         //style={{width: '200px', height: '40px'}}
-                        onChange = {this.dropChange}
+                        onChange = {this.resourceSelected}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
-                            <MenuItem value={"1 MBPS"}>1 MBPS</MenuItem>                        
-                            <MenuItem value={"5 MBPS"}>5 MBPS</MenuItem>                        
-                            <MenuItem value={"10 MBPS"}>10 MBPS</MenuItem>                        
-                            <MenuItem value={"50 MBPS"}>50 MBPS</MenuItem>                        
-                            <MenuItem value={"100 MBPS"}>100 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 1"}>1 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 2"}>5 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 3"}>10 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 4"}>50 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 5"}>100 MBPS</MenuItem>                        
                         </Select>
                         <Button
                             style={{marginTop: '10px'}}
@@ -70,13 +95,14 @@ class Resources extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
-                            onClick = {this.handleClick}
+                            onClick = {(e) => {
+                                this.setState({SelectedResourceName: this.state.ResourceName});
+                                this.setState({RenderID: this.state.ID})
+                                this.setState({RenderAvailable: this.state.Available})
+                            }}
                         >
                             See Info
                         </Button>
-                    </div>
-                    <div style={{width: '750px', backgroundColor: 'blue'}}>
-
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '50px', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede'}}>
@@ -85,14 +111,16 @@ class Resources extends React.Component {
                     <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
                         <Select 
                         //style={{width: '200px', height: '40px'}}
-                        onChange = {this.dropChange}
+                        onChange = {(e) => {
+                            this.setState({QuantityOutResource: e.target.value})
+                        }}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
-                            <MenuItem value={"1 MBPS"}>1 MBPS</MenuItem>                        
-                            <MenuItem value={"5 MBPS"}>5 MBPS</MenuItem>                        
-                            <MenuItem value={"10 MBPS"}>10 MBPS</MenuItem>                        
-                            <MenuItem value={"50 MBPS"}>50 MBPS</MenuItem>                        
-                            <MenuItem value={"100 MBPS"}>100 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 1"}>1 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 2"}>5 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 3"}>10 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 4"}>50 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 5"}>100 MBPS</MenuItem>                        
                         </Select>
                         <TextField
                             variant="outlined"
@@ -103,7 +131,9 @@ class Resources extends React.Component {
                             label="Quantity"
                             name="qty"
                             autoComplete="qty"
-                            onChange = {this.quantityChange}
+                            onChange = {(e) => {
+                                this.setState({QuantityOut: e.target.value})
+                            }}
                         />
                         <Button
                             halfWidth
@@ -111,7 +141,16 @@ class Resources extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
-                            onClick = {this.handleClick}
+                            onClick = {(e) => {
+                                let updatedResourceData = this.state.ResourceData;
+                                if(updatedResourceData[this.state.QuantityOutResource].Available - this.state.QuantityOut < 0){
+                                    alert("");
+                                }else{
+                                    updatedResourceData[this.state.QuantityOutResource].Available = updatedResourceData[this.state.QuantityOutResource].Available - this.state.QuantityOut;
+                                    this.setState({ResourceData: updatedResourceData})
+                                }
+
+                            }}
                         >
                             Check Out
                         </Button>
@@ -119,16 +158,18 @@ class Resources extends React.Component {
                     <div className="quantity"
                     style={{display: 'flex', flexDirection: 'column', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '250px'}}>
                     <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
-                        <Select 
+                    <Select 
                         //style={{width: '200px', height: '40px'}}
-                        onChange = {this.dropChange}
+                        onChange = {(e) => {
+                            this.setState({QuantityInResource: e.target.value})
+                        }}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
-                            <MenuItem value={"1 MBPS"}>1 MBPS</MenuItem>                        
-                            <MenuItem value={"5 MBPS"}>5 MBPS</MenuItem>                        
-                            <MenuItem value={"10 MBPS"}>10 MBPS</MenuItem>                        
-                            <MenuItem value={"50 MBPS"}>50 MBPS</MenuItem>                        
-                            <MenuItem value={"100 MBPS"}>100 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 1"}>1 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 2"}>5 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 3"}>10 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 4"}>50 MBPS</MenuItem>                        
+                            <MenuItem value={"Hardware Set 5"}>100 MBPS</MenuItem>                        
                         </Select>
                         <TextField
                             variant="outlined"
@@ -139,7 +180,9 @@ class Resources extends React.Component {
                             label="Quantity"
                             name="qty"
                             autoComplete="qty"
-                            onChange = {this.quantityChange}
+                            onChange = {(e) => {
+                                this.setState({QuantityIn: e.target.value})
+                            }}
                         />
                         <Button
                             halfWidth
@@ -147,7 +190,11 @@ class Resources extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
-                            onClick = {this.handleClick}
+                            onClick = {(e) => {
+                                let updatedResourceData = this.state.ResourceData;
+                                updatedResourceData[this.state.QuantityInResource].Available = updatedResourceData[this.state.QuantityInResource].Available + this.state.QuantityIn;
+                                this.setState({ResourceData: updatedResourceData})
+                            }}
                         >
                             Check In
                         </Button>
