@@ -3,6 +3,7 @@
 This includes registration and login
 """
 from database import User
+from api import bcrypt
 import json
 
 def test_register_success(client):
@@ -65,7 +66,10 @@ def test_login_success(client):
         "email": "testemail@domain.com",
         "password": "T3stP@ssword"
     }
-    User(**user_data).save()
+    pw_hash = bcrypt.generate_password_hash(user_data["password"]).decode('utf-8')
+    new_user = User(**user_data)
+    new_user.password = str(pw_hash)
+    new_user.save()
     res = client.post('/users/login', json={
         "email": user_data["email"],
         "password": user_data["password"]
@@ -81,7 +85,10 @@ def test_login_incorrect_password(client):
         "email": "testemail@domain.com",
         "password": "T3stP@ssword"
     }
-    User(**user_data).save()
+    pw_hash = bcrypt.generate_password_hash(user_data["password"]).decode('utf-8')
+    new_user = User(**user_data)
+    new_user.password = str(pw_hash)
+    new_user.save()
     res = client.post('/users/login', json={
         "email": user_data["email"],
         "password": user_data["password"] + "!"
