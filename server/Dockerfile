@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 
 # Install dependencies
 COPY requirements.txt ./
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host=files.pythonhosted.org
 
 # Copy app source code
 COPY . .

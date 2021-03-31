@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from flask_jwt_extended import create_access_token
+from api import bcrypt
 from database import User
 from api.routes.validators.users import valid_login, valid_registration
 
@@ -30,7 +31,7 @@ def login():
             'email': 'No account with this email exists.',
             'password': ''
         }, 404
-    if user.password != req['password']:
+    if not bcrypt.check_password_hash(user.password, req['password']):
         return {
             'email': '',
             'password': 'Password is incorrect.'
@@ -66,7 +67,10 @@ def register():
             'password': ''
         }, 409
 
-    new_user = User(**req).save()
+    new_user = User(**req)
+    pw_hash = bcrypt.generate_password_hash(new_user.password).decode('utf-8')
+    new_user.password = str(pw_hash)
+    new_user.save()
 
     access_token = create_access_token(identity=new_user)
     return {
