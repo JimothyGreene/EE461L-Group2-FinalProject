@@ -1,5 +1,12 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
+import { NavLink } from 'react-router-dom'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect
+  } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -29,7 +36,7 @@ export default function ResourceCard() {
                 <Grid item alignContent="center" justify="center">
                     <Typography component="h2" variant="h6" color="primary" gutterBottom align="center" justify="center">
                         HWSet2
-                    </Typography>
+                    </Typography>   
                     <Typography component="p" variant="h4" align="center" justify="center">
                         15 in use
                     </Typography>
@@ -38,10 +45,10 @@ export default function ResourceCard() {
                     </Typography>
                 </Grid>
             </Grid>
-            <div style={{marginLeft: "auto", marginRight: "0"}}>
-                <Link justify="flex-end" color="primary" href="#" onClick={preventDefault}>
+            <div style={{marginLeft: "auto", width: "100%", marginRight: "0", justifyContent: "flex-end", display: "flex"}}>
+                <NavLink justify="flex-start" color="primary" to="/Resources">
                     Manage Resources
-                </Link>
+                </NavLink>
             </div>
         </React.Fragment>
     );

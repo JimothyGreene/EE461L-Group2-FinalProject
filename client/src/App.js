@@ -6,6 +6,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
+import Resources from "./components/Resources";
 import Dashboard from "./components/Dashboard";
 import {LogInPage} from "./components/LogInPage";
 import {TopAndSideBar} from "./components/TopAndSideBar";
@@ -35,6 +36,8 @@ export default function App() {
             <Route exact path="/">
               {loggedIn ? <TopAndSideBar user={user} page="Dashboard"><Dashboard /></TopAndSideBar> : <Redirect to="/login" />}
             </Route>
+            <Route exact path="/Resources">
+              {loggedIn ? <TopAndSideBar user={user} page="Resources"><Resources /></TopAndSideBar> : <Redirect to="/login" />}
             <Route exact path="/Projects">
               {loggedIn ? <TopAndSideBar user={user} page="Projects"><Projects /></TopAndSideBar> : <Redirect to="/login" />}
             </Route>
@@ -43,4 +46,3 @@ export default function App() {
       </div>
     );
 }
-
