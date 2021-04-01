@@ -10,6 +10,7 @@ import Resources from "./components/Resources";
 import Dashboard from "./components/Dashboard";
 import {LogInPage} from "./components/LogInPage";
 import {TopAndSideBar} from "./components/TopAndSideBar";
+import Projects from "./components/Projects";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -37,6 +38,8 @@ export default function App() {
             </Route>
             <Route exact path="/Resources">
               {loggedIn ? <TopAndSideBar user={user} page="Resources"><Resources /></TopAndSideBar> : <Redirect to="/login" />}
+            <Route exact path="/Projects">
+              {loggedIn ? <TopAndSideBar user={user} page="Projects"><Projects /></TopAndSideBar> : <Redirect to="/login" />}
             </Route>
           </Switch>
         </Router>

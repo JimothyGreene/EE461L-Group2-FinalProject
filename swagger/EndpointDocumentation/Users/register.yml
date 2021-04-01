@@ -1,0 +1,53 @@
+post:
+  tags:
+    - users
+  summary: Attempt to register user
+  operationId: registerUser
+  requestBody:
+    required: true
+    description: User info to register
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            first_name:
+              type: string
+            last_name:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+  responses:
+    401:
+      description: Invalid information. Each field in the response corresponds to the error for that input.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+    409:
+      description: Duplicate account. Each field in the response corresponds to the error for that input.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+    201:
+      description: Registration successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
