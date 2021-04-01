@@ -38,6 +38,7 @@ export default function App() {
             </Route>
             <Route exact path="/Resources">
               {loggedIn ? <TopAndSideBar user={user} page="Resources"><Resources /></TopAndSideBar> : <Redirect to="/login" />}
+            </Route>
             <Route exact path="/Projects">
               {loggedIn ? <TopAndSideBar user={user} page="Projects"><Projects /></TopAndSideBar> : <Redirect to="/login" />}
             </Route>
