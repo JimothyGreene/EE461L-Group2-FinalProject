@@ -10,12 +10,18 @@ servers:
 tags:
   - name: users
     description: Endpoints regarding user management
+  - name: projects
+    description: Endpoints regarding projects
 
 paths:
   /users/login:
     $ref: ./EndpointDocumentation/Users/login.yml
   /users/register:
     $ref: ./EndpointDocumentation/Users/register.yml
+  /projects/:
+    $ref: ./EndpointDocumentation/Projects/projects.yml
+  /projects/{projectID}:
+    $ref: ./EndpointDocumentation/Projects/project_w_id.yml
 
 
 

@@ -1,0 +1,76 @@
+put:
+  tags:
+    - projects
+  summary: Attempt to update existing project
+  operationId: updateProject
+  parameters:
+    - in: path
+      name: projectID
+      schema:
+        type: string
+      required: true
+      description: The Object ID of the project to be updated
+  requestBody:
+    required: true
+    description: Project Info
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+  responses:
+    200:
+      description: Project Successfully Updated
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              _id:
+                type: object
+                properties:
+                  $oid: 
+                    type: string
+                    example: '605e4e9c2226f89fb151d0a1'
+              name:
+                type: string
+                example: 'Updated Name'
+              description:
+                type: string
+                example: 'Updated Description'
+              creator_id:
+                type: object
+                properties:
+                  $oid: 
+                    type: string
+                    example: '6059234f9885cb36c1964f52'
+
+delete:
+  tags:
+    - projects
+  summary: Attempt to delete existing project
+  operationId: updateProject
+  parameters:
+    - in: path
+      name: projectID
+      schema:
+        type: string
+      required: true
+      description: The Object ID of the project to be deleted
+  requestBody:
+    required: false
+  responses:
+    200:
+      description: Project Successfully Updated
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string 
+                example: 'Projects set successfully deleted'
