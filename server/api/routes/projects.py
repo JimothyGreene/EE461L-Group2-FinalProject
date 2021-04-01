@@ -24,11 +24,12 @@ def projects_create():
 @jwt_required()
 def projects_read():
     """GET projects/
-    Desc: Gets all available projects
+    Desc: Gets all available projects associated with the current user
     Returns:
         200: all projects in the database
     """
-    return Projects.objects.to_json(), 200
+    return Projects.objects(creator_id=get_jwt_identity()["_id"]["$oid"]).to_json(), 200
+
 
 
 @projects.route('/<id>', methods=['PUT'])
