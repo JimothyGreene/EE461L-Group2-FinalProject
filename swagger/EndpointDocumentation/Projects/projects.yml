@@ -45,7 +45,7 @@ post:
 get:
   tags:
     - projects
-  summary: Attempt to read all projects
+  summary: Attempt to read all projects associated with the current user
   operationId: readProject
   requestBody:
     required: false
@@ -86,5 +86,5 @@ get:
               name: 'Project 2 Name'
               description: 'Project 2 Description'
               creator_id:
-                $oid: '605914c9d4128bb131f7829e'
+                $oid: '6059234f9885cb36c1964f52'
 
