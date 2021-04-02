@@ -1,10 +1,11 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from database import Projects
 from flask_jwt_extended import get_jwt_identity, jwt_required
-# from database import User
+from mongoengine import ValidationError
 import json
 
 projects = Blueprint('projects', __name__)
+
 
 @projects.route('/', methods=['POST'])
 @jwt_required()
@@ -13,11 +14,15 @@ def projects_create():
     Desc: Creates a new project
     Returns:
         201: newly created project
+        422: 
     """
     req = request.get_json()
     req["creator_id"] = get_jwt_identity()["_id"]["$oid"]
-    new_project = Projects(**req).save()
-    return new_project.to_json(), 201
+    try:
+        new_project = Projects(**req).save()
+        return new_project.to_json(), 201
+    except ValidationError as e:
+        return jsonify(str(e.errors)), 422
 
 
 @projects.route('/', methods=['GET'])
@@ -29,7 +34,6 @@ def projects_read():
         200: all projects in the database
     """
     return Projects.objects(creator_id=get_jwt_identity()["_id"]["$oid"]).to_json(), 200
-
 
 
 @projects.route('/<id>', methods=['PUT'])
@@ -45,6 +49,7 @@ def projects_update(id):
     curr_project.update(**req)
     curr_project.reload()
     return curr_project.to_json(), 200
+
 
 @projects.route('/<id>', methods=['DELETE'])
 @jwt_required()
