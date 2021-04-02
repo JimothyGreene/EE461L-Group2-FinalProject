@@ -44,6 +44,7 @@ def projects_update(id):
     Desc: Updates a specific projects
     Returns:
         200: updated projects object
+        404: project not found
         422: validation errors
     """
     req = request.get_json()

@@ -33,21 +33,44 @@ put:
               _id:
                 type: object
                 properties:
-                  $oid: 
+                  $oid:
                     type: string
-                    example: '605e4e9c2226f89fb151d0a1'
+                    example: "605e4e9c2226f89fb151d0a1"
               name:
                 type: string
-                example: 'Updated Name'
+                example: "Updated Name"
               description:
                 type: string
-                example: 'Updated Description'
+                example: "Updated Description"
               creator_id:
                 type: object
                 properties:
-                  $oid: 
+                  $oid:
                     type: string
-                    example: '6059234f9885cb36c1964f52'
+                    example: "6059234f9885cb36c1964f52"
+    404:
+      description: Project Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: "Project not found"
+    422:
+      description: Validation Errors
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "String field too short"
+              description:
+                type: string
+                example: "String field too long"
 
 delete:
   tags:
@@ -72,5 +95,28 @@ delete:
             type: object
             properties:
               msg:
-                type: string 
-                example: 'Projects set successfully deleted'
+                type: string
+                example: "Projects set successfully deleted"
+    404:
+      description: Project Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: "Project not found"
+    422:
+      description: Validation Errors
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "String field too short"
+              description:
+                type: string
+                example: "String field too long"
