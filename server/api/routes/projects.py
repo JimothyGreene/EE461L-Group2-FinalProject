@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from database import Projects
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from mongoengine import ValidationError
+from api.routes.validators import parse_error
 import json
 
 projects = Blueprint('projects', __name__)
@@ -14,7 +15,7 @@ def projects_create():
     Desc: Creates a new project
     Returns:
         201: newly created project
-        422: 
+        422: validation errors
     """
     req = request.get_json()
     req["creator_id"] = get_jwt_identity()["_id"]["$oid"]
@@ -22,7 +23,7 @@ def projects_create():
         new_project = Projects(**req).save()
         return new_project.to_json(), 201
     except ValidationError as e:
-        return jsonify(str(e.errors)), 422
+        return parse_error(e), 422
 
 
 @projects.route('/', methods=['GET'])
@@ -43,12 +44,19 @@ def projects_update(id):
     Desc: Updates a specific projects
     Returns:
         200: updated projects object
+        422: validation errors
     """
     req = request.get_json()
-    curr_project = Projects.objects(id=id).first()
-    curr_project.update(**req)
-    curr_project.reload()
-    return curr_project.to_json(), 200
+    try:
+        curr_project = Projects.objects(id=id).first()
+        if curr_project:
+            curr_project.update(**req)
+            curr_project.reload()
+            return curr_project.to_json(), 200
+        else:
+            return {'msg': 'Project not found'}, 404
+    except ValidationError as e:
+        return parse_error(e), 422
 
 
 @projects.route('/<id>', methods=['DELETE'])
@@ -58,6 +66,13 @@ def projects_delete(id):
     Desc: Deletes a specific project from the database
     Returns:
         200: success message
+        404: project not found
+        422: validation errors
     """
-    Projects.objects(id=id).delete()
-    return {'msg': 'Projects set successfully deleted'}, 200
+    try:
+        if Projects.objects(id=id).delete() > 0:
+            return {'msg': 'Projects set successfully deleted'}, 200
+        else:
+            return {'msg': 'Project not found'}, 404
+    except ValidationError as e:
+        return parse_error(e), 422
