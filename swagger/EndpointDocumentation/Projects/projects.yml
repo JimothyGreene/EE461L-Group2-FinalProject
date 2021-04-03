@@ -26,21 +26,34 @@ post:
               _id:
                 type: object
                 properties:
-                  $oid: 
+                  $oid:
                     type: string
-                    example: '605e4e9c2226f89fb151d0a1'
+                    example: "605e4e9c2226f89fb151d0a1"
               name:
                 type: string
-                example: 'Newly Created Name'
+                example: "Newly Created Name"
               description:
                 type: string
-                example: 'Newly Created Description'
+                example: "Newly Created Description"
               creator_id:
                 type: object
                 properties:
-                  $oid: 
+                  $oid:
                     type: string
-                    example: '6059234f9885cb36c1964f52'
+                    example: "6059234f9885cb36c1964f52"
+    422:
+      description: Validation Errors
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "String field too short"
+              description:
+                type: string
+                example: "String field too long"
 
 get:
   tags:
@@ -62,7 +75,7 @@ get:
                 _id:
                   type: object
                   properties:
-                    $oid: 
+                    $oid:
                       type: string
                 name:
                   type: string
@@ -71,20 +84,19 @@ get:
                 creator_id:
                   type: object
                   properties:
-                    $oid: 
+                    $oid:
                       type: string
-            example: 
-            - _id: 
-                $oid: '605e4e9c2226f89fb151d0a1'
-              name: 'Project 1 Name'
-              description: 'Project 1 Description'
-              creator_id:
-                $oid: '6059234f9885cb36c1964f52'
+            example:
+              - _id:
+                  $oid: "605e4e9c2226f89fb151d0a1"
+                name: "Project 1 Name"
+                description: "Project 1 Description"
+                creator_id:
+                  $oid: "6059234f9885cb36c1964f52"
 
-            - _id: 
-                $oid: '605926640605c11c5b48bcdd'
-              name: 'Project 2 Name'
-              description: 'Project 2 Description'
-              creator_id:
-                $oid: '6059234f9885cb36c1964f52'
-
+              - _id:
+                  $oid: "605926640605c11c5b48bcdd"
+                name: "Project 2 Name"
+                description: "Project 2 Description"
+                creator_id:
+                  $oid: "6059234f9885cb36c1964f52"
