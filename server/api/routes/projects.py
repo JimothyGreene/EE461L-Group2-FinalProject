@@ -36,6 +36,26 @@ def projects_read():
     """
     return Projects.objects(creator_id=get_jwt_identity()["_id"]["$oid"]).to_json(), 200
 
+@projects.route('/<id>', methods=['GET'])
+@jwt_required()
+def projects_read_id(id):
+    """GET projects/<id>
+    Desc: Gets a project by project id
+    Returns:
+        200: project found in the database and returned
+        404: project not found
+        422: validation errors
+    """
+    try:
+        curr_project = Projects.objects(id=id).first()
+        if curr_project:
+            return curr_project.to_json(), 200
+        else:
+            return {'msg': 'Project not found'}, 404
+    except ValidationError as e:
+        return parse_error(e), 422
+
+
 
 @projects.route('/<id>', methods=['PUT'])
 @jwt_required()
