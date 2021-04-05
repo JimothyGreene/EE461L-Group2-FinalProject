@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button'
-
+import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -28,39 +28,15 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { AuthContext } from '../App';
+import { Link } from 'react-router-dom';
 
 const mainListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DnsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Resources" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DynamicFeedIcon />
-      </ListItemIcon>
-      <ListItemText primary="Projects" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <CreditCardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Billing" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <CloudDownloadIcon />
-      </ListItemIcon>
-      <ListItemText primary="Datasets" />
-    </ListItem>
+    <ListItemLink to="/" primary="Dashboard" icon={<DashboardIcon />} />
+    <ListItemLink to="/resources" primary="Resources" icon={<DnsIcon />} />
+    <ListItemLink to="/projects" primary="Projects" icon={<DynamicFeedIcon />} />
+    <ListItemLink to="/billing" primary="Billing" icon={<CreditCardIcon />} />
+    <ListItemLink to="/datasets" primary="Datasets" icon={<CloudDownloadIcon />} />
   </div>
 );
 
@@ -220,3 +196,25 @@ export function TopAndSideBar(props) {
     </div>
   );
 }
+
+function ListItemLink(props) {
+  const { icon, primary, to } = props;
+  const renderLink = React.useMemo(
+    () => React.forwardRef((itemProps, ref) => <Link to={to} ref={ref} {...itemProps} />),
+    [to],
+  );
+  return (
+    <div>
+      <ListItem button component={renderLink}>
+        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+        <ListItemText primary={primary} />
+      </ListItem>
+    </div>
+  );
+}
+
+ListItemLink.propTypes = {
+  icon: PropTypes.element,
+  primary: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+};
