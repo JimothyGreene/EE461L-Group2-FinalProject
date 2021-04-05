@@ -9,7 +9,7 @@ Click here for [Checkpoint 1](https://github.com/JimothyGreene/EE461L-Group2-Fin
 
 ### Frontend
 
-Our frontend React app is currently deployed through Heroku using a Github CI/CD action, and it available [here](https://ee461l-final-project-group-2.herokuapp.com/). As code is pushed/merged into the `main` branch, it will automatically be pushed to the heroku app.
+Our frontend React app is currently deployed through Heroku using a Github CI/CD action, and it available [here](https://ee461l-final-project-group-2.herokuapp.com/). As code is pushed/merged into the `main` branch, it will automatically be pushed to the heroku app. Please note: it will take about 2 minutes for the changes to propogate to the url.
 
 ## Development Environment
 
