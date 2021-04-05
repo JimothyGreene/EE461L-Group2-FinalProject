@@ -46,9 +46,9 @@ export default function ResourceCard() {
                 </Grid>
             </Grid>
             <div style={{marginLeft: "auto", width: "100%", marginRight: "0", justifyContent: "flex-end", display: "flex"}}>
-                <NavLink justify="flex-start" color="primary" to="/Resources">
+                <Link justify="flex-start" color="primary" component={NavLink} to="/resources">
                     Manage Resources
-                </NavLink>
+                </Link>
             </div>
         </React.Fragment>
     );

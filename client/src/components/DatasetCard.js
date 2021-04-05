@@ -3,6 +3,7 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, List, ListItem, ListItemText} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import { NavLink } from 'react-router-dom';
 
 
 function preventDefault(event) {
@@ -41,7 +42,7 @@ export default function DatasetCard() {
                     </div>
                 </div>
                 <div style={{marginLeft: "auto", marginRight: "0", marginBottom: "0", marginTop: "auto"}}>
-                    <Link justify="flex-end" color="primary" href="#" onClick={preventDefault}>
+                    <Link justify="flex-start" color="primary" component={NavLink} to="/datasets">
                         See Other Datasets
                     </Link>
                 </div>

@@ -3,6 +3,7 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import { NavLink } from 'react-router-dom';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -67,7 +68,7 @@ export default function BillingCard() {
                 </Grid>
             </Grid>
             <div style={{marginLeft: "auto", marginRight: "0"}}>
-                <Link justify="flex-end" color="primary" href="#" onClick={preventDefault}>
+                <Link justify="flex-start" color="primary" component={NavLink} to="/billing">
                     View Billing Details
                 </Link>
             </div>
