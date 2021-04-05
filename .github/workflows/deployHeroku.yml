@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - deploying-frontend
   pull_request:
     branches:
       - main
-      - deploying-frontend
 
 jobs:
   build:
@@ -17,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          heroku_api_key: 1ba9022b-79bd-4d39-9572-758e2a3679de
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "ee461l-final-project-group-2" #Must be unique in Heroku
           heroku_email: "maxwithrow2222@gmail.com"
           appdir: "client"
