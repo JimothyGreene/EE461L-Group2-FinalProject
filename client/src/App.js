@@ -12,38 +12,96 @@ import {LogInPage} from "./components/LogInPage";
 import {TopAndSideBar} from "./components/TopAndSideBar";
 import Projects from "./components/Projects";
 
+export const AuthContext = React.createContext();
+const initState = {
+  isAuth: localStorage.getItem("token") !== null ? true : false,
+  user: localStorage.getItem("user"),
+  token: localStorage.getItem("token")
+};
+
+const reducer = (state, action) => {
+  switch(action.type) {
+    case "LOGIN":
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
+      return {
+        ...state,
+        isAuth: true,
+        user: action.payload.user,
+        token: action.payload.token
+      };
+    
+    case "LOGOUT": 
+      localStorage.clear();
+      return {
+        ...state,
+        isAuth: false,
+        user: null
+      };
+    
+    default:
+      return state;
+  }
+};
+
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [state, dispatch] = React.useReducer(reducer, initState);
     return (
       // Dev Note: When adding a new Route, make sure to follow redirect examples to ensure login
       // See path="/" for an example
 
       // Dev Note: When adding a new page, make sure to surround it with <TopAndSideBar>, see path="/" for an example
-      <div className="wrapper">
-        <Router>
-          <Switch>
-            <Route exact path="/login">
-              {loggedIn ? <Redirect to="/" /> 
-              : <LogInPage loginUser={(user) => {
-                setUser(user);
-                setLoggedIn(true);
-              }} />}
-            </Route>
-            <Route exact path="/home">
-              {loggedIn ? <Redirect to="/" /> : <Redirect to="/login" />}
-            </Route>
-            <Route exact path="/">
-              {loggedIn ? <TopAndSideBar user={user} page="Dashboard"><Dashboard /></TopAndSideBar> : <Redirect to="/login" />}
-            </Route>
-            <Route exact path="/Resources">
-              {loggedIn ? <TopAndSideBar user={user} page="Resources"><Resources /></TopAndSideBar> : <Redirect to="/login" />}
-            </Route>
-            <Route exact path="/Projects">
-              {loggedIn ? <TopAndSideBar user={user} page="Projects"><Projects /></TopAndSideBar> : <Redirect to="/login" />}
-            </Route>
-          </Switch>
-        </Router>
-      </div>
+      <AuthContext.Provider
+        value={{
+          state,
+          dispatch
+        }}
+      >
+        <div className="wrapper">
+          {state.isAuth ? <AuthApp /> : <UnAuthApp />}
+        </div>
+      </AuthContext.Provider>
+      
     );
+}
+
+
+//Add new pages here
+function AuthApp() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/home">
+          <Redirect to="/" />
+        </Route>
+        <Route exact path="/">
+          <TopAndSideBar page="Dashboard"><Dashboard /></TopAndSideBar>
+        </Route>
+        <Route exact path="/Resources">
+          <TopAndSideBar page="Resources"><Resources /></TopAndSideBar>
+        </Route>
+        <Route exact path="/Projects">
+          <TopAndSideBar page="Projects"><Projects /></TopAndSideBar>
+        </Route>
+        <Route exact path="/login">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
+    </Router>
+  )
+}
+
+function UnAuthApp() {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/">
+          <LogInPage />
+        </Route>
+        <Route path="/login">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
+    </Router>
+  );
 }

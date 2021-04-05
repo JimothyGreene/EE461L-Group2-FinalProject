@@ -26,6 +26,8 @@ import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { AuthContext } from '../App';
 
 const mainListItems = (
   <div>
@@ -154,6 +156,10 @@ export function TopAndSideBar(props) {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const {state: authState} = React.useContext(AuthContext);
+
+  const { dispatch } = React.useContext(AuthContext);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -176,7 +182,7 @@ export function TopAndSideBar(props) {
             className={classes.button}
             endIcon={<AccountCircleIcon />}
             >
-            Welcome, {props.user} </Button>
+            Welcome, {localStorage.getItem("user").replace(/['"]+/g, '')} </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -194,6 +200,16 @@ export function TopAndSideBar(props) {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
+        <List>
+          <div>
+            <ListItem button onClick={() => { dispatch({type: "LOGOUT"}) }}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItem>
+          </div>
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
