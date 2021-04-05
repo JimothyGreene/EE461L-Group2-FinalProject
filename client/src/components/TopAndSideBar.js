@@ -18,13 +18,10 @@ import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import DnsIcon from '@material-ui/icons/Dns';
-import PeopleIcon from '@material-ui/icons/People';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { AuthContext } from '../App';
@@ -110,15 +107,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
 }));
 
 export function TopAndSideBar(props) {
@@ -130,7 +118,6 @@ export function TopAndSideBar(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const {state: authState} = React.useContext(AuthContext);
 

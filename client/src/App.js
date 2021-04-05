@@ -1,5 +1,4 @@
-import { Container } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -101,11 +100,11 @@ function UnAuthApp() {
   return (
     <Router>
       <Switch>
-        <Route path="/">
+        <Route path="/login">
           <LogInPage />
         </Route>
-        <Route path="/login">
-          <Redirect to="/" />
+        <Route path="/">
+          <Redirect to="/login" />
         </Route>
       </Switch>
     </Router>
