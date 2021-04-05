@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - deploying-frontend
   pull_request:
     branches:
       - main
+      - deploying-frontend
 
 jobs:
   build:
