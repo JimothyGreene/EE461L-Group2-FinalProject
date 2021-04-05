@@ -29,29 +29,61 @@ export default function Dashboard() {
 
     return(
         <div className={classes.root}>
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={8} lg={8}>
-                    <Paper className={fixedHeightPaper}>
-                        <ResourceCard />
-                    </Paper>
+            <div>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} md={8} lg={8}>
+                        <Paper className={fixedHeightPaper}>
+                            <ResourceCard />
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={4} lg={4}>
+                        <Paper className={fixedHeightPaper}>
+                            <ProjectCard />
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={4} lg={4}>
+                        <Paper className={fixedHeightPaper}>
+                            <DatasetCard />
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={8} lg={8}>
+                        <Paper className={fixedHeightPaper}>
+                            <BillingCard />
+                        </Paper>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={4} lg={4}>
-                    <Paper className={fixedHeightPaper}>
-                        <ProjectCard />
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} md={4} lg={4}>
-                    <Paper className={fixedHeightPaper}>
-                        <DatasetCard />
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} md={8} lg={8}>
-                    <Paper className={fixedHeightPaper}>
-                        <BillingCard />
-                    </Paper>
-                </Grid>
-            </Grid>
+            </div>
+            <div>
+                <h3>{process.env.REACT_APP_PROD}</h3>
+                <h3>{process.env.REACT_APP_API_URL}</h3>
+            </div>
         </div>
+
+
+        // <div className={classes.root}>
+        //     <Grid container spacing={3}>
+        //         <Grid item xs={12} md={8} lg={8}>
+        //             <Paper className={fixedHeightPaper}>
+        //                 <ResourceCard />
+        //             </Paper>
+        //         </Grid>
+        //         <Grid item xs={12} md={4} lg={4}>
+        //             <Paper className={fixedHeightPaper}>
+        //                 <ProjectCard />
+        //             </Paper>
+        //         </Grid>
+        //         <Grid item xs={12} md={4} lg={4}>
+        //             <Paper className={fixedHeightPaper}>
+        //                 <DatasetCard />
+        //             </Paper>
+        //         </Grid>
+        //         <Grid item xs={12} md={8} lg={8}>
+        //             <Paper className={fixedHeightPaper}>
+        //                 <BillingCard />
+        //             </Paper>
+        //         </Grid>
+        //     </Grid>
+        // </div>
     );
 
 }
