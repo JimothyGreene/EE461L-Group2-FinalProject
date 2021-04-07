@@ -3,9 +3,6 @@ import datetime
 
 
 class Config:
-    MONGODB_SETTINGS = {}
-    JWT_SECRET_KEY = {}
-    JWT_ACCESS_TOKEN_EXPIRES = {}
     try:
         MONGODB_SETTINGS = {
             'username': os.environ['MONGODB_USERNAME'],
