@@ -41,5 +41,5 @@ class HardwareSet(db.Document):
         capacity: hardware set capacity (how many we own)
         available: hardware set availability (how many are not currently checked out)
     """
-    capacity = db.IntField(required=True)
-    available = db.IntField(required=True)
+    capacity = db.IntField(required=True, min_value=0)
+    available = db.IntField(required=True, min_value=0)
