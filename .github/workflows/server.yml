@@ -30,7 +30,7 @@ jobs:
           JWT_SECRET_KEY: TEST_KEY
 
   deploy:
-    if: github.event.pull_request.merged == true # Only deploys upon branch merge
+    if: ${{ github.event_name == 'push' }} # Only deploys if 'main' is updated (merge)
     runs-on: ubuntu-latest
     needs: test
     env:
