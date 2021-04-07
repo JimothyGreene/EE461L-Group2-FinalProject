@@ -1,8 +1,10 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
+from database.models import Projects
 from database.models import HardwareSet
 from mongoengine import ValidationError
 from api.routes.validators import parse_error
+import json
 
 hardware = Blueprint('hardware', __name__)
 
@@ -40,15 +42,26 @@ def hardware_read():
 
 @hardware.route('/<id>', methods=['GET'])
 @jwt_required()
-def hardware_read():
+def hardware_read_id(id):
     """GET hardware/<id>
 
     Desc: Gets hardware set associated with a project ID
 
     Returns:
         200: all hardware sets in the database
+        404: project not found
+        422: validation errors
     """
-    return HardwareSet.objects.to_json(), 200
+    try:
+        curr_project = Projects.objects(id=id).first()
+        if curr_project:
+            hardware_list = curr_project["hardware"]
+            return json.dumps(hardware_list), 200
+        else:
+            return {'msg': 'Project not found'}, 404
+    except ValidationError as e:
+        return parse_error(e), 422
+
 
 
 @hardware.route('/<id>', methods=['PUT'])
