@@ -36,7 +36,8 @@ const reducer = (state, action) => {
       return {
         ...state,
         isAuth: false,
-        user: null
+        user: null,
+        token: null,
       };
     
     default:
