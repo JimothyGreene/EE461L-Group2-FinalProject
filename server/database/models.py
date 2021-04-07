@@ -32,6 +32,7 @@ class Projects(db.Document):
     description = db.StringField(required=True, min_length=5)
     hardware = db.ListField(db.DictField())
     creator_id = db.ObjectIdField(required=True)
+    project_id = db.StringField(required=True, unique=True)
 
 
 class HardwareSet(db.Document):
@@ -41,5 +42,5 @@ class HardwareSet(db.Document):
         capacity: hardware set capacity (how many we own)
         available: hardware set availability (how many are not currently checked out)
     """
-    capacity = db.IntField(required=True)
-    available = db.IntField(required=True)
+    capacity = db.IntField(required=True, min_value=0)
+    available = db.IntField(required=True, min_value=0)

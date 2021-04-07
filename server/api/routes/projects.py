@@ -48,7 +48,7 @@ def projects_read_id(id):
         422: validation errors
     """
     try:
-        curr_project = Projects.objects(id=id).first()
+        curr_project = Projects.objects(project_id=id).first()
         if curr_project:
             return curr_project.to_json(), 200
         else:

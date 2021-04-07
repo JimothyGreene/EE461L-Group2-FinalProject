@@ -5,11 +5,11 @@ get:
   operationId: readProject
   parameters:
     - in: path
-      name: projectID
+      name: project_id
       schema:
         type: string
       required: true
-      description: The Object ID of the project to be updated
+      description: The user inputted project ID of the project to be updated
   requestBody:
     required: true
   responses:
@@ -62,7 +62,7 @@ get:
             properties:
               msg:
                 type: string
-                example: "<projectID> is not a valid ObjectId"
+                example: "<projectID> is not a valid String"
 put:
   tags:
     - projects

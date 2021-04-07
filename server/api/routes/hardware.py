@@ -16,10 +16,14 @@ def hardware_create():
 
     Returns:
         201: newly created hardware set
+        422: validation errors
     """
     req = request.get_json()
-    new_hardware_set = HardwareSet(**req).save()
-    return new_hardware_set.to_json(), 201
+    try:
+        new_hardware_set = HardwareSet(**req).save()
+        return new_hardware_set.to_json(), 201
+    except ValidationError as e:
+        return parse_error(e), 422
 
 
 @hardware.route('/', methods=['GET'])
@@ -44,12 +48,20 @@ def hardware_update(id):
 
     Returns:
         200: updated hardware set object
+        404: hardware set not found
+        422: validation errors
     """
     req = request.get_json()
-    hardware_set = HardwareSet.objects(id=id).first()
-    hardware_set.update(**req)
-    hardware_set.reload()
-    return hardware_set.to_json(), 200
+    try:
+        hardware_set = HardwareSet.objects(id=id).first()
+        if hardware_set:
+            hardware_set.update(**req)
+            hardware_set.reload()
+            return hardware_set.to_json(), 200
+        else:
+            return {'msg': 'Hardware set not found'}, 404
+    except ValidationError as e:
+        return parse_error(e), 422
 
 
 @hardware.route('/<id>', methods=['DELETE'])
@@ -61,9 +73,16 @@ def hardware_delete(id):
 
     Returns:
         200: success message
+        404: hardware set not found
+        422: validation errors
     """
-    HardwareSet.objects(id=id).delete()
-    return {'msg': 'Hardware set successfully deleted'}, 200
+    try:
+        if HardwareSet.objects(id=id).delete() > 0:
+            return {'msg': 'Hardware set successfully deleted'}, 200
+        else:
+            return {'msg': 'Hardware set not found'}, 404
+    except ValidationError as e:
+        return parse_error(e), 422
 
 
 @hardware.route('/check-out/<id>', methods=['POST'])

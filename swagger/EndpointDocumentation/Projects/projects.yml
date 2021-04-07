@@ -25,6 +25,8 @@ post:
                     example: "605e4e9c2226f89fb151d0a1"
                   amount:
                     type: integer
+            project_id:
+              type: string
   responses:
     201:
       description: Project Successfully Created
