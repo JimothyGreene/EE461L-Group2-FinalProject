@@ -61,12 +61,9 @@ get:
           schema:
             type: object
             properties:
-              name:
+              msg:
                 type: string
-                example: "String field too short"
-              description:
-                type: string
-                example: "String field too long"
+                example: "<projectID> is not a valid ObjectId"
 put:
   tags:
     - projects
