@@ -25,10 +25,12 @@ class Projects(db.Document):
 
     Field:
         name: the name of the project
+        hardware: list of hardware sets associated with this project
         description: description of the project
     """
     name = db.StringField(required=True, min_length=1, max_length=20)
     description = db.StringField(required=True, min_length=5)
+    hardware = db.ListField(db.DictField())
     creator_id = db.ObjectIdField(required=True)
 
 
