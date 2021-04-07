@@ -36,6 +36,7 @@ def projects_read():
     """
     return Projects.objects(creator_id=get_jwt_identity()["_id"]["$oid"]).to_json(), 200
 
+
 @projects.route('/<id>', methods=['GET'])
 @jwt_required()
 def projects_read_id(id):
@@ -54,7 +55,6 @@ def projects_read_id(id):
             return {'msg': 'Project not found'}, 404
     except ValidationError as e:
         return parse_error(e), 422
-
 
 
 @projects.route('/<id>', methods=['PUT'])
