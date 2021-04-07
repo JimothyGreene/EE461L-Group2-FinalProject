@@ -69,6 +69,15 @@ def hardware_delete(id):
 @hardware.route('/check-out/<id>', methods=['POST'])
 @jwt_required()
 def hardware_checkout(id):
+    """POST hardware/check-out/<id>
+
+    Desc: Checks out a quantity of this hardware set for a particular project
+
+    Returns:
+        200: updated hardware set
+        404: project not found
+        422: validation errors
+    """
     req = request.get_json()
     try:
         project = Projects.objects(id=req["project_id"]).first()
@@ -99,6 +108,15 @@ def hardware_checkout(id):
 @hardware.route('/check-in/<id>', methods=['POST'])
 @jwt_required()
 def hardware_checkin(id):
+    """POST hardware/check-in/<id>
+
+    Desc: Checks in a quantity of this hardware set for a particular project
+
+    Returns:
+        200: updated hardware set
+        404: project not found or hardware set not found on this project
+        422: validation errors
+    """
     req = request.get_json()
     try:
         project = Projects.objects(id=req["project_id"]).first()
@@ -106,9 +124,23 @@ def hardware_checkin(id):
             hardware_set = HardwareSet.objects(id=id).first()
             hardware_set.update(inc__available=req["amount"])
             hardware_set.reload()
+            project_hardware = project.hardware
+            found = False
+            remove = None
+            for hardware in project_hardware:
+                if hardware["_id"] == id:
+                    found = True
+                    hardware["amount"] -= req["amount"]
+                    if hardware["amount"] == 0:
+                        remove = hardware
+            if not found:
+                return {'msg': 'Hardware Set not found for this project'}, 404
+            if remove is not None:
+                project_hardware.remove(remove)
+            project.update(hardware=project_hardware)
+            project.reload()
             return hardware_set.to_json(), 200
         else:
             return {'msg': 'Project not found'}, 404
     except ValidationError as e:
         return parse_error(e), 422
-
