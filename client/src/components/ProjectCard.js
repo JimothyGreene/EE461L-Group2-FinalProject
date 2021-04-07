@@ -56,7 +56,7 @@ export default function ProjectCard() {
                     Project Info
                 </NavLink>
             </div>
-        </React.Fragment>
+        </React.Fragment> 
     );
 }
 

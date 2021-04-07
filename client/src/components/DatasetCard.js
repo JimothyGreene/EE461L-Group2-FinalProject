@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
+import { NavLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, List, ListItem, ListItemText} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -40,10 +41,10 @@ export default function DatasetCard() {
                         </List>
                     </div>
                 </div>
-                <div style={{marginLeft: "auto", marginRight: "0", marginBottom: "0", marginTop: "auto"}}>
-                    <Link justify="flex-end" color="primary" href="#" onClick={preventDefault}>
-                        See Other Datasets
-                    </Link>
+                <div style={{marginLeft: "auto", width: "100%", marginRight: "0", justifyContent: "flex-end", display: "flex"}}>
+                <NavLink justify="flex-start" color="primary" to="/Datasets">
+                    See All Datasets
+                </NavLink>
                 </div>
             </React.Fragment>
     );
