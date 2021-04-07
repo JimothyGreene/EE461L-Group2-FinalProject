@@ -32,6 +32,7 @@ class Projects(db.Document):
     description = db.StringField(required=True, min_length=5)
     hardware = db.ListField(db.DictField())
     creator_id = db.ObjectIdField(required=True)
+    project_id = db.StringField(required=True, unique=True)
 
 
 class HardwareSet(db.Document):
