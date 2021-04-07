@@ -38,6 +38,18 @@ def hardware_read():
     """
     return HardwareSet.objects.to_json(), 200
 
+@hardware.route('/<id>', methods=['GET'])
+@jwt_required()
+def hardware_read():
+    """GET hardware/<id>
+
+    Desc: Gets hardware set associated with a project ID
+
+    Returns:
+        200: all hardware sets in the database
+    """
+    return HardwareSet.objects.to_json(), 200
+
 
 @hardware.route('/<id>', methods=['PUT'])
 @jwt_required()
