@@ -7,9 +7,10 @@ import {
 } from "react-router-dom";
 import Resources from "./components/Resources";
 import Dashboard from "./components/Dashboard";
+import Dataset from "./components/Dataset";
+import Projects from "./components/Projects";
 import {LogInPage} from "./components/LogInPage";
 import {TopAndSideBar} from "./components/TopAndSideBar";
-import Projects from "./components/Projects";
 
 export const AuthContext = React.createContext();
 const initState = {
@@ -86,7 +87,7 @@ function AuthApp() {
           <TopAndSideBar page="Billing"><h1>Billing</h1></TopAndSideBar>
         </Route>
         <Route exact path="/datasets">
-          <TopAndSideBar page="Datasets"><h1>Datasets</h1></TopAndSideBar>
+          <TopAndSideBar page="Datasets"><Dataset /></TopAndSideBar>
         </Route>
         <Route exact path="/login">
           <Redirect to="/" />

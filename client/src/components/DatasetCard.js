@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
+import { NavLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, List, ListItem, ListItemText} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import { NavLink } from 'react-router-dom';
 
 
 function preventDefault(event) {
