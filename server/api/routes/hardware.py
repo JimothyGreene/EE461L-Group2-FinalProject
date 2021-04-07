@@ -102,8 +102,6 @@ def hardware_checkout(id):
         project = Projects.objects(id=req["project_id"]).first()
         if project:
             hardware_set = HardwareSet.objects(id=id).first()
-            hardware_set.update(dec__available=req["amount"])
-            hardware_set.reload()
             project_hardware = project.hardware
             found = False
             for hardware in project_hardware:
@@ -115,6 +113,9 @@ def hardware_checkout(id):
                     "_id": id,
                     "amount": req["amount"]
                 })
+            # hardware_set.update(dec__available=req["amount"]) -- Can't use this while Mongoengine bug is there
+            hardware_set.update(available=hardware_set.available-req["amount"])
+            hardware_set.reload()
             project.update(hardware=project_hardware)
             project.reload()
             return hardware_set.to_json(), 200
@@ -141,8 +142,6 @@ def hardware_checkin(id):
         project = Projects.objects(id=req["project_id"]).first()
         if project:
             hardware_set = HardwareSet.objects(id=id).first()
-            hardware_set.update(inc__available=req["amount"])
-            hardware_set.reload()
             project_hardware = project.hardware
             found = False
             remove = None
@@ -156,6 +155,8 @@ def hardware_checkin(id):
                 return {'msg': 'Hardware Set not found for this project'}, 404
             if remove is not None:
                 project_hardware.remove(remove)
+            hardware_set.update(inc__available=req["amount"])
+            hardware_set.reload()
             project.update(hardware=project_hardware)
             project.reload()
             return hardware_set.to_json(), 200
