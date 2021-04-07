@@ -1,3 +1,69 @@
+
+get:
+  tags:
+    - projects
+  summary: Attempt to read a project associated with an project ID
+  operationId: readProject
+  parameters:
+    - in: path
+      name: projectID
+      schema:
+        type: string
+      required: true
+      description: The Object ID of the project to be updated
+  requestBody:
+    required: true
+  responses:
+    200:
+      description: Projects based on ID read successfully
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: object
+                  properties:
+                    $oid:
+                      type: string
+                name:
+                  type: string
+                description:
+                  type: string
+                creator_id:
+                  type: object
+                  properties:
+                    $oid:
+                      type: string
+            example:
+              - _id:
+                  $oid: "605e4e9c2226f89fb151d0a1"
+                name: "Project 1 Name"
+                description: "Project 1 Description"
+                creator_id:
+                  $oid: "6059234f9885cb36c1964f52"
+    404:
+      description: Project Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: "Project not found"
+    422:
+      description: Validation Errors
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: "<projectID> is not a valid ObjectId"
 put:
   tags:
     - projects
