@@ -76,6 +76,19 @@ def hardware_checkout(id):
             hardware_set = HardwareSet.objects(id=id).first()
             hardware_set.update(dec__available=req["amount"])
             hardware_set.reload()
+            project_hardware = project.hardware
+            found = False
+            for hardware in project_hardware:
+                if hardware["_id"] == id:
+                    found = True
+                    hardware["amount"] += req["amount"]
+            if not found:
+                project_hardware.append({
+                    "_id": id,
+                    "amount": req["amount"]
+                })
+            project.update(hardware=project_hardware)
+            project.reload()
             return hardware_set.to_json(), 200
         else:
             return {'msg': 'Project not found'}, 404
