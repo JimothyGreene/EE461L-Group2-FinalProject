@@ -1,45 +1,35 @@
 import './Projects.css';
 import React from "react";
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import ReactDOM from 'react-dom';
-import { Redirect } from 'react-router-dom';
+import api from '../util/api';
 
 class Projects extends React.Component {
 
     constructor(props) { 
         super(props);
         this.state = {
-            ProjectName: "",
+            projectName: "",
             SelectedProjectName: "",
             RenderID: "",
             RenderDescription: "",
-            ID: "",
-            Description: ""
+            id: "",
+            description: ""
         };
-        this.handleClick = this.handleClick.bind(this);
+        this.handleNewProj = this.handleNewProj.bind(this);
         this.quantityChange = this.quantityChange.bind(this);
         this.dropChange = this.dropChange.bind(this);
         this.projectSelected = this.projectSelected.bind(this);
 
     }
     quantityChange(event){
-        const qty = event.target.value;
-        this.setState({quantity : qty})
+        const target = event.target.name;
+        const val = event.target.value;
+        this.setState({target: val});
     }
     dropChange(event){
         const hrdwr = event.target.value;
@@ -60,9 +50,18 @@ class Projects extends React.Component {
     }
 
 
-    handleClick(event) {
-        //api call with state quantity (this.state.quantity)
-        console.log(this.state.quantity, this.state.hardware)
+    handleNewProj(event) {
+        const reqBody = {
+            name: this.state.projectName,
+            description: this.state.description
+        };
+        api.post('projects/', reqBody)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
     }
     render() {
         return(
@@ -114,11 +113,11 @@ class Projects extends React.Component {
                             margin="normal"
                             required
                             halfWidth
-                            id="name"
+                            id="projectName"
                             label="Name"
-                            name="name"
-                            autoComplete="name"
-                            onChange = {this.quantityChange}
+                            name="projectName"
+                            autoComplete="projectName"
+                            onChange = {e => this.setState({projectName: e.target.value})}
                         />
                         <TextField
                             variant="outlined"
@@ -129,18 +128,18 @@ class Projects extends React.Component {
                             label="ID"
                             name="id"
                             autoComplete="id"
-                            onChange = {this.quantityChange}
+                            onChange = {e => this.setState({id: e.target.value})}
                         />
                         <TextField
                             variant="outlined"
                             margin="normal"
                             required
                             halfWidth
-                            id="desc"
+                            id="description"
                             label="Description"
-                            name="desc"
-                            autoComplete="desc"
-                            onChange = {this.quantityChange}
+                            name="description"
+                            autoComplete="description"
+                            onChange = {e => this.setState({description: e.target.value})}
                         />
                         <Button
                             halfWidth
@@ -148,7 +147,7 @@ class Projects extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
-                            onClick = {this.handleClick}
+                            onClick = {this.handleNewProj}
                         >
                             Create New Project
                         </Button>
