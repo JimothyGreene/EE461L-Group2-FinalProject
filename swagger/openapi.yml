@@ -12,6 +12,8 @@ tags:
     description: Endpoints regarding user management
   - name: projects
     description: Endpoints regarding projects
+  - name: hardware
+    description: Endpoints regarding hardware
 
 paths:
   /users/login:
