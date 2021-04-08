@@ -193,6 +193,13 @@ class Projects extends React.Component {
                 }
                 
             });
+        api.get('projects/')
+            .then((res) => {
+                this.setState({allProjects: res.data});
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
 
     render() {
