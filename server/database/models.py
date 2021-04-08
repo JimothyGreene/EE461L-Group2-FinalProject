@@ -39,6 +39,7 @@ class HardwareSet(db.Document):
     """Hardware Set for checkout
 
     Fields:
+
         name: the name of the Hardware Set
         capacity: hardware set capacity (how many we own)
         available: hardware set availability (how many are not currently checked out)
