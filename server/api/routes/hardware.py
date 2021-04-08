@@ -62,7 +62,6 @@ def hardware_read_id(id):
         return parse_error(e), 422
 
 
-
 @hardware.route('/<id>', methods=['PUT'])
 @jwt_required()
 def hardware_update(id):

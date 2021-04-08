@@ -12,6 +12,8 @@ tags:
     description: Endpoints regarding user management
   - name: projects
     description: Endpoints regarding projects
+  - name: hardware
+    description: Endpoints regarding hardware
 
 paths:
   /users/login:
@@ -24,3 +26,9 @@ paths:
     $ref: ./EndpointDocumentation/Projects/project_w_id.yml
   /projects/{project_oid}:
     $ref: ./EndpointDocumentation/Projects/project_w_oid.yml
+  /hardware/:
+    $ref: ./EndpointDocumentation/Hardware/hardware.yml
+  /hardware/{projectID}:
+    $ref: ./EndpointDocumentation/Hardware/hardware_p_id.yml
+  /hardware/{hardwareID}:
+    $ref: ./EndpointDocumentation/Hardware/hardware_hw_id.yml
