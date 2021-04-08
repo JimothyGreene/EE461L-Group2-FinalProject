@@ -99,7 +99,7 @@ def hardware_checkout(id):
     """
     req = request.get_json()
     try:
-        project = Projects.objects(id=req["project_id"]).first()
+        project = Projects.objects(project_id=req["project_id"]).first()
         if project:
             hardware_set = HardwareSet.objects(id=id).first()
             project_hardware = project.hardware
@@ -139,7 +139,7 @@ def hardware_checkin(id):
     """
     req = request.get_json()
     try:
-        project = Projects.objects(id=req["project_id"]).first()
+        project = Projects.objects(project_id=req["project_id"]).first()
         if project:
             hardware_set = HardwareSet.objects(id=id).first()
             project_hardware = project.hardware
