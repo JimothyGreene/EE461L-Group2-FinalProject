@@ -27,6 +27,8 @@ get:
                   properties:
                     $oid:
                       type: string
+                name:
+                  type: string
                 capacity:
                   type: integer
                 available:
@@ -34,6 +36,7 @@ get:
             example:
               - _id:
                   $oid: "606e2b692a216b8f986af361"
+                name: "Hardware Set 1"
                 capacity: 400
                 available: 50
     404:
