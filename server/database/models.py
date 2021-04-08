@@ -43,6 +43,6 @@ class HardwareSet(db.Document):
         capacity: hardware set capacity (how many we own)
         available: hardware set availability (how many are not currently checked out)
     """
-    name = db.StringField(required=True, min_length=1, max_length=20)
+    name = db.StringField(required=True, unique=True, min_length=1, max_length=20)
     capacity = db.IntField(required=True, min_value=0)
     available = db.IntField(required=True, min_value=0)
