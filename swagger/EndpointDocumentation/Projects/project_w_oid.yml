@@ -91,7 +91,7 @@ delete:
   tags:
     - projects
   summary: Attempt to delete existing project by object ID
-  operationId: updateProject
+  operationId: deleteProject
   parameters:
     - in: path
       name: project_oid

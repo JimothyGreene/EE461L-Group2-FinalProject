@@ -9,7 +9,7 @@ get:
       schema:
         type: string
       required: true
-      description: The user inputted project ID of the project to be updated
+      description: The user inputted project ID of the project to be read
   requestBody:
     required: true
   responses:
