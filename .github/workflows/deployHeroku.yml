@@ -18,4 +18,3 @@ jobs:
           heroku_email: "maxwithrow2222@gmail.com"
           appdir: "client"
           usedocker: true
-          buildpack: "https://github.com/mars/create-react-app-buildpack.git"
