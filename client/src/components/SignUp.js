@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import api from '../util/api';
-import { AuthContext } from '../App';
+import { AuthContext } from './AuthContext';
 
 const SignUpSchema = Yup.object().shape({
     first_name: Yup.string()
@@ -41,7 +41,7 @@ export const SignUp = (props) => {
             dispatch({
                 type: "LOGIN",
                 payload: {
-                    token: res.data.token,
+                    token: res.data.token.replace(/['"]+/g, ''),
                     user: values.email
                 }
             });
