@@ -1,0 +1,89 @@
+post:
+  tags:
+    - hardware
+  summary: Attempt to Add new Hardware Set
+  operationId: createHardwareSet
+  requestBody:
+    required: true
+    description: Hardware Set Info. `capacity` and `available` must both be postive values.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            capacity:
+              type: integer
+              example: 400
+            available:
+              type: integer
+              example: 50
+          
+  responses:
+    201:
+      description: Hardware Set Successfully Created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              _id:
+                type: object
+                properties:
+                  $oid:
+                    type: string
+                    example: "606f5bc7830ea5bf5e4187c9"
+              name:
+                type: integer
+                example: 400
+              description:
+                type: integer
+                example: 50
+    422:
+      description: Validation Errors
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "String field too short"
+              description:
+                type: string
+                example: "String field too long"
+
+get:
+  tags:
+    - hardware
+  summary: Attempt to read all Hardware Sets
+  operationId: readHardwareSet
+  requestBody:
+    required: false
+  responses:
+    200:
+      description: Hardware Sets Successfully Read
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: object
+                  properties:
+                    $oid:
+                      type: string
+                capacity:
+                  type: string
+                available:
+                  type: string
+            example:
+              - _id:
+                  $oid: "606e2b692a216b8f986af361"
+                capacity: 400
+                available: 50
+              - _id:
+                  $oid: "606e2b782a216b8f986af364"
+                capacity: 600
+                available: 100
