@@ -1,7 +1,6 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
-from database.models import Projects
-from database.models import HardwareSet
+from database.models import HardwareSet, Projects
 from mongoengine import ValidationError
 from api.routes.validators import parse_error
 import json
@@ -63,7 +62,6 @@ def hardware_read_id(id):
         return parse_error(e), 422
 
 
-
 @hardware.route('/<id>', methods=['PUT'])
 @jwt_required()
 def hardware_update(id):
@@ -89,8 +87,6 @@ def hardware_update(id):
         return parse_error(e), 422
 
 
-
-
 @hardware.route('/<id>', methods=['DELETE'])
 @jwt_required()
 def hardware_delete(id):
@@ -103,11 +99,91 @@ def hardware_delete(id):
         404: hardware set not found
         422: validation errors
     """
-
     try:
         if HardwareSet.objects(id=id).delete() > 0:
             return {'msg': 'Hardware set successfully deleted'}, 200
         else:
             return {'msg': 'Hardware set not found'}, 404
+    except ValidationError as e:
+        return parse_error(e), 422
+
+
+@hardware.route('/check-out/<id>', methods=['POST'])
+@jwt_required()
+def hardware_checkout(id):
+    """POST hardware/check-out/<id>
+
+    Desc: Checks out a quantity of this hardware set for a particular project
+
+    Returns:
+        200: updated hardware set
+        404: project not found
+        422: validation errors
+    """
+    req = request.get_json()
+    try:
+        project = Projects.objects(id=req["project_id"]).first()
+        if project:
+            hardware_set = HardwareSet.objects(id=id).first()
+            project_hardware = project.hardware
+            found = False
+            for hardware in project_hardware:
+                if hardware["_id"] == id:
+                    found = True
+                    hardware["amount"] += req["amount"]
+            if not found:
+                project_hardware.append({
+                    "_id": id,
+                    "amount": req["amount"]
+                })
+            # hardware_set.update(dec__available=req["amount"]) -- Can't use this while Mongoengine bug is there
+            hardware_set.update(available=hardware_set.available-req["amount"])
+            hardware_set.reload()
+            project.update(hardware=project_hardware)
+            project.reload()
+            return hardware_set.to_json(), 200
+        else:
+            return {'msg': 'Project not found'}, 404
+    except ValidationError as e:
+        return parse_error(e), 422
+
+
+@hardware.route('/check-in/<id>', methods=['POST'])
+@jwt_required()
+def hardware_checkin(id):
+    """POST hardware/check-in/<id>
+
+    Desc: Checks in a quantity of this hardware set for a particular project
+
+    Returns:
+        200: updated hardware set
+        404: project not found or hardware set not found on this project
+        422: validation errors
+    """
+    req = request.get_json()
+    try:
+        project = Projects.objects(id=req["project_id"]).first()
+        if project:
+            hardware_set = HardwareSet.objects(id=id).first()
+            project_hardware = project.hardware
+            found = False
+            remove = None
+            for hardware in project_hardware:
+                if hardware["_id"] == id:
+                    found = True
+                    hardware["amount"] -= req["amount"]
+                    if hardware["amount"] == 0:
+                        remove = hardware
+            if not found:
+                return {'msg': 'Hardware Set not found for this project'}, 404
+            if remove is not None:
+                project_hardware.remove(remove)
+            hardware_set.update(inc__available=req["amount"])
+            hardware_set.reload()
+            project.update(hardware=project_hardware)
+            project.reload()
+            return hardware_set.to_json(), 200
+        else:
+            return {'msg': 'Project not found'}, 404
     except ValidationError as e:
         return parse_error(e), 422
