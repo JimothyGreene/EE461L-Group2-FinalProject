@@ -15,16 +15,6 @@ post:
               type: string
             description:
               type: string
-            hardware:
-              type: array
-              items:
-                type: object
-                properties:
-                  _id:
-                    type: string
-                    example: "605e4e9c2226f89fb151d0a1"
-                  amount:
-                    type: integer
             project_id:
               type: string
   responses:
@@ -63,6 +53,9 @@ post:
                   $oid:
                     type: string
                     example: "6059234f9885cb36c1964f52"
+              project_id:
+                type: string
+                example: "project-id-123"
     422:
       description: Validation Errors
       content:
@@ -76,6 +69,9 @@ post:
               description:
                 type: string
                 example: "String field too long"
+              project_id:
+                type: string
+                example: "Field not unique"
 
 get:
   tags:
@@ -117,6 +113,8 @@ get:
                   properties:
                     $oid:
                       type: string
+                project_id:
+                  type: string
             example:
               - _id:
                   $oid: "605e4e9c2226f89fb151d0a1"
@@ -127,6 +125,7 @@ get:
                     amount: 200
                 creator_id:
                   $oid: "6059234f9885cb36c1964f52"
+                project_id: "project-id-123"
 
               - _id:
                   $oid: "605926640605c11c5b48bcdd"
@@ -139,3 +138,4 @@ get:
                     amount: 100
                 creator_id:
                   $oid: "6059234f9885cb36c1964f52"
+                project_id: "project-id-456"
