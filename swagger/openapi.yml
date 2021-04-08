@@ -22,6 +22,9 @@ paths:
     $ref: ./EndpointDocumentation/Projects/projects.yml
   /projects/{projectID}:
     $ref: ./EndpointDocumentation/Projects/project_w_id.yml
-
-
-
+  /hardware/:
+    $ref: ./EndpointDocumentation/Hardware/hardware.yml
+  /hardware/{projectID}:
+    $ref: ./EndpointDocumentation/Hardware/hardware_p_id.yml
+  /hardware/{hardwareID}:
+    $ref: ./EndpointDocumentation/Hardware/hardware_hw_id.yml
