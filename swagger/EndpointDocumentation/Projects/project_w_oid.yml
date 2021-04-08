@@ -1,80 +1,11 @@
-get:
-  tags:
-    - projects
-  summary: Attempt to read a project associated with a project ID
-  operationId: readProject
-  parameters:
-    - in: path
-      name: project_id
-      schema:
-        type: string
-      required: true
-      description: The user inputted project ID of the project to be read
-  requestBody:
-    required: true
-  responses:
-    200:
-      description: Projects based on ID read successfully
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                _id:
-                  type: object
-                  properties:
-                    $oid:
-                      type: string
-                name:
-                  type: string
-                description:
-                  type: string
-                creator_id:
-                  type: object
-                  properties:
-                    $oid:
-                      type: string
-                project_id:
-                  type: string
-            example:
-              - _id:
-                  $oid: "605e4e9c2226f89fb151d0a1"
-                name: "Project 1 Name"
-                description: "Project 1 Description"
-                creator_id:
-                  $oid: "6059234f9885cb36c1964f52"
-                project_id: "project-id-123"
-    404:
-      description: Project Not Found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              msg:
-                type: string
-                example: "Project not found"
-    422:
-      description: Validation Errors
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              msg:
-                type: string
-                example: "<projectID> is not a valid String"
-
 put:
   tags:
     - projects
-  summary: Attempt to update existing project
+  summary: Attempt to update existing project by object ID
   operationId: updateProject
   parameters:
     - in: path
-      name: projectID
+      name: project_oid
       schema:
         type: string
       required: true
@@ -91,16 +22,8 @@ put:
               type: string
             description:
               type: string
-            hardware:
-              type: array
-              items:
-                type: object
-                properties:
-                  _id:
-                    type: string
-                    example: "605e4e9c2226f89fb151d0a1"
-                  amount:
-                    type: integer
+            project_id:
+              type: string
   responses:
     200:
       description: Project Successfully Updated
@@ -137,6 +60,9 @@ put:
                   $oid:
                     type: string
                     example: "6059234f9885cb36c1964f52"
+              project_id:
+                type: string
+                example: "project-id-123"
     404:
       description: Project Not Found
       content:
@@ -164,11 +90,11 @@ put:
 delete:
   tags:
     - projects
-  summary: Attempt to delete existing project
+  summary: Attempt to delete existing project by object ID
   operationId: deleteProject
   parameters:
     - in: path
-      name: projectID
+      name: project_oid
       schema:
         type: string
       required: true

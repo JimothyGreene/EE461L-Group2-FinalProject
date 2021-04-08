@@ -22,8 +22,10 @@ paths:
     $ref: ./EndpointDocumentation/Users/register.yml
   /projects/:
     $ref: ./EndpointDocumentation/Projects/projects.yml
-  /projects/{projectID}:
+  /projects/{project_id}:
     $ref: ./EndpointDocumentation/Projects/project_w_id.yml
+  /projects/{project_oid}:
+    $ref: ./EndpointDocumentation/Projects/project_w_oid.yml
   /hardware/:
     $ref: ./EndpointDocumentation/Hardware/hardware.yml
   /hardware/{projectID}:
