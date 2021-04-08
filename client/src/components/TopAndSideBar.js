@@ -24,7 +24,7 @@ import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { AuthContext } from '../App';
+import { AuthContext } from './AuthContext';
 import { Link } from 'react-router-dom';
 
 const mainListItems = (
@@ -119,9 +119,8 @@ export function TopAndSideBar(props) {
     setOpen(false);
   };
 
-  const {state: authState} = React.useContext(AuthContext);
 
-  const { dispatch } = React.useContext(AuthContext);
+  const { state, dispatch } = React.useContext(AuthContext);
 
   return (
     <div className={classes.root}>
@@ -139,6 +138,9 @@ export function TopAndSideBar(props) {
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             {props.page}
+          </Typography>
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+            {(state.projectOID !== null && state.projectOID !== 'undefined') ? `Project: ${state.projectOID.replace(/['"]+/g, '')}` : 'No Project Selected'}
           </Typography>
           <Button
             color="inherit"
