@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 import api from '../util/api';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import { AuthContext } from '../App';
+import { AuthContext } from './AuthContext';
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -25,7 +25,7 @@ const SignInSchema = Yup.object().shape({
 });
 
 export const SignIn = (props) => {
-    const { dispatch } = React.useContext(AuthContext);
+    const { state, dispatch } = React.useContext(AuthContext);
 
     const attemptSignIn = async (values) => {
         try{
@@ -33,7 +33,7 @@ export const SignIn = (props) => {
             dispatch({
                 type: "LOGIN",
                 payload: {
-                    token: res.data.token,
+                    token: res.data.token.replace(/['"]+/g, ''),
                     user: values.email
                 }
             });

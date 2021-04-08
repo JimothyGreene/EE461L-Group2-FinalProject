@@ -11,57 +11,69 @@ import Dataset from "./components/Dataset";
 import Projects from "./components/Projects";
 import {LogInPage} from "./components/LogInPage";
 import {TopAndSideBar} from "./components/TopAndSideBar";
+import { AuthContext, AuthContextProvider } from "./components/AuthContext";
 
-export const AuthContext = React.createContext();
-const initState = {
-  isAuth: localStorage.getItem("token") !== null ? true : false,
-  user: localStorage.getItem("user"),
-  token: localStorage.getItem("token")
-};
+// export const AuthContext = React.createContext();
+// const initState = {
+//   isAuth: localStorage.getItem("token") !== null ? true : false,
+//   user: localStorage.getItem("user"),
+//   token: localStorage.getItem("token"),
+//   projectID: localStorage.getItem("projectID"),
+//   projectName: localStorage.getItem("projectName")
+// };
 
-const reducer = (state, action) => {
-  switch(action.type) {
-    case "LOGIN":
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
-      return {
-        ...state,
-        isAuth: true,
-        user: action.payload.user,
-        token: action.payload.token
-      };
+// const reducer = (state, action) => {
+//   switch(action.type) {
+//     case "LOGIN":
+//       localStorage.setItem("user", JSON.stringify(action.payload.user));
+//       localStorage.setItem("token", JSON.stringify(action.payload.token));
+//       return {
+//         ...state,
+//         isAuth: true,
+//         user: action.payload.user,
+//         token: action.payload.token
+//       };
     
-    case "LOGOUT": 
-      localStorage.clear();
-      return {
-        ...state,
-        isAuth: false,
-        user: null,
-        token: null,
-      };
+//     case "LOGOUT": 
+//       localStorage.clear();
+//       return {
+//         ...state,
+//         isAuth: false,
+//         user: null,
+//         token: null,
+//         projectID: null,
+//         projectName: null
+//       };
     
-    default:
-      return state;
-  }
-};
+//     case "PROJECT":
+//       localStorage.setItem("projectID", JSON.stringify(action.payload.id));
+//       localStorage.setItem("projectName", JSON.stringify(action.payload.name));
+//       return {
+//         ...state,
+//         projectId: action.payload.id,
+//         projectName: action.payload.name
+//       };
+    
+//     default:
+//       return state;
+//   }
+// };
 
 export default function App() {
-  const [state, dispatch] = React.useReducer(reducer, initState);
     return (
       // Dev Note: When adding a new Route, make sure to follow redirect examples to ensure login
       // See path="/" for an example
 
       // Dev Note: When adding a new page, make sure to surround it with <TopAndSideBar>, see path="/" for an example
-      <AuthContext.Provider
-        value={{
-          state,
-          dispatch
-        }}
-      >
-        <div className="wrapper">
-          {state.isAuth ? <AuthApp /> : <UnAuthApp />}
-        </div>
-      </AuthContext.Provider>
+      <AuthContextProvider>
+        <AuthContext.Consumer>
+          {({state, dispatch}) => (
+            <div className="wrapper">
+              {state.isAuth ? <AuthApp /> : <UnAuthApp />}
+            </div>
+          )}
+        </AuthContext.Consumer>
+      </AuthContextProvider>
       
     );
 }
