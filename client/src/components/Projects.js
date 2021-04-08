@@ -95,10 +95,7 @@ class Projects extends React.Component {
         });
     }
     switchProject(e) {
-        this.updateProject({
-            projectName: this.state.selectedProjectName,
-            projectID: this.state.selectedProjectID
-        });
+        
         this.setState({
             currProjectName: this.state.selectedProjectName,
             currProjectID: this.state.selectedProjectID
@@ -110,7 +107,12 @@ class Projects extends React.Component {
                         currProjectName: res.data.name.replace(/['"]+/g, ''),
                         currProjectID: res.data.project_id.replace(/['"]+/g, ''),
                         currProjectDescription: res.data.description.replace(/['"]+/g, '')
-                    })
+                    });
+                    this.updateProject({
+                        projectName: res.data.name,
+                        projectID: res.data.project_id,
+                        projectOID: res.data._id.$oid
+                    });
                 })
                 .catch((e) => {
                     console.log(e)
@@ -136,7 +138,8 @@ class Projects extends React.Component {
             .then((res) => {
                 this.updateProject({
                     projectName: res.data.name,
-                    projectID: res.data.project_id
+                    projectID: res.data.project_id,
+                    projectOID: res.data._id.$oid
                 });
                 this.setState({
                     currProjectName: res.data.name,
@@ -161,7 +164,8 @@ class Projects extends React.Component {
             type: "PROJECT",
             payload: {
                 name: proj.projectName,
-                id: proj.projectID
+                id: proj.projectID,
+                oid: proj.projectOID
             }
         });
     }
@@ -171,7 +175,8 @@ class Projects extends React.Component {
             .then((res) => {
                 this.updateProject({
                     projectName: res.data.name.replace(/['"]+/g, ''),
-                    projectID: res.data.project_id.replace(/['"]+/g, '')
+                    projectID: res.data.project_id.replace(/['"]+/g, ''),
+                    projectOID: res.data._id.$oid.replace(/['"]+/g, '')
                 });
                 this.setState({
                     currProjectName: res.data.name.replace(/['"]+/g, ''),

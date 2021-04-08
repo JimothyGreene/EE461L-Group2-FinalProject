@@ -7,7 +7,8 @@ const initState = {
   user: localStorage.getItem("user"),
   token: localStorage.getItem("token"),
   projectID: localStorage.getItem("projectID"),
-  projectName: localStorage.getItem("projectName")
+  projectName: localStorage.getItem("projectName"),
+  projectOID: localStorage.getItem("projectOID")
 };
 
 const reducer = (state, action) => {
@@ -32,16 +33,19 @@ const reducer = (state, action) => {
         user: null,
         token: null,
         projectID: null,
-        projectName: null
+        projectName: null,
+        projectOID: null,
       };
     
     case "PROJECT":
       localStorage.setItem("projectID", JSON.stringify(action.payload.id));
       localStorage.setItem("projectName", JSON.stringify(action.payload.name));
+      localStorage.setItem("projectOID", JSON.stringify(action.payload.oid))
       return {
         ...state,
         projectID: action.payload.id,
-        projectName: action.payload.name
+        projectName: action.payload.name,
+        projectOID: action.payload.oid
       };
     
     default:
