@@ -18,10 +18,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
+import api from '../util/api';
 
 class Resources extends React.Component {
-
-    constructor(props) {
+    static contextType = AuthContext;
+    constructor(props) {    
         super(props);
         this.state = {
             ResourceName: "",
@@ -30,20 +32,36 @@ class Resources extends React.Component {
             QuantityOut: 0,
             QuantityOutResource: "",
             QuantityInResource: "",
-            ResourceData: {
-                "Hardware Set 1": {ID: 1, Available: 10},
-                "Hardware Set 2": {ID: 2, Available: 10},
-                "Hardware Set 3": {ID: 3, Available: 10},
-                "Hardware Set 4": {ID: 4, Available: 10},
-                "Hardware Set 5": {ID: 5, Available: 10}
-            }
+            ResourceData: {},
+            ResourceDataArr: []
         };
         this.handleClick = this.handleClick.bind(this);
         this.quantityChange = this.quantityChange.bind(this);
         this.dropChange = this.dropChange.bind(this);
         this.resourceSelected = this.resourceSelected.bind(this);
-
+        this.getHardwareSet = this.getHardwareSet.bind(this);
+        this.getHardwareSet();
     }
+
+
+    getHardwareSet(){
+        api.get("/hardware/").then((res) => {
+            let rData = {}
+            res.data.forEach((hardwareItem, index) => {
+                let name =  "Hardware Set " + (index + 1);
+                rData[name] = hardwareItem;
+            });
+            let rDataArr = res.data.map((hardwareItem, index) => {
+                hardwareItem.name =  "Hardware Set " + (index + 1);
+                return hardwareItem;
+            });
+            this.setState({
+                ResourceData: rData,
+                ResourceDataArr: rDataArr
+            });
+        })
+    }
+
     quantityChange(event){
         const qty = event.target.value;
         this.setState({quantity : qty})
@@ -57,7 +75,6 @@ class Resources extends React.Component {
         this.setState({ResourceName: e.target.value});
     }
 
-
     handleClick(event) {
         //api call with state quantity (this.state.quantity)
         console.log(this.state.quantity, this.state.hardware)
@@ -70,9 +87,9 @@ class Resources extends React.Component {
                     <div style={{width: '750px', padding: '10px', backgroundColor: 'lightblue'}}>
                         <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
                             <span>Resource: {this.state.SelectedResourceName}</span>
-                            <span>ID: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].ID : ""}</span>
+                            <span>Capacity: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].capacity : ""}</span>
                         </div>
-                        <span>Available: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].Available : ""}</span>
+                        <span>Available: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].available : ""}</span>
                     </div>
                     <div className="quantity"  
                     style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '250px'}}>
@@ -82,11 +99,7 @@ class Resources extends React.Component {
                         onChange = {this.resourceSelected}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
-                            <MenuItem value={"Hardware Set 1"}>1 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 2"}>5 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 3"}>10 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 4"}>50 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 5"}>100 MBPS</MenuItem>                        
+                             {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                  
                         </Select>
                         <Button
                             style={{marginTop: '10px'}}
@@ -116,11 +129,7 @@ class Resources extends React.Component {
                         }}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
-                            <MenuItem value={"Hardware Set 1"}>1 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 2"}>5 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 3"}>10 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 4"}>50 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 5"}>100 MBPS</MenuItem>                        
+                            {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                              
                         </Select>
                         <TextField
                             variant="outlined"
@@ -146,8 +155,14 @@ class Resources extends React.Component {
                                 if(updatedResourceData[this.state.QuantityOutResource].Available - this.state.QuantityOut < 0){
                                     alert("");
                                 }else{
-                                    updatedResourceData[this.state.QuantityOutResource].Available = updatedResourceData[this.state.QuantityOutResource].Available - this.state.QuantityOut;
-                                    this.setState({ResourceData: updatedResourceData})
+                                    console.log(this.context.state.projectOID);
+                                    let requestBody = {
+                                        project_id: this.context.state.projectOID,
+                                        amount: parseInt(this.state.QuantityOut)
+                                    }
+                                    api.post("/hardware/check-out/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
+                                        this.getHardwareSet();
+                                    })
                                 }
 
                             }}
@@ -165,11 +180,7 @@ class Resources extends React.Component {
                         }}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
-                            <MenuItem value={"Hardware Set 1"}>1 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 2"}>5 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 3"}>10 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 4"}>50 MBPS</MenuItem>                        
-                            <MenuItem value={"Hardware Set 5"}>100 MBPS</MenuItem>                        
+                            {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                          
                         </Select>
                         <TextField
                             variant="outlined"
@@ -192,8 +203,14 @@ class Resources extends React.Component {
                             type="submit"
                             onClick = {(e) => {
                                 let updatedResourceData = this.state.ResourceData;
-                                updatedResourceData[this.state.QuantityInResource].Available = updatedResourceData[this.state.QuantityInResource].Available + this.state.QuantityIn;
-                                this.setState({ResourceData: updatedResourceData})
+                                console.log(this.context.state.projectOID);
+                                let requestBody = {
+                                    project_id: this.context.state.projectOID,
+                                    amount: parseInt(this.state.QuantityIn)
+                                }
+                                api.post("/hardware/check-in/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
+                                    this.getHardwareSet();
+                                })
                             }}
                         >
                             Check In
