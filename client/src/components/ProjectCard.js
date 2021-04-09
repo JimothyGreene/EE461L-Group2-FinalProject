@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Link from '@material-ui/core/Link';
 import { NavLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {FormControl, InputLabel, Select, Button, Box, List, ListItem, ListItemText, Menu, MenuItem, Grid} from '@material-ui/core';
+import { AuthContext } from './AuthContext';
+import api from '../util/api';
 
 
 function preventDefault(event) {
@@ -21,43 +23,78 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ProjectCard() {
-    const classes = useStyles();
-    const currentProject="test-project"
-    return(
-        <React.Fragment>
-            <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                Project Info
-            </Typography>
-            <Typography component="h2" variant="h6" align="center" justify="center" gutterBottom>
-                Current Project:
-            </Typography>
-            <Typography component="p" variant="h5" align="center" justify="center">
-                { currentProject }
-            </Typography>
-            <div>
-                <Box display="flex" justifyContent="center" alignItems="center">
-                    <FormControl variant="outlined" style={{marginTop: '10px', minWidth:'38%'}}>
-                        <InputLabel id='project-select-label' variant="standard">Change Project</InputLabel>
-                        <Select labelId='project-select-label' id='project-select' autoWidth variant="standard">
-                            <MenuItem value="" >
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={"test1"}>testProject1</MenuItem>
-                            <MenuItem value={"test2"}>testProject2</MenuItem>
-                            <MenuItem value={"test3"}>testProject3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Button variant="contained" color="primary" style={{marginLeft: "10px", marginTop: '20px'}}>Go</Button>
-                </Box>
-                
-            </div>
-            <div style={{marginLeft: "auto", width: "100%", marginRight: "0", justifyContent: "flex-end", display: "flex", marginTop: '20px'}}>
-                <Link justify="flex-start" color="primary" component={NavLink} to="/projects">
-                    Project Info
-                </Link>
-            </div>
-        </React.Fragment> 
-    );
+  const { state, dispatch } = useContext(AuthContext);
+  const [allProjects, setAllProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState({})
+
+  const classes = useStyles();
+
+  useEffect(() => {
+    setAllProjects([]);
+    api.get('projects/')
+            .then((res) => {
+                setAllProjects(res.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+  }, [selectedProject]);
+
+  const onClick = (e) => {
+    dispatch({
+      type: "PROJECT",
+      payload: {
+        name: selectedProject.selectedName,
+        id: selectedProject.selectedID,
+        oid: selectedProject.selectedOID
+      }
+    });
+  }
+
+  return(
+      <React.Fragment>
+          <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              Project Info
+          </Typography>
+          <Typography component="h2" variant="h6" align="center" justify="center" gutterBottom>
+              Current ProjectID:
+          </Typography>
+          <Typography component="p" variant="h5" align="center" justify="center">
+          {(state.projectID !== null && state.projectID !== 'undefined') ? `${state.projectID.replace(/['"]+/g, '')}` : ''}
+          </Typography>
+          <div>
+              <Box display="flex" justifyContent="center" alignItems="center">
+                  <FormControl variant="outlined" style={{marginTop: '10px', minWidth:'38%'}}>
+                      <InputLabel id='project-select-label' variant="standard">Change Project</InputLabel>
+                      <Select labelId='project-select-label' id='project-select' autoWidth variant="standard"
+                        onChange={(e) => {
+                          setSelectedProject({
+                            selectedID: e.currentTarget.id,
+                            selectedName: e.target.value,
+                            selectedOID: e.currentTarget.dataset.objectID
+                          })
+                        }}
+                      >
+                        {allProjects.map(proj => {
+                            return(
+                                <MenuItem id={proj.project_id.replace(/['"]+/g, '')} value={proj.name.replace(/['"]+/g, '')} data-objectID={proj._id.$oid.replace(/['"]+/g, '')}>
+                                    {proj.name.replace(/['"]+/g, '')}
+                                </MenuItem>
+                            );
+                        })}
+                      </Select>
+                  </FormControl>
+                  <Button variant="contained" color="primary" style={{marginLeft: "10px", marginTop: '20px'}} onClick={onClick}>Go</Button>
+              </Box>
+              
+          </div>
+          <div style={{marginLeft: "auto", width: "100%", marginRight: "0", justifyContent: "flex-end", display: "flex", marginTop: '20px'}}>
+              <Link justify="flex-start" color="primary" component={NavLink} to="/projects">
+                  Project Info
+              </Link>
+          </div>
+      </React.Fragment> 
+  );
 }
 
 const options = [
