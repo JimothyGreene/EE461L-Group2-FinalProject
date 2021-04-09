@@ -11,6 +11,9 @@ post:
         schema:
           type: object
           properties:
+            name:
+              type: string
+              example: "Hardware Set 1"
             capacity:
               type: integer
               example: 400
@@ -33,9 +36,12 @@ post:
                     type: string
                     example: "606f5bc7830ea5bf5e4187c9"
               name:
+                type: string
+                example: "Hardware Set 1"
+              capacity:
                 type: integer
                 example: 400
-              description:
+              available:
                 type: integer
                 example: 50
     422:
@@ -45,12 +51,9 @@ post:
           schema:
             type: object
             properties:
-              name:
+              msg:
                 type: string
-                example: "String field too short"
-              description:
-                type: string
-                example: "String field too long"
+                example: "'606e2b692a216b8f986af36' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string"
 
 get:
   tags:
@@ -74,16 +77,20 @@ get:
                   properties:
                     $oid:
                       type: string
+                name:
+                  type: string
                 capacity:
-                  type: string
+                  type: integer
                 available:
-                  type: string
+                  type: integer
             example:
               - _id:
                   $oid: "606e2b692a216b8f986af361"
+                name: "Hardware Set 1"
                 capacity: 400
                 available: 50
               - _id:
                   $oid: "606e2b782a216b8f986af364"
+                name: "Hardware Set 2"
                 capacity: 600
                 available: 100
