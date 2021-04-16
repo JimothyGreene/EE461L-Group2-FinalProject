@@ -15,6 +15,8 @@ post:
               type: string
             description:
               type: string
+            project_id:
+              type: string
   responses:
     201:
       description: Project Successfully Created
@@ -35,12 +37,25 @@ post:
               description:
                 type: string
                 example: "Newly Created Description"
+              hardware:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: "605e4e9c2226f89fb151d0a1"
+                    amount:
+                      type: integer
               creator_id:
                 type: object
                 properties:
                   $oid:
                     type: string
                     example: "6059234f9885cb36c1964f52"
+              project_id:
+                type: string
+                example: "project-id-123"
     422:
       description: Validation Errors
       content:
@@ -54,6 +69,9 @@ post:
               description:
                 type: string
                 example: "String field too long"
+              project_id:
+                type: string
+                example: "Field not unique"
 
 get:
   tags:
@@ -81,22 +99,43 @@ get:
                   type: string
                 description:
                   type: string
+                hardware:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      amount:
+                        type: integer
                 creator_id:
                   type: object
                   properties:
                     $oid:
                       type: string
+                project_id:
+                  type: string
             example:
               - _id:
                   $oid: "605e4e9c2226f89fb151d0a1"
                 name: "Project 1 Name"
                 description: "Project 1 Description"
+                hardware:
+                  - _id: "605e4e9c2226f89fb151d0a1"
+                    amount: 200
                 creator_id:
                   $oid: "6059234f9885cb36c1964f52"
+                project_id: "project-id-123"
 
               - _id:
                   $oid: "605926640605c11c5b48bcdd"
                 name: "Project 2 Name"
                 description: "Project 2 Description"
+                hardware:
+                  - _id: "605e4e9c2226f89fb151d0a1"
+                    amount: 200
+                  - _id: "605e4e9c2226f89fb151d0a2"
+                    amount: 100
                 creator_id:
                   $oid: "6059234f9885cb36c1964f52"
+                project_id: "project-id-456"

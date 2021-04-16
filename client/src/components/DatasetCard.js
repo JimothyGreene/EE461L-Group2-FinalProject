@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
+import { NavLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, List, ListItem, ListItemText} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -29,19 +30,22 @@ export default function DatasetCard() {
                     <div className={classes.list}>
                         <List dense>
                             <ListItem button>
-                                <ListItemText>Test Dataset 1</ListItemText>
+                                <ListItemText>Apnea-ECG Database</ListItemText>
+                                <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip" target="_blank">Download</a>
                             </ListItem>
                             <ListItem button>
-                                <ListItemText>Test Dataset 2</ListItemText>
+                                <ListItemText>ANSI/AAMI EC13 Test Waveforms</ListItemText>
+                                <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip" target="_blank">Download</a>
                             </ListItem>
                             <ListItem button>
-                                <ListItemText>Test Dataset 3</ListItemText>
+                                <ListItemText>BIDMC PPG and Respiration Dataset</ListItemText>
+                                <a href="https://physionet.org/static/published-projects/bidmc/bidmc-ppg-and-respiration-dataset-1.0.0.zip" target="_blank">Download</a>
                             </ListItem>
                         </List>
                     </div>
                 </div>
                 <div style={{marginLeft: "auto", marginRight: "0", marginBottom: "0", marginTop: "auto"}}>
-                    <Link justify="flex-end" color="primary" href="#" onClick={preventDefault}>
+                    <Link justify="flex-start" color="primary" component={NavLink} to="/datasets">
                         See Other Datasets
                     </Link>
                 </div>

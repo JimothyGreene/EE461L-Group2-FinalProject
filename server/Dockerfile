@@ -13,9 +13,9 @@ COPY . .
 
 # Set Flask environment variables
 ENV FLASK_APP=api
-ENV FLASK_ENV=development
+ENV FLASK_ENV=production
 
 # Expose port
-EXPOSE 5000
+EXPOSE $PORT
 
-CMD [ "flask", "run", "--host=0.0.0.0" ]
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 ${FLASK_APP}:'create_app()'

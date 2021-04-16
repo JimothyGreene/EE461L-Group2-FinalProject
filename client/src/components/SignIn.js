@@ -1,66 +1,73 @@
 import './SignIn.css';
 import React from "react";
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import ReactDOM from 'react-dom';
-import { Redirect } from 'react-router-dom';
+import api from '../util/api';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import { AuthContext } from './AuthContext';
 
-export class SignIn extends React.Component {
+const SignInSchema = Yup.object().shape({
+    email: Yup.string()
+        .trim()
+        .email("Invalid email")
+        .required("Email is required"),
+    password: Yup.string()
+        .trim()
+        // .min(8, "Password must be 8 characters at minimum")
+        // .matches(/[a-z]/, "Password requires at least 1 lowercase letter")
+        // .matches(/[A-Z]/, "Password requires at least 1 uppercase letter")
+        // .matches(/\d/, "Password requires at least 1 number")
+        .required("Password is required")
+});
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: null,
-            password: null,
-            redirect: false,
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+export const SignIn = (props) => {
+    const { state, dispatch } = React.useContext(AuthContext);
 
+    const attemptSignIn = async (values) => {
+        try{
+            let res = await api.post('users/login', values);
+            dispatch({
+                type: "LOGIN",
+                payload: {
+                    token: res.data.token.replace(/['"]+/g, ''),
+                    user: values.email
+                }
+            });
+            return;
+        } catch (e) {
+            if(e.response.status === 401) {
+                formik.setFieldError("password", "Password Incorrect");
+            }
+            else {
+                formik.setFieldError("email", "No account with this email");
+            }
+        }
     }
 
-    handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
+    const formik = useFormik({
+        initialValues: {
+            email: "", 
+            password: ""
+        },
+        validationSchema: SignInSchema,
+        onSubmit: async (values) => {
+            attemptSignIn(values);
+            formik.setSubmitting(false);
+        },
+    });
 
-        this.setState({[name]: value});
-    }
-
-    onSubmit() {
-        //Basic validation, should flesh this out more
-        if(!this.state.email || !this.state.password) {
-            alert("Please enter email and password");
-        }
-        //Ping API and handle response
-        else {
-            this.props.signInUser(this.state.email);
-            this.setState({redirect: true});
-        }
-    }
-  
-    render() {
-        if(this.state.redirect) {
-            return ( <Redirect to="/" />);
-        }
-      return (
+    return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className="signin">
+        <CssBaseline />
+        <div className="signin">
             <Typography component="h1" variant="h5" className="signin-text">
                 Sign in
             </Typography>
-            <form className="signin-form" onSubmit={this.onSubmit}>
+            <form className="signin-form" onSubmit={formik.handleSubmit}>
                 <TextField
                 variant="outlined"
                 margin="normal"
@@ -70,7 +77,11 @@ export class SignIn extends React.Component {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                onChange={this.handleChange}
+                type="email"
+                value={formik.values.email}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                onChange={formik.handleChange}
                 />
                 <TextField
                 variant="outlined"
@@ -82,7 +93,10 @@ export class SignIn extends React.Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={this.handleChange}
+                value={formik.values.password}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
+                onChange={formik.handleChange}
                 />
                 <Button
                 fullWidth
@@ -94,8 +108,7 @@ export class SignIn extends React.Component {
                 Sign In
                 </Button>
             </form>
-            </div>
+        </div>
         </Container>
       );
-    }
-  }
+}
