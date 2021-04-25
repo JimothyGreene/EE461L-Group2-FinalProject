@@ -1,6 +1,5 @@
 import React from "react";
 import axios from 'axios';
-
 export const AuthContext = React.createContext();
 const initState = {
   isAuth: localStorage.getItem("token") !== null ? true : false,
@@ -16,7 +15,9 @@ const reducer = (state, action) => {
     case "LOGIN":
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       localStorage.setItem("token", JSON.stringify(action.payload.token).replace(/['"]+/g, ''));
-      axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(action.payload.token).replace(/['"]+/g, '')}`;
+      console.log("Bearer Token: ", `Bearer ${JSON.stringify(action.payload.token).replace(/['"]+/g, '')}`);
+
+      //axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(action.payload.token).replace(/['"]+/g, '')}`;
       return {
         ...state,
         isAuth: true,

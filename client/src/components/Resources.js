@@ -45,7 +45,7 @@ class Resources extends React.Component {
 
 
     getHardwareSet(){
-        api.get("/hardware/").then((res) => {
+        api().get("/hardware/").then((res) => {
             let rData = {}
             res.data.forEach((hardwareItem, index) => {
                 let name =  "Hardware Set " + (index + 1);
@@ -160,7 +160,7 @@ class Resources extends React.Component {
                                         project_id: this.context.state.projectOID,
                                         amount: parseInt(this.state.QuantityOut)
                                     }
-                                    api.post("/hardware/check-out/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
+                                    api().post("/hardware/check-out/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
                                         this.getHardwareSet();
                                     })
                                 }
@@ -208,7 +208,7 @@ class Resources extends React.Component {
                                     project_id: this.context.state.projectOID,
                                     amount: parseInt(this.state.QuantityIn)
                                 }
-                                api.post("/hardware/check-in/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
+                                api().post("/hardware/check-in/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
                                     this.getHardwareSet();
                                 })
                             }}
