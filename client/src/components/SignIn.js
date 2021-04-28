@@ -29,7 +29,7 @@ export const SignIn = (props) => {
 
     const attemptSignIn = async (values) => {
         try{
-            let res = await api.post('users/login', values);
+            let res = await api().post('users/login', values);
             dispatch({
                 type: "LOGIN",
                 payload: {

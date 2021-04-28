@@ -31,7 +31,7 @@ export default function ProjectCard() {
 
   useEffect(() => {
     setAllProjects([]);
-    api.get('projects/')
+    api().get('projects/')
             .then((res) => {
                 setAllProjects(res.data);
             })

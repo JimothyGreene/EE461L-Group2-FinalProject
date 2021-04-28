@@ -38,7 +38,7 @@ class Projects extends React.Component {
 
     getProjects() {
         if(this.state.currProjectID !== null && this.state.currProjectID !== undefined) {
-            api.get(`projects/${this.state.currProjectID.replace(/['"]+/g, '')}`)
+            api().get(`projects/${this.state.currProjectID.replace(/['"]+/g, '')}`)
                 .then((res) => {
                     this.setState({
                         currProjectName: res.data.name.replace(/['"]+/g, ''),
@@ -50,7 +50,7 @@ class Projects extends React.Component {
                     console.log(e)
                 });
         }
-        api.get('projects/')
+        api().get('projects/')
             .then((res) => {
                 this.setState({allProjects: res.data});
             })
@@ -66,7 +66,7 @@ class Projects extends React.Component {
             joinHelperText: ""
         });
         if(this.context.state.projectID !== null && this.context.state.projectID !== undefined) {
-            api.get(`projects/${this.context.state.projectID.replace(/['"]+/g, '')}`)
+            api().get(`projects/${this.context.state.projectID.replace(/['"]+/g, '')}`)
                 .then((res) => {
                     this.setState({
                         currProjectName: res.data.name.replace(/['"]+/g, ''),
@@ -78,7 +78,7 @@ class Projects extends React.Component {
                     console.log(e)
                 });
         }
-        api.get('projects/')
+        api().get('projects/')
             .then((res) => {
                 this.setState({allProjects: res.data});
             })
@@ -101,7 +101,7 @@ class Projects extends React.Component {
             currProjectID: this.state.selectedProjectID
         });
         if(this.state.selectedProjectID !== null && this.state.selectedProjectID !== undefined) {
-            api.get(`projects/${this.state.selectedProjectID.replace(/['"]+/g, '')}`)
+            api().get(`projects/${this.state.selectedProjectID.replace(/['"]+/g, '')}`)
                 .then((res) => {
                     this.setState({
                         currProjectName: res.data.name.replace(/['"]+/g, ''),
@@ -118,7 +118,7 @@ class Projects extends React.Component {
                     console.log(e)
                 });
         }
-        api.get('projects/')
+        api().get('projects/')
             .then((res) => {
                 this.setState({allProjects: res.data});
             })
@@ -134,7 +134,7 @@ class Projects extends React.Component {
             description: this.state.newDescription,
             project_id: this.state.newId
         };
-        api.post('projects/', reqBody)
+        api().post('projects/', reqBody)
             .then((res) => {
                 this.updateProject({
                     projectName: res.data.name,
@@ -171,7 +171,7 @@ class Projects extends React.Component {
     }
 
     joinById() {
-        api.get(`projects/${this.state.joinId}`)
+        api().get(`projects/${this.state.joinId}`)
             .then((res) => {
                 this.updateProject({
                     projectName: res.data.name.replace(/['"]+/g, ''),
@@ -200,7 +200,7 @@ class Projects extends React.Component {
                 }
                 
             });
-        api.get('projects/')
+        api().get('projects/')
             .then((res) => {
                 this.setState({allProjects: res.data});
             })
