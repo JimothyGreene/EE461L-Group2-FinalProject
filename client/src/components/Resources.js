@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 import api from '../util/api';
+import { NavLink } from 'react-router-dom'
 
 class ResourcesNoId extends React.Component {
     render() {
@@ -29,6 +30,11 @@ class ResourcesNoId extends React.Component {
                 <Typography component="h2" variant="h3" color="red" justifyContent="center">
                     Please select/create a project before continuing
                 </Typography>
+                <div style={{width: "100%", justifyContent: "center", display: "flex", padding: "50px"}}>
+                    <Link justify="center" color="primary" component={NavLink} to="/projects" variant="h5">
+                        Go To Project Management
+                    </Link>
+                </div>
         </Container>
         );
     }
