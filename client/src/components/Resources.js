@@ -20,8 +20,27 @@ import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 import api from '../util/api';
+import { NavLink } from 'react-router-dom'
 
-class Resources extends React.Component {
+class ResourcesNoId extends React.Component {
+    render() {
+        return(
+        <Container component="main" maxWidth="xl"
+            style={{display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'flex-start', justifyContent: 'center', paddingRight: '100px', paddingLeft: '100px'}}>
+                <Typography component="h2" variant="h3" color="red" justifyContent="center">
+                    Please select/create a project before continuing
+                </Typography>
+                <div style={{width: "100%", justifyContent: "center", display: "flex", padding: "50px"}}>
+                    <Link justify="center" color="primary" component={NavLink} to="/projects" variant="h5">
+                        Go To Project Management
+                    </Link>
+                </div>
+        </Container>
+        );
+    }
+}
+
+class ResourcesWithId extends React.Component {
     static contextType = AuthContext;
     constructor(props) {    
         super(props);
@@ -40,6 +59,8 @@ class Resources extends React.Component {
         this.dropChange = this.dropChange.bind(this);
         this.resourceSelected = this.resourceSelected.bind(this);
         this.getHardwareSet = this.getHardwareSet.bind(this);
+        this.checkoutHardware = this.checkoutHardware.bind(this);
+        this.checkinHardware = this.checkinHardware.bind(this);
         this.getHardwareSet();
     }
 
@@ -79,10 +100,69 @@ class Resources extends React.Component {
         //api call with state quantity (this.state.quantity)
         console.log(this.state.quantity, this.state.hardware)
     }
+
+    checkoutHardware(event) {
+        const {auth, dispatch} = this.context;
+        if(this.state.ResourceData[this.state.QuantityOutResource].Available - this.state.QuantityOut < 0) {
+            alert("Not enough available resources!");
+            return;
+        } else {
+            let requestBody = {
+                project_id: this.context.state.projectOID,
+                amount: parseInt(this.state.QuantityOut)
+            }
+            api().post('/hardware/check-out/' + this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody)
+                .catch((e) => {
+                    if(e.response.status === 422) {
+                        console.log("No project selected! Please select a project before attempting to checkout hardware")
+                        alert("No project selected! Please select a project before attempting to checkout hardware");
+                        dispatch({type: "CLEAR_PROJECT"});
+                        return;
+                    }
+                    else if(e.response.status === 401) {
+                        alert("Login expired, please login again.");
+                        dispatch({type: "LOGOUT"});
+                        return;
+                    }
+                })
+                .then((res) => {
+                    alert("Success!");
+                    this.getHardwareSet();
+                });
+        }
+
+    }
+
+    checkinHardware(event) {
+        const {auth, dispatch} = this.context;
+        let requestBody = {
+            project_id: this.context.state.projectOID,
+            amount: parseInt(this.state.QuantityIn)
+        }
+        api().post('/hardware/check-out/' + this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody)
+            .catch((e) => {
+                if(e.response.status === 422) {
+                    console.log("No project selected! Please select a project before attempting to checkout hardware")
+                    alert("No project selected! Please select a project before attempting to checkout hardware");
+                    dispatch({type: "CLEAR_PROJECT"});
+                    return;
+                }
+                else if(e.response.status === 401) {
+                    alert("Login expired, please login again.");
+                    dispatch({type: "LOGOUT"});
+                    return;
+                }
+            })
+            .then((res) => {
+                alert("Success!");
+                this.getHardwareSet();
+            });
+    }
+
     render() {
         return(
             <Container component="main" maxWidth="xl"
-            style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100vh', alignItems: 'center', justifyContent: 'center', padding: '100px'}}>
+            style={{display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'flex-start', justifyContent: 'center', padding: '100px', paddingTop: '0px'}}>
                 <div class="resourceCard" style={{display: 'flex', justifyContent: 'space-between', width: '100%', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede', height: '248px'}}>
                     <div style={{width: '750px', padding: '10px', backgroundColor: 'lightblue'}}>
                         <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
@@ -118,9 +198,12 @@ class Resources extends React.Component {
                         </Button>
                     </div>
                 </div>
-                <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '50px', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede'}}>
+                <div style={{display: 'flex', justifyContent: 'space-evenly', width: '100%', marginTop: '50px', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede'}}>
                     <div className="quantity"
-                    style={{display: 'flex', flexDirection: 'column', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '250px'}}>
+                    style={{display: 'flex', flexDirection: 'column', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '45%'}}>
+                    <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                        Check Out
+                    </Typography>
                     <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
                         <Select 
                         //style={{width: '200px', height: '40px'}}
@@ -150,28 +233,16 @@ class Resources extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
-                            onClick = {(e) => {
-                                let updatedResourceData = this.state.ResourceData;
-                                if(updatedResourceData[this.state.QuantityOutResource].Available - this.state.QuantityOut < 0){
-                                    alert("");
-                                }else{
-                                    console.log(this.context.state.projectOID);
-                                    let requestBody = {
-                                        project_id: this.context.state.projectOID,
-                                        amount: parseInt(this.state.QuantityOut)
-                                    }
-                                    api().post("/hardware/check-out/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
-                                        this.getHardwareSet();
-                                    })
-                                }
-
-                            }}
+                            onClick = {this.checkoutHardware}
                         >
                             Check Out
                         </Button>
                     </div>
                     <div className="quantity"
-                    style={{display: 'flex', flexDirection: 'column', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '250px'}}>
+                    style={{display: 'flex', flexDirection: 'column', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '45%'}}>
+                    <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                        Check In
+                    </Typography>
                     <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
                     <Select 
                         //style={{width: '200px', height: '40px'}}
@@ -201,17 +272,7 @@ class Resources extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
-                            onClick = {(e) => {
-                                let updatedResourceData = this.state.ResourceData;
-                                console.log(this.context.state.projectOID);
-                                let requestBody = {
-                                    project_id: this.context.state.projectOID,
-                                    amount: parseInt(this.state.QuantityIn)
-                                }
-                                api().post("/hardware/check-in/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
-                                    this.getHardwareSet();
-                                })
-                            }}
+                            onClick = {this.checkinHardware}
                         >
                             Check In
                         </Button>
@@ -222,6 +283,35 @@ class Resources extends React.Component {
         );
     }
     
+}
+
+class Resources extends React.Component {
+    static contextType = AuthContext;
+    constructor(props) {    
+        super(props);
+        this.state = {
+            hasProjectID: true
+        }
+    }
+
+    componentDidMount() {
+        const {auth, dispatch} = this.context;
+        this.setState({
+            hasProjectID: (this.context.state.projectOID != null && this.context.state.projectOID != undefined)
+        });
+        if(this.context.state.projectOID != null && this.context.state.projectOID != undefined) {
+            dispatch({type: "CLEAR_PROJECT"});
+            return;
+        }
+    }
+
+    render() {
+        return(
+        <div className="wrapper">
+            {this.state.hasProjectID ? <ResourcesWithId /> : <ResourcesNoId />}
+        </div>
+        );
+    }
 }
 
 export default Resources;
