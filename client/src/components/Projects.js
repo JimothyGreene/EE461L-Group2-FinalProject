@@ -231,7 +231,10 @@ class Projects extends React.Component {
                         //style={{width: '200px', height: '40px'}}
                         onChange = {this.projectSelected}
                         labelId="projectSelect"
-                        id="projectSelect">
+                        id="projectSelect"
+                        inputProps={{
+                            'data-testid': 'projectSelect'
+                        }}>
                             {this.state.allProjects.map(proj => {
                                 return(
                                     <MenuItem id={proj.project_id.replace(/['"]+/g, '')} value={proj.name.replace(/['"]+/g, '')}>
@@ -270,6 +273,9 @@ class Projects extends React.Component {
                             autoComplete="newId"
                             error={this.state.joinError}
                             helperText={this.state.joinHelperText}
+                            inputProps={{
+                                'data-testid': 'joinProjectText'
+                            }}
                             onChange = {e => this.setState({joinId: e.target.value})}
                         />
                         <Button
@@ -278,6 +284,7 @@ class Projects extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
+                            data-testid="joinProjectButton"
                             onClick = {this.joinById}
                         >
                             Join Project
@@ -300,6 +307,9 @@ class Projects extends React.Component {
                             value={this.state.newProjectName}
                             name="newProjectName"
                             autoComplete="newProjectName"
+                            inputProps={{
+                                'data-testid': 'newProjectName'
+                            }}
                             onChange = {e => this.setState({newProjectName: e.target.value})}
                         />
                         <TextField
@@ -312,6 +322,9 @@ class Projects extends React.Component {
                             value={this.state.newId}
                             name="newId"
                             autoComplete="newId"
+                            inputProps={{
+                                'data-testid': 'newProjectID'
+                            }}
                             onChange = {e => this.setState({newId: e.target.value})}
                         />
                         <TextField
@@ -324,6 +337,9 @@ class Projects extends React.Component {
                             value={this.state.newDescription}
                             name="newDescription"
                             autoComplete="newDescription"
+                            inputProps={{
+                                'data-testid': 'newProjectDesc'
+                            }}
                             onChange = {e => this.setState({newDescription: e.target.value})}
                         />
                         <Button
@@ -332,6 +348,7 @@ class Projects extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
+                            data-testid="newProjectButton"
                             onClick = {this.handleNewProj}
                         >
                             Create New Project
