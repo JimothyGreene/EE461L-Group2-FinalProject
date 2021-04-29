@@ -1,20 +1,9 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
 import { NavLink } from 'react-router-dom'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect
-  } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
 import {Grid} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import api from '../util/api';
-
-function preventDefault(event) {
-    event.preventDefault();
-  }
 
 export default class ResourceCard extends React.Component {
 
