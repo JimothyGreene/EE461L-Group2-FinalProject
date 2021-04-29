@@ -34,35 +34,35 @@ class Dataset extends React.Component {
                 <div class="datasets" style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede'}}>
                     <div>
                         <span>Abdominal and Direct Fetal ECG Database</span>
-                        <a href="https://physionet.org/static/published-projects/adfecgdb/abdominal-and-direct-fetal-ecg-database-1.0.0.zip" target="_blank">Download</a>
+                        <a href="https://physionet.org/static/published-projects/adfecgdb/abdominal-and-direct-fetal-ecg-database-1.0.0.zip">Download</a>
                     </div>
                     <div>
                         <span>AF Termination Challenge Database</span>
-                        <a href="https://physionet.org/static/published-projects/aftdb/af-termination-challenge-database-1.0.0.zip" target="_blank">Download</a>
+                        <a href="https://physionet.org/static/published-projects/aftdb/af-termination-challenge-database-1.0.0.zip">Download</a>
                     </div>
                     <div>
                         <span>AHA Database Sample Excluded Record</span>
-                        <a href="https://physionet.org/static/published-projects/ahadb/aha-database-sample-excluded-record-1.0.0.zip" target="_blank">Download</a>
+                        <a href="https://physionet.org/static/published-projects/ahadb/aha-database-sample-excluded-record-1.0.0.zip">Download</a>
                     </div>
                     <div>
                         <span>ANSI/AAMI EC13 Test Waveforms</span>
-                        <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip" target="_blank">Download</a>
+                        <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip">Download</a>
                     </div>
                     <div>
                         <span>Apnea-ECG Database</span>
-                        <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip" target="_blank">Download</a>
+                        <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip">Download</a>
                     </div>
                     <div>
                         <span>A Pressure Map Dataset for In-bed Posture Classification</span>
-                        <a href="https://physionet.org/static/published-projects/pmd/a-pressure-map-dataset-for-in-bed-posture-classification-1.0.0.zip" target="_blank">Download</a>
+                        <a href="https://physionet.org/static/published-projects/pmd/a-pressure-map-dataset-for-in-bed-posture-classification-1.0.0.zip">Download</a>
                     </div>
                     <div>
                         <span>BIDMC Congestive Heart Failure Database</span>
-                        <a href="https://physionet.org/static/published-projects/chfdb/bidmc-congestive-heart-failure-database-1.0.0.zip" target="_blank">Download</a>
+                        <a href="https://physionet.org/static/published-projects/chfdb/bidmc-congestive-heart-failure-database-1.0.0.zip">Download</a>
                     </div>
                     <div>
                         <span>BIDMC PPG and Respiration Dataset</span>
-                        <a href="https://physionet.org/static/published-projects/bidmc/bidmc-ppg-and-respiration-dataset-1.0.0.zip" target="_blank">Download</a>
+                        <a href="https://physionet.org/static/published-projects/bidmc/bidmc-ppg-and-respiration-dataset-1.0.0.zip">Download</a>
                     </div>
                     
 

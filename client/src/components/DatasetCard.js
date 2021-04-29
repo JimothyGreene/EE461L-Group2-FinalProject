@@ -31,15 +31,15 @@ export default function DatasetCard() {
                         <List dense>
                             <ListItem button>
                                 <ListItemText>Apnea-ECG Database</ListItemText>
-                                <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip" target="_blank">Download</a>
+                                <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip">Download</a>
                             </ListItem>
                             <ListItem button>
                                 <ListItemText>ANSI/AAMI EC13 Test Waveforms</ListItemText>
-                                <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip" target="_blank">Download</a>
+                                <a href="https://physionet.org/static/published-projects/aami-ec13/ansiaami-ec13-test-waveforms-1.0.0.zip">Download</a>
                             </ListItem>
                             <ListItem button>
                                 <ListItemText>BIDMC PPG and Respiration Dataset</ListItemText>
-                                <a href="https://physionet.org/static/published-projects/bidmc/bidmc-ppg-and-respiration-dataset-1.0.0.zip" target="_blank">Download</a>
+                                <a href="https://physionet.org/static/published-projects/bidmc/bidmc-ppg-and-respiration-dataset-1.0.0.zip">Download</a>
                             </ListItem>
                         </List>
                     </div>
