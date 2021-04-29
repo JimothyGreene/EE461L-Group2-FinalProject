@@ -48,6 +48,17 @@ const reducer = (state, action) => {
         projectName: action.payload.name,
         projectOID: action.payload.oid
       };
+
+    case "CLEAR_PROJECT":
+      localStorage.removeItem("projectID");
+      localStorage.removeItem("projectName");
+      localStorage.removeItem("projectOID");
+      return {
+        ...state,
+        projectID: null,
+        projectName: null,
+        projectOID: null,
+      }
     
     default:
       return state;
@@ -56,6 +67,13 @@ const reducer = (state, action) => {
 
 export const AuthContextProvider = props => {
     const [state, dispatch] = React.useReducer(reducer, initState);
+
+    axios.interceptors.response.use(undefined, function checkToken(err) {
+      if(err.response.status === 401 && err.config.url.contains("users/")) {
+          alert("Login expired, please login again.");
+          dispatch({type: "LOGOUT"});
+      }
+    });
 
     return (
         <AuthContext.Provider value={{
