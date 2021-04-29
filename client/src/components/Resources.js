@@ -54,6 +54,7 @@ class ResourcesWithId extends React.Component {
         this.resourceSelected = this.resourceSelected.bind(this);
         this.getHardwareSet = this.getHardwareSet.bind(this);
         this.checkoutHardware = this.checkoutHardware.bind(this);
+        this.checkinHardware = this.checkinHardware.bind(this);
         this.getHardwareSet();
     }
 
@@ -265,17 +266,7 @@ class ResourcesWithId extends React.Component {
                             color="primary"
                             className="resources"
                             type="submit"
-                            onClick = {(e) => {
-                                let updatedResourceData = this.state.ResourceData;
-                                console.log(this.context.state.projectOID);
-                                let requestBody = {
-                                    project_id: this.context.state.projectOID,
-                                    amount: parseInt(this.state.QuantityIn)
-                                }
-                                api().post("/hardware/check-in/" +  this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody).then((res) => {
-                                    this.getHardwareSet();
-                                })
-                            }}
+                            onClick = {this.checkinHardware}
                         >
                             Check In
                         </Button>
