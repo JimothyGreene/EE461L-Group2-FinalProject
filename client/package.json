@@ -6,7 +6,7 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.5",
+    "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.6.3",
     "axios": "^0.21.1",
     "faker": "^5.4.0",
@@ -43,6 +43,10 @@
     ]
   },
   "devDependencies": {
-    "Faker": "^0.7.2"
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
+    "Faker": "^0.7.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "react-test-renderer": "^17.0.2"
   }
 }

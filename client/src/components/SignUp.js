@@ -98,6 +98,9 @@ export const SignUp = (props) => {
                     value={formik.values.first_name}
                     error={formik.touched.first_name && Boolean(formik.errors.first_name)}
                     helperText={formik.touched.first_name && formik.errors.first_name}
+                    inputProps={{
+                        'data-testid': 'firstName'
+                    }}
                     onChange={formik.handleChange}
                 />
                 </Grid>
@@ -113,6 +116,9 @@ export const SignUp = (props) => {
                     value={formik.values.last_name}
                     error={formik.touched.last_name && Boolean(formik.errors.last_name)}
                     helperText={formik.touched.last_name && formik.errors.last_name}
+                    inputProps={{
+                        'data-testid': 'lastName'
+                    }}
                     onChange={formik.handleChange}
                 />
                 </Grid>
@@ -128,6 +134,9 @@ export const SignUp = (props) => {
                     value={formik.values.email}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
+                    inputProps={{
+                        'data-testid': 'email'
+                    }}
                     onChange={formik.handleChange}
                 />
                 </Grid>
@@ -144,6 +153,9 @@ export const SignUp = (props) => {
                     value={formik.values.password}
                     error={formik.touched.password && Boolean(formik.errors.password)}
                     helperText={formik.touched.password && formik.errors.password}
+                    inputProps={{
+                        'data-testid': 'password'
+                    }}
                     onChange={formik.handleChange}
                 />
                 </Grid>
