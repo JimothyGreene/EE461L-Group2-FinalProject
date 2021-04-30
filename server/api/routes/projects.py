@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from database import Projects
 from flask_jwt_extended import get_jwt_identity, jwt_required
-from mongoengine import ValidationError
+from mongoengine import ValidationError, NotUniqueError
 from api.routes.validators import parse_error
 import json
 
@@ -24,6 +24,8 @@ def projects_create():
         return new_project.to_json(), 201
     except ValidationError as e:
         return parse_error(e), 422
+    except NotUniqueError as e:
+        return { 'msg': str(e) }, 422
 
 
 @projects.route('/', methods=['GET'])

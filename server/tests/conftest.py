@@ -1,7 +1,7 @@
 import pytest
 import os
 from api import create_app
-from database import User
+from database import User, Projects
 
 
 class TestConfig:
@@ -20,3 +20,4 @@ def app():
 @pytest.fixture(autouse=True)
 def clean_db():
     User.drop_collection()
+    Projects.drop_collection()
