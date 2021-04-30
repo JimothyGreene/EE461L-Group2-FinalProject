@@ -53,7 +53,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build ./server -t $IMAGE_NAME
+          docker build ./client -t $IMAGE_NAME
 
       - name: Push Docker image
         run: |
