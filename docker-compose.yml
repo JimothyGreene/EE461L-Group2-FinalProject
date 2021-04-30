@@ -30,7 +30,7 @@ services:
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     image: ee461l_client
     container_name: ee461l_react-client
     command: npm start
@@ -43,7 +43,7 @@ services:
       - "3000:3000"
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_PROD=false
+      - REACT_APP_DEV=true
       - REACT_APP_API_URL=http://localhost:5000/
     networks:
       - app-network
