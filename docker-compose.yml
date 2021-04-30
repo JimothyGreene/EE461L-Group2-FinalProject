@@ -30,7 +30,7 @@ services:
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     image: ee461l_client
     container_name: ee461l_react-client
     command: npm start
