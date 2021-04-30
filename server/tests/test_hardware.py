@@ -33,7 +33,7 @@ def test_hardware_create_success(client, auth_token):
     assert b"id" in res.data
 
 
-def test_project_create_incorrect_input(client, auth_token):
+def test_hardware_create_incorrect_input(client, auth_token):
     hardware_data = {
         "name": "Hardware Set Test Failure",
         "capacity": 4,
