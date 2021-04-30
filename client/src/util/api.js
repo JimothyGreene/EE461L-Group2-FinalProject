@@ -7,7 +7,8 @@ const api = () => {
         console.log("From API: ", AUTH_TOKEN);
     }
     let api = axios.create({
-        baseURL: process.env.REACT_APP_PROD ? process.env.REACT_APP_API_URL : 'http://localhost:5000/', 
+        baseURL: process.env.REACT_APP_API_URL || 'http:localhost:5000/',
+        // baseURL: process.env.REACT_APP_PROD ? process.env.REACT_APP_API_URL : 'http://localhost:5000/', 
         responseType: 'json',
     });
     return api;

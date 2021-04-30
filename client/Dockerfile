@@ -14,6 +14,10 @@ RUN npm install --silent
 
 COPY . .
 
+# API URL
+ARG REACT_APP_API_URL_ARG
+ENV REACT_APP_API_URL=$REACT_APP_API_URL_ARG
+
 RUN npm run build
 
 # Production environment

@@ -53,7 +53,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build ./client -t $IMAGE_NAME
+          docker build ./client -t $IMAGE_NAME \
+            --build-arg REACT_APP_API_URL=https://ee461l-final-project-poc6jfma5a-uc.a.run.app
 
       - name: Push Docker image
         run: |
@@ -67,4 +68,3 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --set-env-vars "REACT_APP_PROD=true" \
-            --set-env-vars "REACT_APP_API_URL=https://ee461l-final-project-poc6jfma5a-uc.a.run.app"
