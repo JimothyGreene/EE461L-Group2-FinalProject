@@ -4,6 +4,7 @@ from database.models import HardwareSet, Projects
 from mongoengine import ValidationError, NotUniqueError
 from api.routes.validators import parse_error
 import json
+from datetime import datetime
 
 hardware = Blueprint('hardware', __name__)
 
@@ -136,7 +137,9 @@ def hardware_checkout(id):
             if not found:
                 project_hardware.append({
                     "_id": id,
-                    "amount": req["amount"]
+                    "amount": req["amount"],
+                    "cost": 0,
+                    "checkout_time": datetime.now()
                 })
             # hardware_set.update(dec__available=req["amount"]) -- Can't use this while Mongoengine bug is there
             hardware_set.update(available=hardware_set.available-req["amount"])

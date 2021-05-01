@@ -43,7 +43,9 @@ class HardwareSet(db.Document):
         name: the name of the Hardware Set
         capacity: hardware set capacity (how many we own)
         available: hardware set availability (how many are not currently checked out)
+        price: hardware set price per hour
     """
     name = db.StringField(required=True, unique=True, min_length=1)
     capacity = db.IntField(required=True, min_value=0)
     available = db.IntField(required=True, min_value=0)
+    price = db.DecimalField(required=True, min_value=0)

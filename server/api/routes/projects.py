@@ -4,6 +4,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 from mongoengine import ValidationError, NotUniqueError
 from api.routes.validators import parse_error
 import json
+import datetime
 
 projects = Blueprint('projects', __name__)
 
@@ -36,6 +37,11 @@ def projects_read():
     Returns:
         200: all projects in the database
     """
+    for project in Projects.objects(creator_id=get_jwt_identity()["_id"]["$oid"]):
+        for hardware in project.hardware:
+            price = Hardware.objects(id=hardware["_id"]).first()["price"]
+            old_datetime = datetime.strptime(hardware["checkout_time"], '%Y-%m-%d %H:%M:%S.%f')
+            hardware["cost"] = price * ((datetime.now() - old_datetime).seconds / 3600) # price * time diff in hours
     return Projects.objects(creator_id=get_jwt_identity()["_id"]["$oid"]).to_json(), 200
 
 
