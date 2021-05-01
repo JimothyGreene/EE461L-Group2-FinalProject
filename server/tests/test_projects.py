@@ -1,6 +1,6 @@
-"""Tests for the users functionality of the API
+"""Tests for the project functionality of the API
 
-This includes registration and login
+This includes project CRUD
 """
 from database import Projects, User
 from flask_jwt_extended import create_access_token, get_jwt_identity

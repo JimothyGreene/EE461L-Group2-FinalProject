@@ -1,7 +1,7 @@
 import pytest
 import os
 from api import create_app
-from database import User, Projects
+from database import User, Projects, HardwareSet
 
 
 class TestConfig:
@@ -21,3 +21,4 @@ def app():
 def clean_db():
     User.drop_collection()
     Projects.drop_collection()
+    HardwareSet.drop_collection()

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 from database.models import HardwareSet, Projects
-from mongoengine import ValidationError
+from mongoengine import ValidationError, NotUniqueError
 from api.routes.validators import parse_error
 import json
 
@@ -25,6 +25,8 @@ def hardware_create():
         return new_hardware_set.to_json(), 201
     except ValidationError as e:
         return parse_error(e), 422
+    except NotUniqueError as e:
+        return { 'msg': str(e) }, 422
 
 
 @hardware.route('/', methods=['GET'])
@@ -174,7 +176,7 @@ def hardware_checkin(id):
                     hardware["amount"] -= req["amount"]
                     if hardware["amount"] == 0:
                         remove = hardware
-            if not found:
+            if not found or hardware_set == None:
                 return {'msg': 'Hardware Set not found for this project'}, 404
             if remove is not None:
                 project_hardware.remove(remove)
