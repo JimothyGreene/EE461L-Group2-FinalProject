@@ -152,17 +152,10 @@ export function TopAndSideBar(props) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             {(state.projectID !== null && (state.projectID !== 'undefined' || state.projectID !== 'null')) ? `ProjectID: ${state.projectID.replace(/['"]+/g, '')}` : 'No Project Selected'}
           </Typography>
-          <Button
-            color="inherit"
-            className={classes.button}
-            endIcon={<AccountCircleIcon />}
-            >
-            {localStorage.getItem("user") ? localStorage.getItem("user").replace(/['"]+/g, '') : "Welcome back!"} </Button>
           <Button 
-            type="button" 
+            style={{"color": "white", "margin-right": "1.4em"}}
             onClick={handleOpenInfo}
-            endIcon={<InfoIcon />}>
-          </Button>
+            endIcon={<InfoIcon />}>Help</Button>
           <Modal
             open={openInfo}
             onClose={handleCloseInfo}
@@ -171,6 +164,12 @@ export function TopAndSideBar(props) {
           >
             <Information />
           </Modal>
+          <Button
+            color="inherit"
+            className={classes.button}
+            endIcon={<AccountCircleIcon/>}
+            onClick={() => {window.location.assign("/")}}>
+            {localStorage.getItem("user") ? localStorage.getItem("user").replace(/['"]+/g, '') : "Welcome back!"} </Button>
         </Toolbar>
       </AppBar>
       <Drawer
