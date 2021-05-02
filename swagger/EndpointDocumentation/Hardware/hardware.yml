@@ -20,7 +20,10 @@ post:
             available:
               type: integer
               example: 50
-          
+            price:
+              type: number
+              example: 30
+
   responses:
     201:
       description: Hardware Set Successfully Created
@@ -44,6 +47,9 @@ post:
               available:
                 type: integer
                 example: 50
+              price:
+                type: number
+                example: 30
     422:
       description: Validation Errors
       content:
@@ -83,14 +89,18 @@ get:
                   type: integer
                 available:
                   type: integer
+                price:
+                  type: number
             example:
               - _id:
                   $oid: "606e2b692a216b8f986af361"
                 name: "Hardware Set 1"
                 capacity: 400
                 available: 50
+                price: 30
               - _id:
                   $oid: "606e2b782a216b8f986af364"
                 name: "Hardware Set 2"
                 capacity: 600
                 available: 100
+                price: 40
