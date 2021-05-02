@@ -178,7 +178,10 @@ class ResourcesWithId extends React.Component {
                         //style={{width: '200px', height: '40px'}}
                         onChange = {this.resourceSelected}
                         labelId="demo-simple-select-label"
-                        id="demo-simple-select">
+                        id="demo-simple-select"
+                        inputProps={{
+                            'data-testid': 'resourceSelect'
+                        }}>
                              {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                  
                         </Select>
                         <Button
@@ -223,6 +226,9 @@ class ResourcesWithId extends React.Component {
                             label="Quantity"
                             name="qty"
                             autoComplete="qty"
+                            inputProps={{
+                                'data-testid': 'quantityOut'
+                            }}
                             onChange = {(e) => {
                                 this.setState({QuantityOut: e.target.value})
                             }}
@@ -234,6 +240,7 @@ class ResourcesWithId extends React.Component {
                             className="resources"
                             type="submit"
                             onClick = {this.checkoutHardware}
+                            data-testid="checkout"
                         >
                             Check Out
                         </Button>
@@ -262,6 +269,9 @@ class ResourcesWithId extends React.Component {
                             label="Quantity"
                             name="qty"
                             autoComplete="qty"
+                            inputProps={{
+                                'data-testid': 'quantityIn'
+                            }}
                             onChange = {(e) => {
                                 this.setState({QuantityIn: e.target.value})
                             }}
@@ -273,6 +283,7 @@ class ResourcesWithId extends React.Component {
                             className="resources"
                             type="submit"
                             onClick = {this.checkinHardware}
+                            data-testid="checkin"
                         >
                             Check In
                         </Button>
