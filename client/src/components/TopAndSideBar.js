@@ -140,7 +140,7 @@ export function TopAndSideBar(props) {
             {props.page}
           </Typography>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            {(state.projectID !== null && (state.projectID !== 'undefined' || state.projectID !== 'null')) ? `ProjectID: ${state.projectID.replace(/['"]+/g, '')}` : 'No Project Selected'}
+            {(state.projectID !== null && (state.projectID !== 'undefined' || state.projectID !== 'null')) ? `ProjectID: ${state.projectID ? state.projectID.replace(/['"]+/g, '') : ''}` : 'No Project Selected'}
           </Typography>
           <Button
             color="inherit"

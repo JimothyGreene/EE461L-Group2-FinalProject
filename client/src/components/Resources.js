@@ -139,7 +139,7 @@ class ResourcesWithId extends React.Component {
             project_id: this.context.state.projectOID,
             amount: parseInt(this.state.QuantityIn)
         }
-        api().post('/hardware/check-out/' + this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody)
+        api().post('/hardware/check-in/' + this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody)
             .catch((e) => {
                 if(e.response.status === 422) {
                     console.log("No project selected! Please select a project before attempting to checkout hardware")
@@ -299,10 +299,10 @@ class Resources extends React.Component {
         this.setState({
             hasProjectID: (this.context.state.projectOID != null && this.context.state.projectOID != undefined)
         });
-        if(this.context.state.projectOID != null && this.context.state.projectOID != undefined) {
-            dispatch({type: "CLEAR_PROJECT"});
-            return;
-        }
+        // if(this.context.state.projectOID != null && this.context.state.projectOID != undefined) {
+        //     dispatch({type: "CLEAR_PROJECT"});
+        //     return;
+        // }
     }
 
     render() {
