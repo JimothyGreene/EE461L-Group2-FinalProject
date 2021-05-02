@@ -18,13 +18,16 @@ import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Modal from '@material-ui/core/Modal';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import DnsIcon from '@material-ui/icons/Dns';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import InfoIcon from '@material-ui/icons/Info';
 import { AuthContext } from './AuthContext';
+import Information from './Information';
 import { Link } from 'react-router-dom';
 
 const mainListItems = (
@@ -119,6 +122,13 @@ export function TopAndSideBar(props) {
     setOpen(false);
   };
 
+  const [openInfo, setOpenInfo] = React.useState(false);
+  const handleOpenInfo = () => {
+    setOpenInfo(true);
+  };
+  const handleCloseInfo = () => {
+    setOpenInfo(false);
+  };
 
   const { state, dispatch } = React.useContext(AuthContext);
 
@@ -147,7 +157,20 @@ export function TopAndSideBar(props) {
             className={classes.button}
             endIcon={<AccountCircleIcon />}
             >
-            Welcome, {localStorage.getItem("user").replace(/['"]+/g, '')} </Button>
+            {localStorage.getItem("user") ? localStorage.getItem("user").replace(/['"]+/g, '') : "Welcome back!"} </Button>
+          <Button 
+            type="button" 
+            onClick={handleOpenInfo}
+            endIcon={<InfoIcon />}>
+          </Button>
+          <Modal
+            open={openInfo}
+            onClose={handleCloseInfo}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <Information />
+          </Modal>
         </Toolbar>
       </AppBar>
       <Drawer
