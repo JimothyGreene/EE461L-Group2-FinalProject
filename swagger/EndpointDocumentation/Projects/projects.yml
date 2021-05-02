@@ -108,6 +108,8 @@ get:
                         type: string
                       amount:
                         type: integer
+                      cost:
+                        type: number
                 creator_id:
                   type: object
                   properties:
@@ -123,6 +125,7 @@ get:
                 hardware:
                   - _id: "605e4e9c2226f89fb151d0a1"
                     amount: 200
+                    cost: 100.52
                 creator_id:
                   $oid: "6059234f9885cb36c1964f52"
                 project_id: "project-id-123"
@@ -134,8 +137,10 @@ get:
                 hardware:
                   - _id: "605e4e9c2226f89fb151d0a1"
                     amount: 200
+                    cost: 50.24
                   - _id: "605e4e9c2226f89fb151d0a2"
                     amount: 100
+                    cost: 10.20
                 creator_id:
                   $oid: "6059234f9885cb36c1964f52"
                 project_id: "project-id-456"
