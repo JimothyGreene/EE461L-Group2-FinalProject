@@ -1,9 +1,10 @@
 from flask import Blueprint, request, jsonify
-from database import Projects
+from database import Projects, HardwareSet
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from mongoengine import ValidationError, NotUniqueError
 from api.routes.validators import parse_error
 import json
+from datetime import datetime
 
 projects = Blueprint('projects', __name__)
 
@@ -25,7 +26,7 @@ def projects_create():
     except ValidationError as e:
         return parse_error(e), 422
     except NotUniqueError as e:
-        return { 'msg': str(e) }, 422
+        return {'msg': str(e)}, 422
 
 
 @projects.route('/', methods=['GET'])
@@ -36,6 +37,17 @@ def projects_read():
     Returns:
         200: all projects in the database
     """
+    for project in Projects.objects(creator_id=get_jwt_identity()["_id"]["$oid"]):
+        project_hardware = list()
+        for hardware in project.hardware:
+            price = HardwareSet.objects(id=hardware["_id"]).first()["price"]
+            old_datetime = hardware["checkout_time"]
+            # price * time diff in hours
+            hardware["cost"] = price * \
+                ((datetime.now() - old_datetime).seconds / 3600)
+            project_hardware.append(hardware)
+        project.update(hardware=project_hardware)
+        project.reload()
     return Projects.objects(creator_id=get_jwt_identity()["_id"]["$oid"]).to_json(), 200
 
 

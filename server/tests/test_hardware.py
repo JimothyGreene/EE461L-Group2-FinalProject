@@ -24,7 +24,8 @@ def test_hardware_create_success(client, auth_token):
     hardware_data = {
         "name": "Hardware Set Test Success",
         "capacity": 4000,
-        "available": 500
+        "available": 500,
+        "price": 20
     }
     res = client.post('/hardware/', json=hardware_data, headers={
         "Authorization": auth_token
@@ -37,7 +38,8 @@ def test_hardware_create_incorrect_input(client, auth_token):
     hardware_data = {
         "name": "Hardware Set Test Failure",
         "capacity": 4,
-        "available": -500
+        "available": -500,
+        "price": 20
     }
     res = client.post('/hardware/', json=hardware_data, headers={
         "Authorization": auth_token
@@ -50,7 +52,8 @@ def test_hardware_create_empty(client, auth_token):
     hardware_data = {
         "name": "",
         "capacity": -1,
-        "available": -1
+        "available": -1,
+        "price": 20
     }
     res = client.post('/hardware/', json=hardware_data, headers={
         "Authorization": auth_token
@@ -65,12 +68,14 @@ def test_hardware_create_duplicate_name(client, auth_token):
         {
             "name": "Same-Name",
             "capacity": 1000,
-            "available": 100
+            "available": 100,
+            "price": 20
         },
         {
             "name": "Same-Name",
             "capacity": 2000,
-            "available": 200
+            "available": 200,
+            "price": 20
         }
     ]
     res = client.post('/hardware/', json=hardware_data[0], headers={
@@ -96,7 +101,8 @@ def db_helper():
     hardware_data = {
             "name": "Hardware Set 1",
             "capacity": 2000,
-            "available": 200
+            "available": 200,
+            "price": 20
     }
 
     Projects(**project_data).save()
@@ -287,12 +293,14 @@ def test_hardware_read(client, auth_token):
         {
             "name": "Read Hardware 1",
             "capacity": 2000,
-            "available": 200
+            "available": 200,
+            "price": 20
         },
         {
             "name": "Read Hardware 2",
             "capacity": 3000,
-            "available": 300
+            "available": 300,
+            "price": 20
         }
     ]
     for hardware in hardware_data:
@@ -318,12 +326,14 @@ def test_hardware_read_id_success(client, auth_token):
         {
             "name": "Read Hardware ID 1",
             "capacity": 2000,
-            "available": 200
+            "available": 200,
+            "price": 20
         },
         {
             "name": "Read Hardware ID 2",
             "capacity": 2000,
-            "available": 200
+            "available": 200,
+            "price": 20
         }
     ]
 
@@ -368,7 +378,8 @@ def test_hardware_read_id_not_found(client, auth_token):
     hardware_data = {
             "name": "Read Hardware ID 1",
             "capacity": 2000,
-            "available": 200
+            "available": 200,
+            "price": 20
     }
 
     Projects(**project_data).save()
@@ -400,7 +411,8 @@ def test_hardware_update_success(client, auth_token):
     hardware_data = {
         "name": "New Hardware",
         "capacity": 2000,
-        "available": 200
+        "available": 200,
+        "price": 20
     }
 
     update_data = {
@@ -423,7 +435,8 @@ def test_hardware_update_not_found(client, auth_token):
     hardware_data = {
         "name": "New Hardware",
         "capacity": 2000,
-        "available": 200
+        "available": 200,
+        "price": 20
     }
 
     update_data = {
@@ -445,7 +458,8 @@ def test_hardware_update_incorrect_input(client, auth_token):
     hardware_data = {
         "name": "New Hardware",
         "capacity": 2000,
-        "available": 200
+        "available": 200,
+        "price": 20
     }
 
     update_data = {
@@ -466,7 +480,8 @@ def test_hardware_update_empty(client, auth_token):
     hardware_data = {
         "name": "New Hardware",
         "capacity": 2000,
-        "available": 200
+        "available": 200,
+        "price": 20
     }
 
     update_data = {        
@@ -484,7 +499,8 @@ def test_hardware_delete_success(client, auth_token):
     hardware_data = {
         "name": "New Hardware",
         "capacity": 2000,
-        "available": 200
+        "available": 200,
+        "price": 20
     }
     HardwareSet(**hardware_data).save()
     hardware_id = HardwareSet.objects.first().pk
@@ -500,7 +516,8 @@ def test_project_delete_not_found(client, auth_token):
     hardware_data = {
         "name": "New Hardware",
         "capacity": 2000,
-        "available": 200
+        "available": 200,
+        "price": 20
     }
     HardwareSet(**hardware_data).save()
     hardware_id = HardwareSet.objects.first().pk
@@ -516,7 +533,8 @@ def test_project_delete_invalid_input(client, auth_token):
     hardware_data = {
         "name": "New Hardware",
         "capacity": 2000,
-        "available": 200
+        "available": 200,
+        "price": 20
     }
     HardwareSet(**hardware_data).save()
     hardware_id = HardwareSet.objects.first().pk
