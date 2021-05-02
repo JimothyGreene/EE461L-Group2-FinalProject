@@ -58,7 +58,7 @@ def hardware_read_id(id):
         curr_project = Projects.objects(id=id).first()
         if curr_project:
             hardware_list = curr_project["hardware"]
-            return json.dumps(hardware_list), 200
+            return json.dumps(hardware_list, default=str), 200
         else:
             return {'msg': 'Project not found'}, 404
     except ValidationError as e:
