@@ -41,6 +41,7 @@ export default function ProjectCard() {
   }, [selectedProject]);
 
   const onClick = (e) => {
+    console.log(selectedProject)
     dispatch({
       type: "PROJECT",
       payload: {
@@ -51,6 +52,12 @@ export default function ProjectCard() {
     });
   }
 
+  let projectMap = {};
+  allProjects.forEach(proj => {
+    projectMap[proj.name] = proj;
+  });
+  console.log(projectMap)
+
   return(
       <React.Fragment>
           <Typography component="h2" variant="h6" color="primary" gutterBottom>
@@ -60,7 +67,7 @@ export default function ProjectCard() {
               Current ProjectID:
           </Typography>
           <Typography component="p" variant="h5" align="center" justify="center">
-          {(state.projectID !== null && state.projectID !== 'undefined') ? `${state.projectID.replace(/['"]+/g, '')}` : ''}
+          {(state.projectID !== null && state.projectID !== 'undefined') ? `${state.projectID ? state.projectID.replace(/['"]+/g, '') : ''}` : ''}
           </Typography>
           <div>
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -68,16 +75,17 @@ export default function ProjectCard() {
                       <InputLabel id='project-select-label' variant="standard">Change Project</InputLabel>
                       <Select labelId='project-select-label' id='project-select' autoWidth variant="standard"
                         onChange={(e) => {
+                          console.log(projectMap[e.target.value]._id.$oid)
                           setSelectedProject({
-                            selectedID: e.currentTarget.id,
+                            selectedID: projectMap[e.target.value].project_id,
                             selectedName: e.target.value,
-                            selectedOID: e.currentTarget.dataset.objectID
+                            selectedOID: projectMap[e.target.value]._id.$oid
                           })
                         }}
                       >
                         {allProjects.map(proj => {
                             return(
-                                <MenuItem id={proj.project_id.replace(/['"]+/g, '')} value={proj.name.replace(/['"]+/g, '')} data-objectID={proj._id.$oid.replace(/['"]+/g, '')}>
+                                <MenuItem id={proj.project_id.replace(/['"]+/g, '')} value={proj.name.replace(/['"]+/g, '')} objectID={proj._id.$oid.replace(/['"]+/g, '')}>
                                     {proj.name.replace(/['"]+/g, '')}
                                 </MenuItem>
                             );
@@ -157,4 +165,3 @@ const options = [
       </div>
     );
   }
-  
