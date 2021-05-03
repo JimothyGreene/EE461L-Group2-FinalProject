@@ -24,6 +24,8 @@ put:
               type: integer
             available:
               type: integer
+            price:
+              type: number
   responses:
     200:
       description: Hardware Set Successfully Updated
@@ -47,6 +49,9 @@ put:
               available:
                 type: integer
                 example: 50
+              price:
+                type: number
+                example: 30
     404:
       description: Hardware Set Not Found
       content:
