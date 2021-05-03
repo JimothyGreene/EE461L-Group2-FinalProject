@@ -96,9 +96,6 @@ function AuthApp() {
         <Route exact path="/Projects">
           <TopAndSideBar page="Projects"><Projects /></TopAndSideBar>
         </Route>
-        <Route exact path="/billing">
-          <TopAndSideBar page="Billing"><h1>Billing</h1></TopAndSideBar>
-        </Route>
         <Route exact path="/datasets">
           <TopAndSideBar page="Datasets"><Dataset /></TopAndSideBar>
         </Route>
