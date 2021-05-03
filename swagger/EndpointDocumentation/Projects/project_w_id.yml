@@ -38,10 +38,14 @@ get:
                     properties:
                       _id:
                         type: string
+                      name:
+                        type: string
                       amount:
                         type: integer
                       cost:
                         type: number
+                      checkout_time:
+                        type: object
                 creator_id:
                   type: object
                   properties:
@@ -56,8 +60,11 @@ get:
               description: "Project 1 Description"
               hardware:
                 - _id: "605e4e9c2226f89fb151d0a1"
+                  name: "Hardware 1"
                   amount: 200
                   cost: 100.52
+                  checkout_time: 
+                    $date: 1620081706990
               creator_id:
                 $oid: "6059234f9885cb36c1964f52"
               project_id: "project-id-123"
