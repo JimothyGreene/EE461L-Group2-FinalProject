@@ -170,7 +170,10 @@ class ResourcesWithId extends React.Component {
                             <span>Resource: {this.state.SelectedResourceName}</span>
                             <span>Capacity: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].capacity : ""}</span>
                         </div>
-                        <span>Available: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].available : ""}</span>
+                        <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
+                            <span>Available: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].available : ""}</span>
+                            <span>Price: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].price : ""}</span>
+                        </div>
                     </div>
                     <div className="quantity"  
                     style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '250px'}}>
