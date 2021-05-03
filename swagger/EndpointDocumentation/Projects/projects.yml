@@ -106,10 +106,14 @@ get:
                     properties:
                       _id:
                         type: string
+                      name:
+                        type: string
                       amount:
                         type: integer
                       cost:
                         type: number
+                      checkout_time:
+                        type: object
                 creator_id:
                   type: object
                   properties:
@@ -124,8 +128,11 @@ get:
                 description: "Project 1 Description"
                 hardware:
                   - _id: "605e4e9c2226f89fb151d0a1"
+                    name: "Hardware 1"
                     amount: 200
                     cost: 100.52
+                    checkout_time: 
+                      $date: 1620081706990
                 creator_id:
                   $oid: "6059234f9885cb36c1964f52"
                 project_id: "project-id-123"
@@ -136,11 +143,17 @@ get:
                 description: "Project 2 Description"
                 hardware:
                   - _id: "605e4e9c2226f89fb151d0a1"
+                    name: "Hardware 1"
                     amount: 200
                     cost: 50.24
+                    checkout_time: 
+                      $date: 1620081706990
                   - _id: "605e4e9c2226f89fb151d0a2"
+                    name: "Hardware 2"
                     amount: 100
                     cost: 10.20
+                    checkout_time: 
+                      $date: 1620081706112
                 creator_id:
                   $oid: "6059234f9885cb36c1964f52"
                 project_id: "project-id-456"

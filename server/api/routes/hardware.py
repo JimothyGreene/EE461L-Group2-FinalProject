@@ -137,6 +137,7 @@ def hardware_checkout(id):
             if not found:
                 project_hardware.append({
                     "_id": id,
+                    "name": hardware_set["name"],
                     "amount": req["amount"],
                     "cost": 0,
                     "checkout_time": datetime.now()
