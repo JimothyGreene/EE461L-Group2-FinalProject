@@ -19,6 +19,7 @@ import Container from '@material-ui/core/Container';
 import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
+import Paper from '@material-ui/core/Paper';
 import api from '../util/api';
 import { NavLink } from 'react-router-dom'
 
@@ -164,136 +165,185 @@ class ResourcesWithId extends React.Component {
         return(
             <Container component="main" maxWidth="xl"
             style={{display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'flex-start', justifyContent: 'center', padding: '100px', paddingTop: '0px'}}>
-                <div class="resourceCard" style={{display: 'flex', justifyContent: 'space-between', width: '100%', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede', height: '248px'}}>
-                    <div style={{width: '750px', padding: '10px', backgroundColor: 'lightblue'}}>
-                        <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
-                            <span>Resource: {this.state.SelectedResourceName}</span>
-                            <span>Capacity: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].capacity : ""}</span>
-                        </div>
-                        <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
-                            <span>Available: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].available : ""}</span>
-                            <span>Price: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].price : ""}</span>
-                        </div>
-                    </div>
-                    <div className="quantity"  
-                    style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '250px'}}>
-                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
-                        <Select 
-                        //style={{width: '200px', height: '40px'}}
-                        onChange = {this.resourceSelected}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        inputProps={{
-                            'data-testid': 'resourceSelect'
-                        }}>
-                             {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                  
-                        </Select>
-                        <Button
-                            style={{marginTop: '10px'}}
-                            halfWidth
-                            variant="contained"
-                            color="primary"
-                            className="resources"
-                            type="submit"
-                            onClick = {(e) => {
-                                this.setState({SelectedResourceName: this.state.ResourceName});
-                                this.setState({RenderID: this.state.ID})
-                                this.setState({RenderAvailable: this.state.Available})
-                            }}
-                        >
-                            See Info
-                        </Button>
-                    </div>
-                </div>
-                <div style={{display: 'flex', justifyContent: 'space-evenly', width: '100%', marginTop: '50px', border: '1px solid #e4e4e4', padding: '20px', backgroundColor: '#dedede'}}>
-                    <div className="quantity"
-                    style={{display: 'flex', flexDirection: 'column', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '45%'}}>
-                    <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                        Check Out
-                    </Typography>
-                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
-                        <Select 
-                        //style={{width: '200px', height: '40px'}}
-                        onChange = {(e) => {
-                            this.setState({QuantityOutResource: e.target.value})
-                        }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select">
-                            {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                              
-                        </Select>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            halfWidth
-                            id="qty"
-                            label="Quantity"
-                            name="qty"
-                            autoComplete="qty"
-                            inputProps={{
-                                'data-testid': 'quantityOut'
-                            }}
-                            onChange = {(e) => {
-                                this.setState({QuantityOut: e.target.value})
-                            }}
-                        />
-                        <Button
-                            halfWidth
-                            variant="contained"
-                            color="primary"
-                            className="resources"
-                            type="submit"
-                            onClick = {this.checkoutHardware}
-                            data-testid="checkout"
-                        >
-                            Check Out
-                        </Button>
-                    </div>
-                    <div className="quantity"
-                    style={{display: 'flex', flexDirection: 'column', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '45%'}}>
-                    <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                        Check In
-                    </Typography>
-                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
-                    <Select 
-                        //style={{width: '200px', height: '40px'}}
-                        onChange = {(e) => {
-                            this.setState({QuantityInResource: e.target.value})
-                        }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select">
-                            {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                          
-                        </Select>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            halfWidth
-                            id="qty"
-                            label="Quantity"
-                            name="qty"
-                            autoComplete="qty"
-                            inputProps={{
-                                'data-testid': 'quantityIn'
-                            }}
-                            onChange = {(e) => {
-                                this.setState({QuantityIn: e.target.value})
-                            }}
-                        />
-                        <Button
-                            halfWidth
-                            variant="contained"
-                            color="primary"
-                            className="resources"
-                            type="submit"
-                            onClick = {this.checkinHardware}
-                            data-testid="checkin"
-                        >
-                            Check In
-                        </Button>
-                    </div>
-                </div>
-                
+                <Container style={{
+                        justifyContent:'center', alignItems:'center',
+                        margin: 'auto',
+                        height: '30vh',
+                        width: '50vw',
+                        display: 'flex',
+                        overflow: 'hidden',
+                        flexDirection: 'column'}}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6} lg={8}>
+                                <Paper elevation={10} style={{
+                                            padding: '20px', 
+                                            display: 'flex',
+                                            backgroundColor: 'white',
+                                            borderRadius: '5px',
+                                            flexDirection: 'column'}}>
+                                    <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
+                                        <Typography variant="h6" >Resource: {this.state.SelectedResourceName}</Typography>
+                                        <Typography>Capacity: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].capacity : ""}</Typography>
+                                    </div>
+                                    <div style={{width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
+                                        <Typography>Available: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].available : ""}</Typography>
+                                        <Typography>Price: {this.state.ResourceData[this.state.SelectedResourceName] ? this.state.ResourceData[this.state.SelectedResourceName].price : ""}</Typography>
+                                    </div>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={4}>
+                                <Paper elevation={10}
+                                    style={{
+                                                padding: '20px', 
+                                                display: 'flex',
+                                                backgroundColor: 'white',
+                                                borderRadius: '5px',
+                                                flexDirection: 'column'}}>
+                                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
+                                    <Select 
+                                    //style={{width: '200px', height: '40px'}}
+                                    onChange = {this.resourceSelected}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    inputProps={{
+                                        'data-testid': 'resourceSelect'
+                                    }}>
+                                        {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                  
+                                    </Select>
+                                    <Button
+                                        style={{marginTop: '10px'}}
+                                        halfWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className="resources"
+                                        type="submit"
+                                        onClick = {(e) => {
+                                            this.setState({SelectedResourceName: this.state.ResourceName});
+                                            this.setState({RenderID: this.state.ID})
+                                            this.setState({RenderAvailable: this.state.Available})
+                                        }}
+                                    >
+                                        See Info
+                                    </Button>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    </Container>    
+
+
+                {/* The checkout */}
+                <Container style={{
+                        justifyContent:'center', alignItems:'center',
+                        margin: 'auto',
+                        height: '50vh',
+                        width: '50vw',
+                        display: 'flex',
+                        overflow: 'hidden',
+                        flexDirection: 'column'}}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={6} lg={6}>
+                            <Paper elevation={10} style={{
+                                        padding: '20px', 
+                                        display: 'flex',
+                                        backgroundColor: 'white',
+                                        borderRadius: '5px',
+                                        flexDirection: 'column'}}>
+                                {/* <div className="quantity" style={{display: 'flex', flexDirection: 'column', border: '1px solid #e4e4e4', padding: '20px', borderRadius: '5px', backgroundColor: 'white', width: '45%'}}> */}
+                                    <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                                        Check Out
+                                    </Typography>
+                                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
+                                    <Select 
+                                    //style={{width: '200px', height: '40px'}}
+                                    onChange = {(e) => {
+                                        this.setState({QuantityOutResource: e.target.value})
+                                    }}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select">
+                                        {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                              
+                                    </Select>
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        halfWidth
+                                        id="qty"
+                                        label="Quantity"
+                                        name="qty"
+                                        autoComplete="qty"
+                                        inputProps={{
+                                            'data-testid': 'quantityOut'
+                                        }}
+                                        onChange = {(e) => {
+                                            this.setState({QuantityOut: e.target.value})
+                                        }}
+                                    />
+                                    <Button
+                                        halfWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className="resources"
+                                        type="submit"
+                                        onClick = {this.checkoutHardware}
+                                        data-testid="checkout"
+                                    >
+                                        Check Out
+                                    </Button>
+                                {/* </div> */}
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={6}>
+                            <Paper elevation={10}
+                                   style={{
+                                            padding: '20px', 
+                                            display: 'flex',
+                                            backgroundColor: 'white',
+                                            borderRadius: '5px',
+                                            flexDirection: 'column'}}>
+                            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                                Check In
+                            </Typography>
+                            <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
+                            <Select 
+                                //style={{width: '200px', height: '40px'}}
+                                onChange = {(e) => {
+                                    this.setState({QuantityInResource: e.target.value})
+                                }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select">
+                                    {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                          
+                                </Select>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    halfWidth
+                                    id="qty"
+                                    label="Quantity"
+                                    name="qty"
+                                    autoComplete="qty"
+                                    inputProps={{
+                                        'data-testid': 'quantityIn'
+                                    }}
+                                    onChange = {(e) => {
+                                        this.setState({QuantityIn: e.target.value})
+                                    }}
+                                />
+                                <Button
+                                    halfWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="resources"
+                                    type="submit"
+                                    onClick = {this.checkinHardware}
+                                    data-testid="checkin"
+                                >
+                                    Check In
+                                </Button>
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                </Container>    
             </Container>
         );
     }

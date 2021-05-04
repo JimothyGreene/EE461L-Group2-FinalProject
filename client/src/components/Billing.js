@@ -3,6 +3,7 @@ import React from "react";
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 import api from '../util/api';
 import { AuthContext } from './AuthContext';
 
@@ -92,10 +93,20 @@ class Billing extends React.Component {
     }
 
     render() {
-
-        var total = 0;
+        var totalCost = 0.0;
+        var totalUnits = 0;
+        
+        this.state.currProjectHardware.forEach(element => {
+            totalCost += element.cost;
+            totalUnits += element.amount;
+        });
         return(
-            <Container>
+            <Paper style={{
+                height: '50vh',
+                width: '50vw',
+                display: 'flex',
+                overflow: 'hidden',
+                flexDirection: 'column'}}>
                 <Grid container direction="row" alignItems="center" justify="space-evenly" spacing={4} style={{height: "100%"}}>
                     {this.state.currProjectHardware.map((hardware) => (
                         <Grid item alignContent="center" justify="center">
@@ -111,8 +122,20 @@ class Billing extends React.Component {
                         </Grid>
                     ))}
                 </Grid>
-            </Container>
-                        
+                <Grid container direction="row" alignItems="center" justify="space-evenly" spacing={4} style={{height: "100%"}}>
+                    <Grid item alignContent="center" justify="center">
+                        <Typography component="h2" variant="h6" color="primary" gutterBottom align="center" justify="center">
+                            Total Cost
+                        </Typography>
+                        <Typography component="p" variant="h4" align="center" justify="center">
+                            ${totalCost.toFixed(2)}
+                        </Typography>
+                        <Typography color="textSecondary" align="center" justify="center" style={{flex: 1}}>
+                            {totalUnits} units
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Paper>
         );
     }
 }
