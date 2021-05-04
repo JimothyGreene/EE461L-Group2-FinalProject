@@ -1,15 +1,12 @@
 import './Projects.css';
 import React from "react";
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import { NavLink } from 'react-router-dom'
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import api from '../util/api';
 import { AuthContext } from './AuthContext';
-import { makeStyles } from '@material-ui/core/styles';
 
-class BillingCard extends React.Component {
+class Billing extends React.Component {
     static contextType = AuthContext;
 
     constructor(props) { 
@@ -96,34 +93,28 @@ class BillingCard extends React.Component {
 
     render() {
 
+        var total = 0;
         return(
-                <React.Fragment>
-                <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                  Billing
-                </Typography>
-                <Grid container direction="row" alignItems="center" justify="center" justify="space-evenly" spacing={4} style={{height: "100%"}}>
+            <Container>
+                <Grid container direction="row" alignItems="center" justify="space-evenly" spacing={4} style={{height: "100%"}}>
                     {this.state.currProjectHardware.map((hardware) => (
                         <Grid item alignContent="center" justify="center">
                             <Typography component="h2" variant="h6" color="primary" gutterBottom align="center" justify="center">
-                              {hardware.name}
+                                {hardware.name}
                             </Typography>
                             <Typography component="p" variant="h4" align="center" justify="center">
-                              ${hardware.cost.toFixed(2)}
+                                ${hardware.cost.toFixed(2)}
                             </Typography>
                             <Typography color="textSecondary" align="center" justify="center" style={{flex: 1}}>
-                              {hardware.amount} units
+                                {hardware.amount} units
                             </Typography>
                         </Grid>
                     ))}
                 </Grid>
-                <div style={{marginLeft: "auto", marginRight: "0", marginBottom: "0", marginTop: "auto"}}>
-                    <Link justify="flex-start" color="primary" component={NavLink} to="/Billing">
-                        See My Billing
-                    </Link>
-                </div>
-            </React.Fragment>
+            </Container>
+                        
         );
     }
 }
 
-export default BillingCard;
+export default Billing;

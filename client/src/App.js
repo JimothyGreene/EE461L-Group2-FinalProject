@@ -8,6 +8,7 @@ import {
 import Resources from "./components/Resources";
 import Dashboard from "./components/Dashboard";
 import Dataset from "./components/Dataset";
+import Billing from "./components/Billing";
 import Projects from "./components/Projects";
 import {LogInPage} from "./components/LogInPage";
 import {TopAndSideBar} from "./components/TopAndSideBar";
@@ -95,6 +96,9 @@ function AuthApp() {
         </Route>
         <Route exact path="/Projects">
           <TopAndSideBar page="Projects"><Projects /></TopAndSideBar>
+        </Route>
+        <Route exact path="/Billing">
+          <TopAndSideBar page="Billing"><Billing /></TopAndSideBar>
         </Route>
         <Route exact path="/datasets">
           <TopAndSideBar page="Datasets"><Dataset /></TopAndSideBar>
