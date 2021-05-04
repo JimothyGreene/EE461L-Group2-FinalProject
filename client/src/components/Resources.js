@@ -69,6 +69,7 @@ class ResourcesWithId extends React.Component {
         api().get("/hardware/").then((res) => {
             let rData = {}
             res.data.forEach((hardwareItem, index) => {
+                // let name =  "Hardware Set " + (index + 1);
                 let name =  "Hardware Set " + (index + 1);
                 rData[name] = hardwareItem;
             });
@@ -207,8 +208,8 @@ class ResourcesWithId extends React.Component {
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
                         Check Out
                     </Typography>
-                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
-                        <Select 
+                    {/* <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel> */}
+                        {/* <Select 
                         //style={{width: '200px', height: '40px'}}
                         onChange = {(e) => {
                             this.setState({QuantityOutResource: e.target.value})
@@ -216,7 +217,7 @@ class ResourcesWithId extends React.Component {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
                             {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                              
-                        </Select>
+                        </Select> */}
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -250,8 +251,8 @@ class ResourcesWithId extends React.Component {
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
                         Check In
                     </Typography>
-                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
-                    <Select 
+                    {/* <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel> */}
+                    {/* <Select 
                         //style={{width: '200px', height: '40px'}}
                         onChange = {(e) => {
                             this.setState({QuantityInResource: e.target.value})
@@ -259,7 +260,7 @@ class ResourcesWithId extends React.Component {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
                             {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                          
-                        </Select>
+                        </Select> */}
                         <TextField
                             variant="outlined"
                             margin="normal"
