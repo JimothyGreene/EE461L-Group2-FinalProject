@@ -45,7 +45,7 @@ export default function Dataset() {
         },
     });
     return(
-        <TableContainer component={Paper} elevation={10} style={{width: '80%', margin: 'auto'}}>
+        <TableContainer component={Paper} elevation={10} style={{margin: 'auto'}}>
             <Table className={classes.table} aria-label="simple table">
                 {/* Table Head */}
                 <TableHead>
