@@ -10,7 +10,7 @@ hardware = Blueprint('hardware', __name__)
 
 
 @hardware.route('/', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def hardware_create():
     """POST hardware/
 
