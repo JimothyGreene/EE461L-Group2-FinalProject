@@ -27,6 +27,7 @@ class Projects extends React.Component {
             selectedProjectName: "",
             joinId: "",
             joinError: false,
+            currProjectHardware: [],
             joinHelperText: ""
         };
         this.handleNewProj = this.handleNewProj.bind(this);
@@ -43,7 +44,8 @@ class Projects extends React.Component {
                     this.setState({
                         currProjectName: res.data.name.replace(/['"]+/g, ''),
                         currProjectID: res.data.project_id.replace(/['"]+/g, ''),
-                        currProjectDescription: res.data.description.replace(/['"]+/g, '')
+                        currProjectDescription: res.data.description.replace(/['"]+/g, ''),
+                        currProjectHardware: res.data.hardware
                     })
                 })
                 .catch((e) => {
@@ -71,7 +73,8 @@ class Projects extends React.Component {
                     this.setState({
                         currProjectName: res.data.name.replace(/['"]+/g, ''),
                         currProjectID: res.data.project_id.replace(/['"]+/g, ''),
-                        currProjectDescription: res.data.description.replace(/['"]+/g, '')
+                        currProjectDescription: res.data.description.replace(/['"]+/g, ''),
+                        currProjectHardware: res.data.hardware
                     })
                 })
                 .catch((e) => {
@@ -106,12 +109,14 @@ class Projects extends React.Component {
                     this.setState({
                         currProjectName: res.data.name.replace(/['"]+/g, ''),
                         currProjectID: res.data.project_id.replace(/['"]+/g, ''),
-                        currProjectDescription: res.data.description.replace(/['"]+/g, '')
+                        currProjectDescription: res.data.description.replace(/['"]+/g, ''),
+                        currProjectHardware: res.data.hardware
                     });
                     this.updateProject({
                         projectName: res.data.name,
                         projectID: res.data.project_id,
-                        projectOID: res.data._id.$oid
+                        projectOID: res.data._id.$oid,
+                        hardware: res.data.hardware
                     });
                 })
                 .catch((e) => {
@@ -139,7 +144,8 @@ class Projects extends React.Component {
                 this.updateProject({
                     projectName: res.data.name,
                     projectID: res.data.project_id,
-                    projectOID: res.data._id.$oid
+                    projectOID: res.data._id.$oid,
+                    hardware: res.data.hardware
                 });
                 this.setState({
                     currProjectName: res.data.name,
@@ -165,7 +171,8 @@ class Projects extends React.Component {
             payload: {
                 name: proj.projectName,
                 id: proj.projectID,
-                oid: proj.projectOID
+                oid: proj.projectOID,
+                hardware: proj.hardware
             }
         });
     }
@@ -176,12 +183,14 @@ class Projects extends React.Component {
                 this.updateProject({
                     projectName: res.data.name.replace(/['"]+/g, ''),
                     projectID: res.data.project_id.replace(/['"]+/g, ''),
-                    projectOID: res.data._id.$oid.replace(/['"]+/g, '')
+                    projectOID: res.data._id.$oid.replace(/['"]+/g, ''),
+                    hardware: res.data.hardware
                 });
                 this.setState({
                     currProjectName: res.data.name.replace(/['"]+/g, ''),
                     currProjectID: res.data.project_id.replace(/['"]+/g, ''),
                     currProjectDescription: res.data.description.replace(/['"]+/g, ''),
+                    currProjectHardware: res.data.hardware,
                     joinError: false,
                     joinHelperText: ""
                 });
