@@ -112,7 +112,7 @@ class ResourcesWithId extends React.Component {
                 project_id: this.context.state.projectOID,
                 amount: parseInt(this.state.QuantityOut)
             }
-            api().post('/hardware/check-out/' + this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody)
+            api().post('/hardware/check-out/' + this.state.ResourceData[this.state.QuantityOutResource]._id.$oid, requestBody)
                 .catch((e) => {
                     if(e.response.status === 422) {
                         console.log("No project selected! Please select a project before attempting to checkout hardware")
@@ -140,7 +140,7 @@ class ResourcesWithId extends React.Component {
             project_id: this.context.state.projectOID,
             amount: parseInt(this.state.QuantityIn)
         }
-        api().post('/hardware/check-in/' + this.state.ResourceData[this.state.SelectedResourceName]._id.$oid, requestBody)
+        api().post('/hardware/check-in/' + this.state.ResourceData[this.state.QuantityInResource]._id.$oid, requestBody)
             .catch((e) => {
                 if(e.response.status === 422) {
                     console.log("No project selected! Please select a project before attempting to checkout hardware")
@@ -208,8 +208,8 @@ class ResourcesWithId extends React.Component {
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
                         Check Out
                     </Typography>
-                    {/* <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel> */}
-                        {/* <Select 
+                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
+                        <Select 
                         //style={{width: '200px', height: '40px'}}
                         onChange = {(e) => {
                             this.setState({QuantityOutResource: e.target.value})
@@ -217,7 +217,7 @@ class ResourcesWithId extends React.Component {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
                             {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                              
-                        </Select> */}
+                        </Select>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -251,8 +251,8 @@ class ResourcesWithId extends React.Component {
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
                         Check In
                     </Typography>
-                    {/* <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel> */}
-                    {/* <Select 
+                    <InputLabel id="demo-simple-select-label">Hardware Set</InputLabel>
+                    <Select 
                         //style={{width: '200px', height: '40px'}}
                         onChange = {(e) => {
                             this.setState({QuantityInResource: e.target.value})
@@ -260,7 +260,7 @@ class ResourcesWithId extends React.Component {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select">
                             {this.state.ResourceDataArr.map((set, i) => <MenuItem value={set.name}>{set.name}</MenuItem>)}                          
-                        </Select> */}
+                        </Select>
                         <TextField
                             variant="outlined"
                             margin="normal"
